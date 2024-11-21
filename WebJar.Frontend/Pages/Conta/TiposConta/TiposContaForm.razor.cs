@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.AspNetCore.Components;
 using System.Diagnostics.Metrics;
-using WebJar.Shared.Entities;
+using WebJar.Shared.Entities.Conta;
 
 namespace WebJar.Frontend.Pages.Conta.TiposConta
 {

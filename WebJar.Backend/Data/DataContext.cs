@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WebJar.Shared.Entities;
+using WebJar.Shared.Entities.Conta;
 
 namespace WebJar.Backend.Data
 {

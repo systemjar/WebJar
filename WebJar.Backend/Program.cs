@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using WebJar.Backend.Data;
+using WebJar.Backend.Repositories.Implementations.Generico;
+using WebJar.Backend.Repositories.Interfaces.Generico;
+using WebJar.Backend.UnitOfWork.Implementations.Generico;
+using WebJar.Backend.UnitOfWork.Interfaces.Generico;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +16,10 @@ builder.Services.AddSwaggerGen();
 
 //Inyectamos el servicio para conectarse al SqlServer
 builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer("name=CadenaSql"));
+
+//Inyectamos la GenericUnitOfWork y el GenericRepository
+builder.Services.AddScoped(typeof(IGenericUnitOfWork<>), typeof(GenericUnitOfWork<>));
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
 var app = builder.Build();
 

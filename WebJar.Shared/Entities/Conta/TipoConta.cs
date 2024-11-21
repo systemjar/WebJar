@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebJar.Shared.Entities
+namespace WebJar.Shared.Entities.Conta
 {
     public class TipoConta
     {
