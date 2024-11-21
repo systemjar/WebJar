@@ -11,10 +11,6 @@ namespace WebJar.Shared.Entities.Conta
     {
         public int Id { get; set; }
 
-        public int EmpresaId { get; set; }
-
-        public Empresa? Empresa { get; set; }
-
         [Display(Name = "Codigo contable")]
         [MaxLength(11, ErrorMessage = "El campo {0} no puede tener mas de {1} carácteres")]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
@@ -64,5 +60,9 @@ namespace WebJar.Shared.Entities.Conta
 
         public string? IngresoCash { get; set; }
         public string? EgresoCash { get; set; }
+
+        public int EmpresaId { get; set; }
+
+        public Empresa? Empresa { get; set; }
     }
 }

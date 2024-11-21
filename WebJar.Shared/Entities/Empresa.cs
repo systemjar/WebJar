@@ -120,8 +120,8 @@ namespace WebJar.Shared.Entities
         [Range(0.01, 100.00, ErrorMessage = "El campo {0} no puede tener mas de {1} carácteres")]
         public double PorcentajeIva { get; set; }
 
-        public ICollection<DefPoliza>? Definiciones { get; set; }
-
         public ICollection<Cuenta>? Cuentas { get; set; }
+
+        public ICollection<DefPoliza>? DefPoliza { get; set; }
     }
 }
