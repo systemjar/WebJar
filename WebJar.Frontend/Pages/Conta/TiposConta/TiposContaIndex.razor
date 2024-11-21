@@ -1,0 +1,37 @@
+﻿@page "/tiposconta"
+@using WebJar.Frontend.Repositories
+@using WebJar.Frontend.Shared
+@using WebJar.Shared.Entities
+@inject IRepository repository
+
+<h3>Tipos de documentos contables</h3>
+
+<div class="mb-3">
+    <a class="btn btn-primary" href="/tiposconta/create">Nuevo Tipo de documento</a>
+</div>
+<GenericList MyList="LTiposConta">
+    <Body>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>País</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var tiposConta in LTiposConta!)
+                {
+                    <tr>
+                        <td>
+                            @tiposConta.Nombre
+                        </td>
+                        <td>
+                            <a class="btn btn-warning">Editar</a>
+                            <button class="btn btn-danger">Borrar</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </Body>
+</GenericList>

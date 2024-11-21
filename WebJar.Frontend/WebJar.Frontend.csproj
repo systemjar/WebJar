@@ -21,8 +21,4 @@
     <ProjectReference Include="..\WebJar.Shared\WebJar.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Shared\" />
-  </ItemGroup>
-
 </Project>
