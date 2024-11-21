@@ -32,7 +32,7 @@ namespace WebJar.Backend.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
-            return Ok(await _context.TiposConta.ToListAsync());
+            return Ok(await _context.TiposConta.AsNoTracking().ToListAsync());
         }
 
         // id es un parametro pasado por ruta
