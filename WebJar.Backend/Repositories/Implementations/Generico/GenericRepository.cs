@@ -10,6 +10,7 @@ namespace WebJar.Backend.Repositories.Implementations.Generico
     {
         private readonly DataContext _context;
 
+        //Inyectamos el DbSet para la entidad
         private readonly DbSet<T> _entity;
 
         public GenericRepository(DataContext context)
