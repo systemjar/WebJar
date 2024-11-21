@@ -26,8 +26,8 @@
                             @tiposConta.Nombre
                         </td>
                         <td>
-                            <a class="btn btn-warning">Editar</a>
-                            <button class="btn btn-danger">Borrar</button>
+                            <a href="/tiposconta/edit/@tiposConta.Id" class="btn btn-warning">Editar</a>
+                            <button class="btn btn-danger" @onclick=@(() => DeleteAsync(tiposConta))>Borrar</button>
                         </td>
                     </tr>
                 }

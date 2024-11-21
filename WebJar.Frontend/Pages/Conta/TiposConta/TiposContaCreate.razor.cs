@@ -1,6 +1,5 @@
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
-using System.Diagnostics.Metrics;
 using WebJar.Frontend.Repositories;
 using WebJar.Shared.Entities;
 
@@ -8,12 +7,13 @@ namespace WebJar.Frontend.Pages.Conta.TiposConta
 {
     public partial class TiposContaCreate
     {
+        private TipoConta tipoConta = new();
+
         private TiposContaForm? tiposContaForm;
+
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
-
-        private TipoConta tipoConta = new();
 
         private async Task CreateAsync()
         {
