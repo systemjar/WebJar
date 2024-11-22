@@ -1,0 +1,33 @@
+﻿<NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation" />
+
+<EditForm EditContext="editContext" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator />
+    <div class="card">
+        <div class="card-header">
+        </div>
+        <div class="card-body"
+            <div class="row">
+                <div class="col-3">
+                    <div class="mb-3">
+                        <label>Nombre:</label>
+                        <div>
+                            <InputText class="form-control" @bind-Value="@Empresa.Nombre" />
+                            <ValidationMessage For="@(() => Empresa.Nombre)" />
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="mt-3">Direccion</label>
+                        <div>
+                            <InputText class="form-control" @bind-Value="@Empresa.Direccion" />
+                            <ValidationMessage For="@(() => Empresa.Direccion)" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <button class="btn btn-primary" type="submit">Guardar Cambios</button>
+            <button class="btn btn-success" @onclick="ReturnAction">Regresar</button>
+        </div>    
+    </div>  
+</EditForm>
