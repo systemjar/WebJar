@@ -2,9 +2,12 @@
 @using WebJar.Frontend.Repositories
 @using WebJar.Frontend.Shared
 @using WebJar.Shared.Entities
+@using WebJar.Shared.Servicios
 @inject IRepository repository
+@inject EmpresaService EmpresaService
 
 <h3>Tipos de documentos contables</h3>
+<p>@EmpresaService.EmpresaSeleccionada.Nit</p>
 
 <div class="mb-3">
     <a class="btn btn-primary" href="/tiposconta/create">Nuevo Tipo de documento</a>
