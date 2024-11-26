@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using WebJar.Shared.Entities.Conta;
 
 namespace WebJar.Shared.Entities
@@ -97,8 +98,8 @@ namespace WebJar.Shared.Entities
         [MaxLength(11, ErrorMessage = "El campo {0} no puede tener mas de {1} caracteres")]
         public string Produccion { get; set; } = null!;
 
-        //[Display(Name = "Porcentaje IVA")]
-        //[Range(0.01, 100.00, ErrorMessage = "El campo {0} no puede tener mas de {1} caracteres")]
+        [Display(Name = "Porcentaje IVA")]
+        [Range(0.01, 100.00, ErrorMessage = "El campo {0} no puede tener mas de {1} caracteres")]
         public double PorcentajeIva { get; set; }
 
         //public ICollection<Cuenta>? Cuentas { get; set; }
