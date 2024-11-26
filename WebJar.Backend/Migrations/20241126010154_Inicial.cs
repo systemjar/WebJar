@@ -5,7 +5,7 @@
 namespace WebJar.Backend.Migrations
 {
     /// <inheritdoc />
-    public partial class ValidacionEIndices : Migration
+    public partial class Inicial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -45,26 +45,6 @@ namespace WebJar.Backend.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nit = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
                     Nombre = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
-                    Direccion = table.Column<string>(type: "nvarchar(65)", maxLength: 65, nullable: false),
-                    Patrono = table.Column<string>(type: "nvarchar(65)", maxLength: 65, nullable: false),
-                    DirecionPatrono = table.Column<string>(type: "nvarchar(65)", maxLength: 65, nullable: false),
-                    NumeroPatronal = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
-                    Produce = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: false),
-                    Nivel1 = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: false),
-                    Nivel2 = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: false),
-                    Nivel3 = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: false),
-                    Nivel4 = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: false),
-                    Nivel5 = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: false),
-                    Nivel6 = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: false),
-                    Activo = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
-                    Pasivo = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
-                    Capital = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
-                    Ventas = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
-                    Costos = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
-                    Gastos = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
-                    OtrosIngresos = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
-                    OtrosGastos = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
-                    Produccion = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
                     PorcentajeIva = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
