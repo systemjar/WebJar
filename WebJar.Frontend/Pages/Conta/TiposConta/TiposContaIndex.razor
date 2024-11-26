@@ -1,40 +1,56 @@
 ﻿@page "/tiposconta"
+@using CurrieTechnologies.Razor.SweetAlert2
 @using WebJar.Frontend.Repositories
 @using WebJar.Frontend.Shared
 @using WebJar.Shared.Entities
 @using WebJar.Shared.Servicios
 @inject IRepository repository
 @inject EmpresaService EmpresaService
+@inject SweetAlertService SweetAlertService1
 
 <h3>Tipos de documentos contables</h3>
-<p>@EmpresaService.EmpresaSeleccionada.Nit</p>
-
-<div class="mb-3">
-    <a class="btn btn-primary" href="/tiposconta/create">Nuevo Tipo de documento</a>
-</div>
-<GenericList MyList="LTiposConta">
-    <Body>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Tipo Documento</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var tiposConta in LTiposConta!)
+@* @if (@EmpresaService.EmpresaSeleccionada == null)
+{
+     SweetAlertService1.FireAsync(new SweetAlertOptions
                 {
+                    Title = "Confirmación",
+                    Text = "No ha seleccionado ninguna empresa para trabajar?",
+                    Icon = SweetAlertIcon.Question,
+                    ShowCancelButton = false
+                });
+    NavigationManager.NavigateTo("/");
+}
+else
+{
+    <p>@EmpresaService.EmpresaSeleccionada.Nit</p> *@
+
+    <div class="mb-3">
+        <a class="btn btn-primary" href="/tiposconta/create">Nuevo Tipo de documento</a>
+    </div>
+    <GenericList MyList="LTiposConta">
+        <Body>
+            <table class="table table-striped">
+                <thead>
                     <tr>
-                        <td>
-                            @tiposConta.Nombre
-                        </td>
-                        <td>
-                            <a href="/tiposconta/edit/@tiposConta.Id" class="btn btn-warning">Editar</a>
-                            <button class="btn btn-danger" @onclick=@(() => DeleteAsync(tiposConta))>Borrar</button>
-                        </td>
+                        <th>Tipo Documento</th>
+                        <th></th>
                     </tr>
-                }
-            </tbody>
-        </table>
-    </Body>
-</GenericList>
+                </thead>
+                <tbody>
+                    @foreach (var tiposConta in LTiposConta!)
+                    {
+                        <tr>
+                            <td>
+                                @tiposConta.Nombre
+                            </td>
+                            <td>
+                                <a href="/tiposconta/edit/@tiposConta.Id" class="btn btn-warning">Editar</a>
+                                <button class="btn btn-danger" @onclick=@(() => DeleteAsync(tiposConta))>Borrar</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </Body>
+    </GenericList>
+@* } *@

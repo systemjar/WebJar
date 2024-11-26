@@ -11,7 +11,7 @@ namespace WebJar.Shared.Servicios
     {
         public Empresa EmpresaSeleccionada { get; private set; } = null!;
 
-        public event Action OnChange;
+        public event Action? OnChange;
 
         public void SeleccionarEmpresa(Empresa empresa)
         {

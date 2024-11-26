@@ -28,7 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
     <Folder Include="Repositories\Implementations\Conta\" />
     <Folder Include="Repositories\Interfaces\Conta\" />
     <Folder Include="UnitOfWork\Implementations\Conta\" />

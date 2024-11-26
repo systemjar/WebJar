@@ -1,3 +1,64 @@
-﻿<h3>CuentasIndex</h3>
+﻿@page "/cuentas"
+@using CurrieTechnologies.Razor.SweetAlert2
+@using WebJar.Frontend.Repositories
+@using WebJar.Frontend.Shared
+@using WebJar.Shared.Entities
+@using WebJar.Shared.Servicios
+@inject IRepository repository
+@inject EmpresaService EmpresaService
+@inject SweetAlertService SweetAlertService1
 
+<h3>Cuentas contables</h3>
 
+@if (@EmpresaService.EmpresaSeleccionada == null)
+{
+    SweetAlertService1.FireAsync(new SweetAlertOptions
+                {
+                    Text = "No ha seleccionado ninguna empresa para trabajar?",
+                    Icon = SweetAlertIcon.Question,
+                    ShowCancelButton = false
+                });
+    NavigationManager.NavigateTo("/");
+}
+else
+{ 
+<div class="mb-3">
+    <a class="btn btn-primary" href="/cuentas/create">Nuevo Codigo de cuenta</a>
+</div>
+    <GenericList MyList="LCuentas">
+        <Body>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Codigo</th>
+                        <th>Cuenta</th>
+                        <th>Debe/Haber</th>
+                        <th>Saldo Inicial </th>
+                        <th>Cargos</th>
+                        <th>Abonos</th>
+                        <th>Saldo Acumulado</th>             
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var cuenta in LCuentas!)
+                    {
+                        <tr>
+                            <td>@cuenta.Codigo</td>
+                            <td>@cuenta.Nombre</td>
+                            <td>@cuenta.DebeHaber</td>
+                            <td>@cuenta.Saldo</td>
+                            <td>@cuenta.Cargos</td>
+                            <td>@cuenta.Abonos</td>
+                            <td>@cuenta.SaldoAcumulado</td> 
+                            <td>
+                                <a href="/cuentas/edit/@cuenta.Id" class="btn btn-warning">Editar</a>
+                                <button class="btn btn-danger" @onclick=@(() => DeleteAsync(cuenta))>Borrar</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </Body>
+    </GenericList>
+} 

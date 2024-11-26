@@ -12,8 +12,8 @@ using WebJar.Backend.Data;
 namespace WebJar.Backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20241121204402_EmpezarDeNuevo")]
-    partial class EmpezarDeNuevo
+    [Migration("20241125235303_ValidacionEIndices")]
+    partial class ValidacionEIndices
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,16 +34,16 @@ namespace WebJar.Backend.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal?>("Abonos")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(13,2)");
 
                     b.Property<decimal?>("AbonosMes")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(13,2)");
 
                     b.Property<decimal?>("Cargos")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(13,2)");
 
                     b.Property<decimal?>("CargosMes")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(13,2)");
 
                     b.Property<string>("Codigo")
                         .IsRequired()
@@ -51,7 +51,6 @@ namespace WebJar.Backend.Migrations
                         .HasColumnType("nvarchar(11)");
 
                     b.Property<string>("CodigoMayor")
-                        .IsRequired()
                         .HasMaxLength(11)
                         .HasColumnType("nvarchar(11)");
 
@@ -67,11 +66,11 @@ namespace WebJar.Backend.Migrations
                     b.Property<string>("EgresoCash")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("EmpresaId")
-                        .HasColumnType("int");
-
                     b.Property<string>("IngresoCash")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nit")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -79,20 +78,21 @@ namespace WebJar.Backend.Migrations
                         .HasColumnType("nvarchar(65)");
 
                     b.Property<decimal?>("Saldo")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(13,2)");
 
                     b.Property<decimal?>("SaldoCierre")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(13,2)");
 
                     b.Property<decimal?>("SaldoMes")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(13,2)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmpresaId", "Codigo")
-                        .IsUnique();
+                    b.HasIndex("Nit", "Codigo")
+                        .IsUnique()
+                        .HasFilter("[Nit] IS NOT NULL");
 
-                    b.ToTable("Cuenta");
+                    b.ToTable("Cuentas");
                 });
 
             modelBuilder.Entity("WebJar.Shared.Entities.Conta.DefPoliza", b =>
@@ -123,8 +123,7 @@ namespace WebJar.Backend.Migrations
 
                     b.HasIndex("CuentaID");
 
-                    b.HasIndex("EmpresaId", "Codigo")
-                        .IsUnique();
+                    b.HasIndex("EmpresaId");
 
                     b.ToTable("DefPolizas");
                 });
@@ -273,21 +272,7 @@ namespace WebJar.Backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Nit")
-                        .IsUnique();
-
                     b.ToTable("Empresas");
-                });
-
-            modelBuilder.Entity("WebJar.Shared.Entities.Conta.Cuenta", b =>
-                {
-                    b.HasOne("WebJar.Shared.Entities.Empresa", "Empresa")
-                        .WithMany("Cuentas")
-                        .HasForeignKey("EmpresaId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Empresa");
                 });
 
             modelBuilder.Entity("WebJar.Shared.Entities.Conta.DefPoliza", b =>
@@ -299,7 +284,7 @@ namespace WebJar.Backend.Migrations
                         .IsRequired();
 
                     b.HasOne("WebJar.Shared.Entities.Empresa", "Empresa")
-                        .WithMany("DefPoliza")
+                        .WithMany()
                         .HasForeignKey("EmpresaId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -307,13 +292,6 @@ namespace WebJar.Backend.Migrations
                     b.Navigation("Cuenta");
 
                     b.Navigation("Empresa");
-                });
-
-            modelBuilder.Entity("WebJar.Shared.Entities.Empresa", b =>
-                {
-                    b.Navigation("Cuentas");
-
-                    b.Navigation("DefPoliza");
                 });
 #pragma warning restore 612, 618
         }

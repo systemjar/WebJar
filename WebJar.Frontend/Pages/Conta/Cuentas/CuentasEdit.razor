@@ -1,3 +1,13 @@
-﻿<h3>CuentasEdit</h3>
+﻿@page "/cuentas/edit/{Id:int}"
+@using WebJar.Frontend.Shared
 
+<h3>Editar Codigo de cuenta</h3>
 
+@if (cuenta is null)
+{
+<Loading/>
+}
+else
+{
+<CuentasForm @ref="cuentasForm" Cuenta="cuenta" OnValidSubmit="EditAsync" ReturnAction="Return" />
+}

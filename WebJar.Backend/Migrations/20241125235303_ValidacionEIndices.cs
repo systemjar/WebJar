@@ -5,11 +5,38 @@
 namespace WebJar.Backend.Migrations
 {
     /// <inheritdoc />
-    public partial class EmpezarDeNuevo : Migration
+    public partial class ValidacionEIndices : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Cuentas",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Codigo = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
+                    Nombre = table.Column<string>(type: "nvarchar(65)", maxLength: 65, nullable: false),
+                    DebeHaber = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: false),
+                    Saldo = table.Column<decimal>(type: "decimal(13,2)", nullable: true),
+                    Cargos = table.Column<decimal>(type: "decimal(13,2)", nullable: true),
+                    Abonos = table.Column<decimal>(type: "decimal(13,2)", nullable: true),
+                    SaldoMes = table.Column<decimal>(type: "decimal(13,2)", nullable: true),
+                    CargosMes = table.Column<decimal>(type: "decimal(13,2)", nullable: true),
+                    AbonosMes = table.Column<decimal>(type: "decimal(13,2)", nullable: true),
+                    SaldoCierre = table.Column<decimal>(type: "decimal(13,2)", nullable: true),
+                    CodigoMayor = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true),
+                    CodigoPres = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true),
+                    IngresoCash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EgresoCash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Nit = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cuentas", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Empresas",
                 columns: table => new
@@ -59,39 +86,6 @@ namespace WebJar.Backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Cuenta",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Codigo = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
-                    Nombre = table.Column<string>(type: "nvarchar(65)", maxLength: 65, nullable: false),
-                    DebeHaber = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: false),
-                    Saldo = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    Cargos = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    Abonos = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    SaldoMes = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    CargosMes = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    AbonosMes = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    SaldoCierre = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    CodigoMayor = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
-                    CodigoPres = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true),
-                    IngresoCash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EgresoCash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EmpresaId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Cuenta", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Cuenta_Empresas_EmpresaId",
-                        column: x => x.EmpresaId,
-                        principalTable: "Empresas",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "DefPolizas",
                 columns: table => new
                 {
@@ -106,9 +100,9 @@ namespace WebJar.Backend.Migrations
                 {
                     table.PrimaryKey("PK_DefPolizas", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DefPolizas_Cuenta_CuentaID",
+                        name: "FK_DefPolizas_Cuentas_CuentaID",
                         column: x => x.CuentaID,
-                        principalTable: "Cuenta",
+                        principalTable: "Cuentas",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -120,10 +114,11 @@ namespace WebJar.Backend.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cuenta_EmpresaId_Codigo",
-                table: "Cuenta",
-                columns: new[] { "EmpresaId", "Codigo" },
-                unique: true);
+                name: "IX_Cuentas_Nit_Codigo",
+                table: "Cuentas",
+                columns: new[] { "Nit", "Codigo" },
+                unique: true,
+                filter: "[Nit] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DefPolizas_CuentaID",
@@ -131,16 +126,9 @@ namespace WebJar.Backend.Migrations
                 column: "CuentaID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DefPolizas_EmpresaId_Codigo",
+                name: "IX_DefPolizas_EmpresaId",
                 table: "DefPolizas",
-                columns: new[] { "EmpresaId", "Codigo" },
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Empresas_Nit",
-                table: "Empresas",
-                column: "Nit",
-                unique: true);
+                column: "EmpresaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TiposConta_Nombre",
@@ -159,7 +147,7 @@ namespace WebJar.Backend.Migrations
                 name: "TiposConta");
 
             migrationBuilder.DropTable(
-                name: "Cuenta");
+                name: "Cuentas");
 
             migrationBuilder.DropTable(
                 name: "Empresas");

@@ -18,6 +18,8 @@ namespace WebJar.Frontend.Pages
 
         public List<Empresa>? LEmpresas { get; set; }
 
+        public bool mostrarBoton = false;
+
         protected override async Task OnInitializedAsync()
         {
             await LoadAsync();
@@ -35,7 +37,7 @@ namespace WebJar.Frontend.Pages
             LEmpresas = responseHttp.Response!;
         }
 
-        private async Task SelEmpresa(Empresa empresa)
+        public void SelEmpresa(Empresa empresa)
         {
             EmpresaService.SeleccionarEmpresa(empresa);
         }

@@ -6,9 +6,9 @@ namespace WebJar.Backend.Controllers.Conta
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class TipoContaController : GenericController<TipoConta>
+    public class CuentaController : GenericController<Cuenta>
     {
-        public TipoContaController(IGenericUnitOfWork<TipoConta> unitOfWork) : base(unitOfWork)
+        public CuentaController(IGenericUnitOfWork<Cuenta> unitOfWork) : base(unitOfWork)
         {
         }
     }

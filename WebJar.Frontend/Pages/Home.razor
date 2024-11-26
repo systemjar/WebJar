@@ -31,9 +31,22 @@ else
                             <td>
                                 @empresa.Nombre
                             </td>
+                            @if (@EmpresaService.EmpresaSeleccionada != null)
+                            {
+                                mostrarBoton = !(@EmpresaService.EmpresaSeleccionada.Nit == empresa.Nit);
+                            }
+                            else
+                            {
+                                mostrarBoton = true;
+                            }
                             <td>
-                                <button @onclick=@(() => SelEmpresa(empresa)) class="btn btn-sm btn-primary">
-                                    <i class="bi bi-trash" /> Seleccionar</button>
+                                @if (mostrarBoton)
+                                {
+                                    <button @onclick="() => SelEmpresa(empresa)" class="btn btn-sm btn-primary">
+                                        <i class="bi bi-trash" /> Seleccionar
+                                    </button>
+                                }
+                                
                             </td>
                         </tr>
                     }
@@ -41,4 +54,4 @@ else
             </table>
         </Body>
     </GenericList>
-}
+} 
