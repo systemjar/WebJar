@@ -1,10 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using WebJar.Backend.Data;
+using WebJar.Backend.Repositories.Implementations.Conta;
 using WebJar.Backend.Repositories.Implementations.Generico;
+using WebJar.Backend.Repositories.Interfaces.Conta;
 using WebJar.Backend.Repositories.Interfaces.Generico;
+using WebJar.Backend.UnitOfWork.Implementations.Conta;
 using WebJar.Backend.UnitOfWork.Implementations.Generico;
+using WebJar.Backend.UnitOfWork.Interfaces.Conta;
 using WebJar.Backend.UnitOfWork.Interfaces.Generico;
+using WebJar.Shared.Servicios;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,9 +29,16 @@ builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer("name=CadenaSql")
 //Inyectamos el SeedDB
 builder.Services.AddTransient<SeedDb>();
 
+//Inyectamos el Servicio de la EmpresaService para la variable global de la empresa seleccionada
+builder.Services.AddSingleton<EmpresaService, EmpresaService>();
+
 //Inyectamos la GenericUnitOfWork y el GenericRepository
 builder.Services.AddScoped(typeof(IGenericUnitOfWork<>), typeof(GenericUnitOfWork<>));
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+//Inyectamos el Repository y la UnitOfWork pra Cuenta
+builder.Services.AddScoped<ICuentasRepository, CuentasRepository>();
+builder.Services.AddScoped<ICuentasUnitOfWork, CuentasUnitOfWork>();
 
 var app = builder.Build();
 

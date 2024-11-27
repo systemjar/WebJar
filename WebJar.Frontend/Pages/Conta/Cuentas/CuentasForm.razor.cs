@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.AspNetCore.Components;
 using WebJar.Shared.Entities.Conta;
+using WebJar.Shared.Enums;
+using WebJar.Shared.Servicios;
 
 namespace WebJar.Frontend.Pages.Conta.Cuentas
 {
@@ -13,6 +15,7 @@ namespace WebJar.Frontend.Pages.Conta.Cuentas
         protected override void OnInitialized()
         {
             editContext = new(Cuenta);
+            Cuenta.DebeHaber = TipoSaldoCuenta.D.ToString();
         }
 
         [EditorRequired, Parameter] public Cuenta Cuenta { get; set; } = null!;

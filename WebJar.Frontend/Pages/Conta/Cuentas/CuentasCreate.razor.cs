@@ -1,7 +1,9 @@
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using WebJar.Frontend.Repositories;
 using WebJar.Shared.Entities.Conta;
+using WebJar.Shared.Enums;
 using WebJar.Shared.Servicios;
 
 namespace WebJar.Frontend.Pages.Conta.Cuentas
@@ -16,9 +18,14 @@ namespace WebJar.Frontend.Pages.Conta.Cuentas
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
 
-        private async Task CreateAsync()
+        protected override void OnInitialized()
         {
             cuenta.Nit = EmpresaService.EmpresaSeleccionada.Nit;
+        }
+
+        private async Task CreateAsync()
+        {
+            //cuenta.Nit = EmpresaService.EmpresaSeleccionada.Nit;
 
             var responseHttp = await Repository.PostAsync("/api/cuenta", cuenta);
             if (responseHttp.Error)

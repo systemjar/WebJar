@@ -19,7 +19,7 @@ namespace WebJar.Backend.Repositories.Implementations.Generico
             _entity = context.Set<T>();
         }
 
-        public async Task<ActionResponse<T>> AddAsync(T entity)
+        public virtual async Task<ActionResponse<T>> AddAsync(T entity)
         {
             _context.Add(entity);
             try
@@ -37,7 +37,7 @@ namespace WebJar.Backend.Repositories.Implementations.Generico
             }
         }
 
-        public async Task<ActionResponse<T>> DeleteAsync(int id)
+        public virtual async Task<ActionResponse<T>> DeleteAsync(int id)
         {
             var registro = await _entity.FindAsync(id);
             if (registro == null)
@@ -68,7 +68,7 @@ namespace WebJar.Backend.Repositories.Implementations.Generico
             }
         }
 
-        public async Task<ActionResponse<T>> GetAsync(int id)
+        public virtual async Task<ActionResponse<T>> GetAsync(int id)
         {
             var registro = await _entity.FindAsync(id);
 
@@ -88,7 +88,7 @@ namespace WebJar.Backend.Repositories.Implementations.Generico
             };
         }
 
-        public async Task<ActionResponse<IEnumerable<T>>> GetAsync()
+        public virtual async Task<ActionResponse<IEnumerable<T>>> GetAsync()
         {
             return new ActionResponse<IEnumerable<T>>
             {
@@ -97,7 +97,7 @@ namespace WebJar.Backend.Repositories.Implementations.Generico
             };
         }
 
-        public async Task<ActionResponse<T>> UpdateAsync(T entity)
+        public virtual async Task<ActionResponse<T>> UpdateAsync(T entity)
         {
             try
             {

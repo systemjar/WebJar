@@ -1,4 +1,5 @@
-﻿<NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation" />
+﻿@using WebJar.Shared.Enums
+<NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation" />
 
 <EditForm EditContext="editContext" OnValidSubmit="OnValidSubmit">
     <DataAnnotationsValidator />
@@ -28,63 +29,63 @@
         </div>
 
         <div class="col-md-3">
-            <div class="mb-3 row">
+            <div class="mb-2 row">
                 <label for="activo" class="col-sm-5 col-form-label">Activo:</label>
                 <div class="col-sm-7">
                     <InputText id="nit" class="form-control" @bind-Value="Empresa.Activo" />
                     <ValidationMessage For="@(() => Empresa.Activo)" />
                 </div>
             </div>
-            <div class="mb-3 row">
+            <div class="mb-2 row">
                 <label for="pasivo" class="col-sm-5 col-form-label">Pasivo:</label>
                 <div class="col-sm-7">
                     <InputText id="pasivo" class="form-control" @bind-Value="Empresa.Pasivo" />
                     <ValidationMessage For="@(() => Empresa.Pasivo)" />
                 </div>
             </div>
-            <div class="mb-3 row">
+            <div class="mb-2 row">
                 <label for="capital" class="col-sm-5 col-form-label">Capital:</label>
                 <div class="col-sm-7">
                     <InputText id="capital" class="form-control" @bind-Value="Empresa.Capital" />
                     <ValidationMessage For="@(() => Empresa.Capital)" />
                 </div>
             </div>
-            <div class="mb-3 row">
+            <div class="mb-2 row">
                 <label for="ventas" class="col-sm-5 col-form-label">Ventas:</label>
                 <div class="col-sm-7">
                     <InputText id="ventas" class="form-control" @bind-Value="Empresa.Ventas" />
                     <ValidationMessage For="@(() => Empresa.Ventas)" />
                 </div>
             </div>
-            <div class="mb-3 row">
+            <div class="mb-2 row">
                 <label for="costos" class="col-sm-5 col-form-label">Costos:</label>
                 <div class="col-sm-7">
                     <InputText id="costos" class="form-control" @bind-Value="Empresa.Costos" />
                     <ValidationMessage For="@(() => Empresa.Costos)" />
                 </div>
             </div>
-            <div class="mb-3 row">
+            <div class="mb-2 row">
                 <label for="gastos" class="col-sm-5 col-form-label">Gastos:</label>
                 <div class="col-sm-7">
                     <InputText id="gastos" class="form-control" @bind-Value="Empresa.Gastos" />
                     <ValidationMessage For="@(() => Empresa.Gastos)" />
                 </div>
             </div>
-            <div class="mb-3 row">
+            <div class="mb-2 row">
                 <label for="otrosingresos" class="col-sm-5 col-form-label">Otros Ingresos:</label>
                 <div class="col-sm-7">
                     <InputText id="otrosIngresos" class="form-control" @bind-Value="Empresa.OtrosIngresos" />
                     <ValidationMessage For="@(() => Empresa.OtrosIngresos)" />
                 </div>
             </div>
-            <div class="mb-3 row">
+            <div class="mb-2 row">
                 <label for="otrosgastos" class="col-sm-5 col-form-label">Otros Gastos:</label>
                 <div class="col-sm-7">
                     <InputText id="otrosGastos" class="form-control" @bind-Value="Empresa.OtrosGastos" />
                     <ValidationMessage For="@(() => Empresa.OtrosGastos)" />
                 </div>
             </div>
-            <div class="mb-3 row">
+            <div class="mb-2 row">
                 <label for="produccion" class="col-sm-5 col-form-label">Producción:</label>
                 <div class="col-sm-7">
                     <InputText id="produccion" class="form-control" @bind-Value="Empresa.Produccion" />
@@ -98,13 +99,19 @@
             <div class="mb-3 row">
                 <label for="produce" class="col-sm-9 col-form-label">Proceso Producción:</label>
                 <div class="col-sm-3">
-                    <InputText id="produce" class="form-control" @bind-Value="Empresa.Produce" />
+                    <InputSelect class="form-control" @bind-Value="Empresa.Produce">
+                        @foreach (EnumSioNo siono in Enum.GetValues(typeof(EnumSioNo)))
+                        {
+                            <option value="@siono">@siono.ToString()</option>
+                        }
+                    </InputSelect>
                     <ValidationMessage For="@(() => Empresa.Produce)" />
                 </div>
             </div>
+
             <div class="mb-3 row">
-                <label for="porcentajeiva" class="col-sm-6 col-form-label">Porcentaje Iva:</label>
-                <div class="col-sm-6">
+                <label for="porcentajeiva" class="col-sm-9 col-form-label">Porcentaje Iva:</label>
+                <div class="col-sm-3">
                     <InputNumber id="porcentajeIva" class="form-control" @bind-Value="Empresa.PorcentajeIva" />
                     <ValidationMessage For="@(() => Empresa.PorcentajeIva)" />
                 </div>
@@ -123,6 +130,8 @@
                     <ValidationMessage For="@(() => Empresa.Resultado)" />
                 </div>
             </div>
+
+            
         </div>
 
         <div class="col-md-2">
@@ -175,8 +184,7 @@
             </div>
         </div>
 
-
-        <div>
+        <div class="col-md-12">
             <div class="mb-3">
                 <label for="numeroPatronal">Número Patronal:</label>
                 <InputText id="numeroPatronal" class="form-control" @bind-Value="Empresa.NumeroPatronal" />
