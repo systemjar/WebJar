@@ -5,7 +5,7 @@
 namespace WebJar.Backend.Migrations
 {
     /// <inheritdoc />
-    public partial class Inicial : Migration
+    public partial class ResultadoPresupustoyFormulario : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -65,7 +65,9 @@ namespace WebJar.Backend.Migrations
                     OtrosIngresos = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
                     OtrosGastos = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
                     Produccion = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
-                    PorcentajeIva = table.Column<double>(type: "float", nullable: false)
+                    PorcentajeIva = table.Column<decimal>(type: "decimal(6,2)", nullable: false),
+                    NivelPresupuesto = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: false),
+                    Resultado = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false)
                 },
                 constraints: table =>
                 {

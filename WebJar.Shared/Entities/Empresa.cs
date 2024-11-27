@@ -100,7 +100,16 @@ namespace WebJar.Shared.Entities
 
         [Display(Name = "Porcentaje IVA")]
         [Range(0.01, 100.00, ErrorMessage = "El campo {0} no puede tener mas de {1} caracteres")]
-        public double PorcentajeIva { get; set; }
+        [Column(TypeName = "decimal(6,2)")]
+        public decimal PorcentajeIva { get; set; }
+
+        [Display(Name = "NivelPresupuesto")]
+        [MaxLength(1, ErrorMessage = "El campo {0} no puede tener mas de {1} caracteres")]
+        public string NivelPresupuesto { get; set; } = null!;
+
+        [Display(Name = "Resultado")]
+        [MaxLength(11, ErrorMessage = "El campo {0} no puede tener mas de {1} caracteres")]
+        public string Resultado { get; set; } = null!;
 
         //public ICollection<Cuenta>? Cuentas { get; set; }
 

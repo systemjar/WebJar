@@ -3,170 +3,202 @@
 <EditForm EditContext="editContext" OnValidSubmit="OnValidSubmit">
     <DataAnnotationsValidator />
     <div class="row">
-        <div class="col-3">
-            <div class="mb-3">
-                <label>Nit:</label>
-                <div>
-                    <InputText class="form-control" @bind-Value="@Empresa.Nit" />
+        <div class="col-md-12">
+            <div class="mb-3 row">
+                <label for="nit" class="col-sm-1 col-form-label">Nit:</label>
+                <div class="col-sm-11">
+                    <InputText id="nit" class="form-control" @bind-Value="Empresa.Nit" />
                     <ValidationMessage For="@(() => Empresa.Nit)" />
                 </div>
             </div>
-            <div class="mb-3">
-                <label>Nombre:</label>
-                <div>
-                    <InputText class="form-control" @bind-Value="@Empresa.Nombre" />
+            <div class="mb-3 row">
+                <label for="nombre" class="col-sm-1 col-form-label">Nombre:</label>
+                <div class="col-sm-11">
+                    <InputText id="nombre" class="form-control" @bind-Value="Empresa.Nombre" />
                     <ValidationMessage For="@(() => Empresa.Nombre)" />
                 </div>
             </div>
-            <div class="mb-3">
-                <label>Nombre:</label>
-                <div>
-                    <InputText class="form-control" @bind-Value="@Empresa.Direccion" />
+            <div class="mb-3 row">
+                <label for="direccion" class="col-sm-1 col-form-label">Direccion:</label>
+                <div class="col-sm-11">
+                    <InputText id="direccion" class="form-control" @bind-Value="Empresa.Direccion" />
                     <ValidationMessage For="@(() => Empresa.Direccion)" />
                 </div>
             </div>
-            <div class="mb-3">
-                <label>Nombre:</label>
-                <div>
-                    <InputText class="form-control" @bind-Value="@Empresa.Patrono" />
-                    <ValidationMessage For="@(() => Empresa.Patrono)" />
-                </div>
-            </div>
-            <div class="mb-3">
-                <label>Nombre:</label>
-                <div>
-                    <InputText class="form-control" @bind-Value="@Empresa.DirecionPatrono" />
-                    <ValidationMessage For="@(() => Empresa.DirecionPatrono)" />
-                </div>
-            </div>
-            <div class="mb-3">
-                <label>Nombre:</label>
-                <div>
-                    <InputText class="form-control" @bind-Value="@Empresa.NumeroPatronal" />
-                    <ValidationMessage For="@(() => Empresa.NumeroPatronal)" />
-                </div>
-            </div>
-            <div class="mb-3">
-                <label>Nombre:</label>
-                <div>
-                    <InputText class="form-control" @bind-Value="@Empresa.Produce" />
-                    <ValidationMessage For="@(() => Empresa.Produce)" />
-                </div>
-            </div>
-            <div class="mb-3">
-                <label>Nombre:</label>
-                <div>
-                    <InputText class="form-control" @bind-Value="@Empresa.Nivel1" />
-                    <ValidationMessage For="@(() => Empresa.Nivel1)" />
-                </div>
-            </div>
-            <div class="mb-3">
-                <label>Nombre:</label>
-                <div>
-                    <InputText class="form-control" @bind-Value="@Empresa.Nivel2" />
-                    <ValidationMessage For="@(() => Empresa.Nivel2)" />
-                </div>
-            </div>
-            <div class="mb-3">
-                <label>Nombre:</label>
-                <div>
-                    <InputText class="form-control" @bind-Value="@Empresa.Nivel3" />
-                    <ValidationMessage For="@(() => Empresa.Nivel3)" />
-                </div>
-            </div>
-            <div class="mb-3">
-                <label>Nombre:</label>
-                <div>
-                    <InputText class="form-control" @bind-Value="@Empresa.Nivel4" />
-                    <ValidationMessage For="@(() => Empresa.Nivel4)" />
-                </div>
-            </div>
-            <div class="mb-3">
-                <label>Nombre:</label>
-                <div>
-                    <InputText class="form-control" @bind-Value="@Empresa.Nivel5" />
-                    <ValidationMessage For="@(() => Empresa.Nivel5)" />
-                </div>
-            </div>
-            <div class="mb-3">
-                <label>Nombre:</label>
-                <div>
-                    <InputText class="form-control" @bind-Value="@Empresa.Nivel6" />
-                    <ValidationMessage For="@(() => Empresa.Nivel6)" />
-                </div>
-            </div>
-            <div class="mb-3">
-                <label>Nombre:</label>
-                <div>
-                    <InputText class="form-control" @bind-Value="@Empresa.Activo" />
+        </div>
+
+        <div class="col-md-3">
+            <div class="mb-3 row">
+                <label for="activo" class="col-sm-5 col-form-label">Activo:</label>
+                <div class="col-sm-7">
+                    <InputText id="nit" class="form-control" @bind-Value="Empresa.Activo" />
                     <ValidationMessage For="@(() => Empresa.Activo)" />
                 </div>
             </div>
-            <div class="mb-3">
-                <label>Nombre:</label>
-                <div>
-                    <InputText class="form-control" @bind-Value="@Empresa.Pasivo" />
+            <div class="mb-3 row">
+                <label for="pasivo" class="col-sm-5 col-form-label">Pasivo:</label>
+                <div class="col-sm-7">
+                    <InputText id="pasivo" class="form-control" @bind-Value="Empresa.Pasivo" />
                     <ValidationMessage For="@(() => Empresa.Pasivo)" />
                 </div>
             </div>
-            <div class="mb-3">
-                <label>Nombre:</label>
-                <div>
-                    <InputText class="form-control" @bind-Value="@Empresa.Capital" />
+            <div class="mb-3 row">
+                <label for="capital" class="col-sm-5 col-form-label">Capital:</label>
+                <div class="col-sm-7">
+                    <InputText id="capital" class="form-control" @bind-Value="Empresa.Capital" />
                     <ValidationMessage For="@(() => Empresa.Capital)" />
                 </div>
             </div>
-            <div class="mb-3">
-                <label>Nombre:</label>
-                <div>
-                    <InputText class="form-control" @bind-Value="@Empresa.Ventas" />
+            <div class="mb-3 row">
+                <label for="ventas" class="col-sm-5 col-form-label">Ventas:</label>
+                <div class="col-sm-7">
+                    <InputText id="ventas" class="form-control" @bind-Value="Empresa.Ventas" />
                     <ValidationMessage For="@(() => Empresa.Ventas)" />
                 </div>
             </div>
-            <div class="mb-3">
-                <label>Nombre:</label>
-                <div>
-                    <InputText class="form-control" @bind-Value="@Empresa.Costos" />
+            <div class="mb-3 row">
+                <label for="costos" class="col-sm-5 col-form-label">Costos:</label>
+                <div class="col-sm-7">
+                    <InputText id="costos" class="form-control" @bind-Value="Empresa.Costos" />
                     <ValidationMessage For="@(() => Empresa.Costos)" />
                 </div>
             </div>
-            <div class="mb-3">
-                <label>Nombre:</label>
-                <div>
-                    <InputText class="form-control" @bind-Value="@Empresa.Gastos" />
+            <div class="mb-3 row">
+                <label for="gastos" class="col-sm-5 col-form-label">Gastos:</label>
+                <div class="col-sm-7">
+                    <InputText id="gastos" class="form-control" @bind-Value="Empresa.Gastos" />
                     <ValidationMessage For="@(() => Empresa.Gastos)" />
                 </div>
             </div>
-            <div class="mb-3">
-                <label>Nombre:</label>
-                <div>
-                    <InputText class="form-control" @bind-Value="@Empresa.OtrosIngresos" />
+            <div class="mb-3 row">
+                <label for="otrosingresos" class="col-sm-5 col-form-label">Otros Ingresos:</label>
+                <div class="col-sm-7">
+                    <InputText id="otrosIngresos" class="form-control" @bind-Value="Empresa.OtrosIngresos" />
                     <ValidationMessage For="@(() => Empresa.OtrosIngresos)" />
                 </div>
             </div>
-            <div class="mb-3">
-                <label>Nombre:</label>
-                <div>
-                    <InputText class="form-control" @bind-Value="@Empresa.OtrosGastos" />
+            <div class="mb-3 row">
+                <label for="otrosgastos" class="col-sm-5 col-form-label">Otros Gastos:</label>
+                <div class="col-sm-7">
+                    <InputText id="otrosGastos" class="form-control" @bind-Value="Empresa.OtrosGastos" />
                     <ValidationMessage For="@(() => Empresa.OtrosGastos)" />
                 </div>
             </div>
-            <div class="mb-3">
-                <label>Nombre:</label>
-                <div>
-                    <InputText class="form-control" @bind-Value="@Empresa.Produccion" />
+            <div class="mb-3 row">
+                <label for="produccion" class="col-sm-5 col-form-label">Producción:</label>
+                <div class="col-sm-7">
+                    <InputText id="produccion" class="form-control" @bind-Value="Empresa.Produccion" />
                     <ValidationMessage For="@(() => Empresa.Produccion)" />
                 </div>
             </div>
-            <div class="mb-3">
-                <label>Porcentaje Iva:</label>
-                <div>
-                    <InputNumber class="form-control" @bind-Value="@Empresa.PorcentajeIva" />
+        </div>
+
+
+        <div class="col-md-4">
+            <div class="mb-3 row">
+                <label for="produce" class="col-sm-9 col-form-label">Proceso Producción:</label>
+                <div class="col-sm-3">
+                    <InputText id="produce" class="form-control" @bind-Value="Empresa.Produce" />
+                    <ValidationMessage For="@(() => Empresa.Produce)" />
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="porcentajeiva" class="col-sm-6 col-form-label">Porcentaje Iva:</label>
+                <div class="col-sm-6">
+                    <InputNumber id="porcentajeIva" class="form-control" @bind-Value="Empresa.PorcentajeIva" />
                     <ValidationMessage For="@(() => Empresa.PorcentajeIva)" />
                 </div>
             </div>
+            <div class="mb-3 row">
+                <label for="nivelpresupuesto" class="col-sm-9 col-form-label">Nivel detalle Presupuesto:</label>
+                <div class="col-sm-3">
+                    <InputText id="nivelpresupuesto" class="form-control" @bind-Value="Empresa.NivelPresupuesto" />
+                    <ValidationMessage For="@(() => Empresa.NivelPresupuesto)" />
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="resutado" class="col-sm-5 col-form-label">Resultado Actual:</label>
+                <div class="col-sm-7">
+                    <InputText id="resultado" class="form-control" @bind-Value="Empresa.Resultado" />
+                    <ValidationMessage For="@(() => Empresa.Resultado)" />
+                </div>
+            </div>
         </div>
+
+        <div class="col-md-2">
+            <div class="mb-3 row">
+                <label for="nivel1" class="col-sm-5 col-form-label">Nivel 1:</label>
+                <div class="col-sm-5">
+                    <InputText id="nivel1" class="form-control" @bind-Value="Empresa.Nivel1" />
+                    <ValidationMessage For="@(() => Empresa.Nivel1)" />
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="nivel2" class="col-sm-5 col-form-label">Nivel 2:</label>
+                <div class="col-sm-5">
+                    <InputText id="nivel2" class="form-control" @bind-Value="Empresa.Nivel2" />
+                    <ValidationMessage For="@(() => Empresa.Nivel2)" />
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label for="nivel3" class="col-sm-5 col-form-label">Nivel 3:</label>
+                <div class="col-sm-5">
+                    <InputText id="nivel3" class="form-control" @bind-Value="Empresa.Nivel3" />
+                    <ValidationMessage For="@(() => Empresa.Nivel3)" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+
+            <div class="mb-3 row">
+                <label for="nivel4" class="col-sm-5 col-form-label">Nivel 4:</label>
+                <div class="col-sm-5">
+                    <InputText id="nivel4" class="form-control" @bind-Value="Empresa.Nivel4" />
+                    <ValidationMessage For="@(() => Empresa.Nivel4)" />
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="nivel5" class="col-sm-5 col-form-label">Nivel 5:</label>
+                <div class="col-sm-5">
+                    <InputText id="nivel5" class="form-control" @bind-Value="Empresa.Nivel5" />
+                    <ValidationMessage For="@(() => Empresa.Nivel5)" />
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="nivel6" class="col-sm-5 col-form-label">Nivel 6:</label>
+                <div class="col-sm-5">
+                    <InputText id="nivel6" class="form-control" @bind-Value="Empresa.Nivel6" />
+                    <ValidationMessage For="@(() => Empresa.Nivel6)" />
+                </div>
+            </div>
+        </div>
+
+
+        <div>
+            <div class="mb-3">
+                <label for="numeroPatronal">Número Patronal:</label>
+                <InputText id="numeroPatronal" class="form-control" @bind-Value="Empresa.NumeroPatronal" />
+                <ValidationMessage For="@(() => Empresa.NumeroPatronal)" />
+            </div>
+            <div class="mb-3">
+                <label for="patrono">Patrono:</label>
+                <InputText id="patrono" class="form-control" @bind-Value="Empresa.Patrono" />
+                <ValidationMessage For="@(() => Empresa.Patrono)" />
+            </div>
+            <div class="mb-3">
+                <label for="direccionPatrono">Dirección Patrono:</label>
+                <InputText id="direccionPatrono" class="form-control" @bind-Value="Empresa.DirecionPatrono" />
+                <ValidationMessage For="@(() => Empresa.DirecionPatrono)" />
+            </div>
+        </div>
+
     </div>
+
+    @*     <div class="d-flex justify-content-between">*@
     <button class="btn btn-primary" type="submit">Guardar Cambios</button>
     <button class="btn btn-success" @onclick="ReturnAction">Regresar</button>
+    @*</div>*@
 </EditForm>
+

@@ -219,6 +219,11 @@ namespace WebJar.Backend.Migrations
                         .HasMaxLength(1)
                         .HasColumnType("nvarchar(1)");
 
+                    b.Property<string>("NivelPresupuesto")
+                        .IsRequired()
+                        .HasMaxLength(1)
+                        .HasColumnType("nvarchar(1)");
+
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(15)
@@ -249,8 +254,8 @@ namespace WebJar.Backend.Migrations
                         .HasMaxLength(65)
                         .HasColumnType("nvarchar(65)");
 
-                    b.Property<double>("PorcentajeIva")
-                        .HasColumnType("float");
+                    b.Property<decimal>("PorcentajeIva")
+                        .HasColumnType("decimal(6,2)");
 
                     b.Property<string>("Produccion")
                         .IsRequired()
@@ -261,6 +266,11 @@ namespace WebJar.Backend.Migrations
                         .IsRequired()
                         .HasMaxLength(1)
                         .HasColumnType("nvarchar(1)");
+
+                    b.Property<string>("Resultado")
+                        .IsRequired()
+                        .HasMaxLength(11)
+                        .HasColumnType("nvarchar(11)");
 
                     b.Property<string>("Ventas")
                         .IsRequired()
