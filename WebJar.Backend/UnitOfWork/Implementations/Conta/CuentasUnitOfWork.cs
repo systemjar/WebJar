@@ -17,8 +17,6 @@ namespace WebJar.Backend.UnitOfWork.Implementations.Conta
             _cuentasRepository = cuentasRepository;
         }
 
-        public async Task<ActionResponse<Cuenta>> GetAsync(int id) => await _cuentasRepository.GetAsync(id);
-
-        public async Task<ActionResponse<IEnumerable<Cuenta>>> GetAsync() => await _cuentasRepository.GetAsync();
+        public async Task<ActionResponse<IEnumerable<Cuenta>>> GetCuentaAsync(string nit) => await _cuentasRepository.GetCuentaAsync(nit);
     }
 }

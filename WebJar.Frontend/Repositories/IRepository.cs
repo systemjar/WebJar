@@ -9,6 +9,8 @@
 
         Task<HttpResponseWrapper<T>> GetAsync<T>(string url);
 
+        Task<HttpResponseWrapper<T>> GetCuentaAsync<T>(string url);
+
         //Es para que no devuelve nada pero dispara una accion
         Task<HttpResponseWrapper<object>> GetAsync(string url);
 

@@ -12,33 +12,15 @@ namespace WebJar.Backend.Repositories.Implementations.Conta
     {
         private readonly DataContext _context;
 
-        public CuentasRepository(DataContext context, EmpresaService empresaService) : base(context)
+        public CuentasRepository(DataContext context) : base(context)
         {
             _context = context;
         }
 
-        public override async Task<ActionResponse<Cuenta>> GetAsync(int id)
-        {
-            var cuenta = await _context.Cuentas
-                        .FirstOrDefaultAsync(c => c.Id == id);
-            if (cuenta == null)
-            {
-                return new ActionResponse<Cuenta>
-                {
-                    WasSuccess = false,
-                    Message = "Cuenta no existe"
-                };
-            }
-            return new ActionResponse<Cuenta>
-            {
-                WasSuccess = true,
-                Result = cuenta
-            };
-        }
-
-        public override async Task<ActionResponse<IEnumerable<Cuenta>>> GetAsync()
+        public async Task<ActionResponse<IEnumerable<Cuenta>>> GetCuentaAsync(string nit)
         {
             var cuentas = await _context.Cuentas
+                            .Where(x => x.Nit == nit)
                             .OrderBy(x => x.Codigo)
                             .ToListAsync();
             return new ActionResponse<IEnumerable<Cuenta>>

@@ -29,6 +29,13 @@ namespace WebJar.Frontend.Repositories
             return new HttpResponseWrapper<object>(null, !responsehttp.IsSuccessStatusCode, responsehttp);
         }
 
+        // Este es el Get para disparar una accion
+        public async Task<HttpResponseWrapper<object>> GetAsync(string url)
+        {
+            var responseHTTP = await _httpClient.GetAsync(url);
+            return new HttpResponseWrapper<object>(null, !responseHTTP.IsSuccessStatusCode, responseHTTP);
+        }
+
         public async Task<HttpResponseWrapper<T>> GetAsync<T>(string url)
         {
             var responsehttp = await _httpClient.GetAsync(url);
@@ -45,11 +52,20 @@ namespace WebJar.Frontend.Repositories
             return new HttpResponseWrapper<T>(default, true, responsehttp);
         }
 
-        // Este es el Get para disparar una accion
-        public async Task<HttpResponseWrapper<object>> GetAsync(string url)
+        public async Task<HttpResponseWrapper<T>> GetCuentaAsync<T>(string url)
         {
-            var responseHTTP = await _httpClient.GetAsync(url);
-            return new HttpResponseWrapper<object>(null, !responseHTTP.IsSuccessStatusCode, responseHTTP);
+            var responsehttp = await _httpClient.GetAsync(url);
+            if (responsehttp.IsSuccessStatusCode)
+            {
+                // Si funciona la peticion hay que deserializar la respuesta porque viene en json y hay que pasarla a un objeto mediane un metodo privado creado por nosostros
+                var response = await UnserializedAnswerAsync<T>(responsehttp);
+
+                //Regresamos el objeto deserializado, false porque funciono y la respuesta del http
+                return new HttpResponseWrapper<T>(response, false, responsehttp);
+            }
+
+            //Como hubo error regresamos el default, true porque hubo error y la respuesta del http
+            return new HttpResponseWrapper<T>(default, true, responsehttp);
         }
 
         //Para la respuesta del PostAsync NoContent

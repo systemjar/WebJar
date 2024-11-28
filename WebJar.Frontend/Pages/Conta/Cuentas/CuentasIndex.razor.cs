@@ -2,6 +2,7 @@ using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using WebJar.Frontend.Repositories;
 using WebJar.Shared.Entities.Conta;
+using WebJar.Shared.Servicios;
 
 namespace WebJar.Frontend.Pages.Conta.Cuentas
 {
@@ -10,8 +11,7 @@ namespace WebJar.Frontend.Pages.Conta.Cuentas
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
 
-        [Inject]
-        private IRepository Repository { get; set; } = null!;
+        [Inject] private IRepository Repository { get; set; } = null!;
 
         public List<Cuenta>? LCuentas { get; set; }
 
@@ -22,7 +22,7 @@ namespace WebJar.Frontend.Pages.Conta.Cuentas
 
         private async Task LoadAsync()
         {
-            var responseHttp = await Repository.GetAsync<List<Cuenta>>("/api/cuenta");
+            var responseHttp = await Repository.GetCuentaAsync<List<Cuenta>>($"/api/cuenta/pornit?nit={EmpresaService.EmpresaSeleccionada.Nit}");
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();

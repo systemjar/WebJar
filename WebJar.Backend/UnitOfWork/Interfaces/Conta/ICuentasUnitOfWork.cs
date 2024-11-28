@@ -1,13 +1,12 @@
-﻿using WebJar.Shared.Entities.Conta;
+﻿using WebJar.Backend.UnitOfWork.Interfaces.Generico;
+using WebJar.Shared.Entities.Conta;
 using WebJar.Shared.Responses;
 using WebJar.Shared.Servicios;
 
 namespace WebJar.Backend.UnitOfWork.Interfaces.Conta
 {
-    public interface ICuentasUnitOfWork
+    public interface ICuentasUnitOfWork : IGenericUnitOfWork<Cuenta>
     {
-        Task<ActionResponse<Cuenta>> GetAsync(int id);
-
-        Task<ActionResponse<IEnumerable<Cuenta>>> GetAsync();
+        Task<ActionResponse<IEnumerable<Cuenta>>> GetCuentaAsync(string nit);
     }
 }

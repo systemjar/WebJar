@@ -11,26 +11,15 @@ namespace WebJar.Backend.Controllers.Conta
     {
         private readonly ICuentasUnitOfWork _cuentasUnitOfWork;
 
-        public CuentaController(IGenericUnitOfWork<Cuenta> unitOfWork, ICuentasUnitOfWork cuentasUnitOfWork) : base(unitOfWork)
+        public CuentaController(ICuentasUnitOfWork cuentasUnitOfWork, IGenericUnitOfWork<Cuenta> genericUnitOfWork) : base(genericUnitOfWork)
         {
             _cuentasUnitOfWork = cuentasUnitOfWork;
         }
 
-        [HttpGet("{id}")]
-        public override async Task<IActionResult> GetAsync(int id)
+        [HttpGet("pornit")]
+        public async Task<IActionResult> GetCuentaAsync([FromQuery] string nit)
         {
-            var response = await _cuentasUnitOfWork.GetAsync(id);
-            if (response.WasSuccess)
-            {
-                return Ok(response.Result);
-            }
-            return NotFound(response.Message);
-        }
-
-        [HttpGet]
-        public override async Task<IActionResult> GetAsync()
-        {
-            var response = await _cuentasUnitOfWork.GetAsync();
+            var response = await _cuentasUnitOfWork.GetCuentaAsync(nit);
             if (response.WasSuccess)
             {
                 return Ok(response.Result);

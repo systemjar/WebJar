@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.AspNetCore.Components;
 using WebJar.Shared.Entities.Conta;
 using WebJar.Shared.Entities;
+using WebJar.Shared.Enums;
 
 namespace WebJar.Frontend.Pages.Empresas
 {
@@ -14,6 +15,7 @@ namespace WebJar.Frontend.Pages.Empresas
         protected override void OnInitialized()
         {
             editContext = new(Empresa);
+            Empresa.Produce = EnumSioNo.N.ToString();
         }
 
         [EditorRequired, Parameter] public Empresa Empresa { get; set; } = null!;

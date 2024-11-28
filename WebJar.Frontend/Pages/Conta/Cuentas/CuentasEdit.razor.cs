@@ -24,7 +24,7 @@ namespace WebJar.Frontend.Pages.Conta.Cuentas
             {
                 if (responseHttp.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
                 {
-                    NavigationManager.NavigateTo("tiposconta");
+                    NavigationManager.NavigateTo("cuentas");
                 }
                 else
                 {

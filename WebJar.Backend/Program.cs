@@ -30,7 +30,7 @@ builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer("name=CadenaSql")
 builder.Services.AddTransient<SeedDb>();
 
 //Inyectamos el Servicio de la EmpresaService para la variable global de la empresa seleccionada
-builder.Services.AddSingleton<EmpresaService, EmpresaService>();
+builder.Services.AddSingleton<EmpresaService>();
 
 //Inyectamos la GenericUnitOfWork y el GenericRepository
 builder.Services.AddScoped(typeof(IGenericUnitOfWork<>), typeof(GenericUnitOfWork<>));
