@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.CodeAnalysis;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WebJar.Shared.Validaciones.Conta;
 
-namespace WebJar.Shared.Entities.Conta
+namespace WebJar.Shared.Entities
 {
     public class Cuenta
     {
@@ -31,28 +30,28 @@ namespace WebJar.Shared.Entities.Conta
         public string DebeHaber { get; set; } = null!;
 
         [Column(TypeName = "decimal(13,2)")]
-        public decimal? Saldo { get; set; }
+        public decimal Saldo { get; set; } = 0;
 
         [Column(TypeName = "decimal(13,2)")]
-        public decimal? Cargos { get; set; }
+        public decimal Cargos { get; set; } = 0;
 
         [Column(TypeName = "decimal(13,2)")]
-        public decimal? Abonos { get; set; }
+        public decimal Abonos { get; set; } = 0;
 
         [Column(TypeName = "decimal(13,2)")]
-        public decimal? SaldoAcumulado => DebeHaber == "D" ? (Saldo + Cargos - Abonos) : (Saldo - Cargos + Abonos);
+        public decimal SaldoAcumulado => DebeHaber == "D" ? (Saldo + Cargos - Abonos) : (Saldo - Cargos + Abonos);
 
         [Column(TypeName = "decimal(13,2)")]
-        public decimal? SaldoMes { get; set; }
+        public decimal SaldoMes { get; set; } = 0;
 
         [Column(TypeName = "decimal(13,2)")]
-        public decimal? CargosMes { get; set; }
+        public decimal CargosMes { get; set; } = 0;
 
         [Column(TypeName = "decimal(13,2)")]
-        public decimal? AbonosMes { get; set; }
+        public decimal AbonosMes { get; set; } = 0;
 
         [Column(TypeName = "decimal(13,2)")]
-        public decimal? SaldoFinMes
+        public decimal SaldoFinMes
         {
             get
             {
@@ -64,20 +63,22 @@ namespace WebJar.Shared.Entities.Conta
         }
 
         [Column(TypeName = "decimal(13,2)")]
-        public decimal? SaldoCierre { get; set; }
+        public decimal SaldoCierre { get; set; } = 0;
 
         [Display(Name = "Codigo Cuenta Mayor")]
         [MaxLength(11, ErrorMessage = "El campo {0} no puede tener mas de {1} carácteres")]
-        public string? CodigoMayor { get; set; }
+        public string CodigoMayor { get; set; } = string.Empty;
 
         [Display(Name = "Codigo Presupuesto")]
         [MaxLength(11, ErrorMessage = "El campo {0} no puede tener mas de {1} carácteres")]
-        public string? CodigoPres { get; set; }
+        public string CodigoPres { get; set; } = string.Empty;
 
-        public string? IngresoCash { get; set; }
+        public string IngresoCash { get; set; } = string.Empty;
 
-        public string? EgresoCash { get; set; }
+        public string EgresoCash { get; set; } = string.Empty;
 
-        public string? Nit { get; set; }
+        public int EmpresaId { get; set; }
+
+        public Empresa? Empresa { get; set; }
     }
 }

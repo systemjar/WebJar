@@ -2,18 +2,17 @@ using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using WebJar.Frontend.Repositories;
 using WebJar.Shared.Entities.Conta;
-using WebJar.Shared.Servicios;
 
-namespace WebJar.Frontend.Pages.Conta.Cuentas
+namespace WebJar.Frontend.Pages.Conta
 {
-    public partial class CuentasIndex
+    public partial class TiposContaIndex
     {
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
 
         [Inject] private IRepository Repository { get; set; } = null!;
 
-        public List<Cuenta>? LCuentas { get; set; }
+        public List<TipoConta>? LTiposConta { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -22,22 +21,22 @@ namespace WebJar.Frontend.Pages.Conta.Cuentas
 
         private async Task LoadAsync()
         {
-            var responseHttp = await Repository.GetCuentaAsync<List<Cuenta>>($"/api/cuenta/pornit?nit={EmpresaService.EmpresaSeleccionada.Nit}");
+            var responseHttp = await Repository.GetAsync<List<TipoConta>>("/api/tipoconta");
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
                 await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
                 return;
             }
-            LCuentas = responseHttp.Response!;
+            LTiposConta = responseHttp.Response!;
         }
 
-        private async Task DeleteAsync(Cuenta cuenta)
+        private async Task DeleteAsync(TipoConta tipoConta)
         {
             var result = await SweetAlertService.FireAsync(new SweetAlertOptions
             {
                 Title = "Confirmación",
-                Text = $"Esta seguro de borrar el tipo de documento: {cuenta.Codigo}?",
+                Text = $"Esta seguro de borrar el tipo de documento: {tipoConta.Nombre}?",
                 Icon = SweetAlertIcon.Question,
                 ShowCancelButton = true
             });
@@ -48,7 +47,7 @@ namespace WebJar.Frontend.Pages.Conta.Cuentas
                 return;
             }
 
-            var resposeHttp = await Repository.DeleteAsync<Cuenta>($"api/cuenta/{cuenta.Id}");
+            var resposeHttp = await Repository.DeleteAsync<TipoConta>($"api/tipoconta/{tipoConta.Id}");
 
             if (resposeHttp.Error)
             {

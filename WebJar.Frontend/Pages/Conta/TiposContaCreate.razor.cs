@@ -1,42 +1,30 @@
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
 using WebJar.Frontend.Repositories;
 using WebJar.Shared.Entities.Conta;
-using WebJar.Shared.Enums;
-using WebJar.Shared.Servicios;
 
-namespace WebJar.Frontend.Pages.Conta.Cuentas
+namespace WebJar.Frontend.Pages.Conta
 {
-    public partial class CuentasCreate
+    public partial class TiposContaCreate
     {
-        private Cuenta cuenta = new();
+        private TipoConta tipoConta = new();
 
-        private CuentasForm? cuentasForm;
+        private TipoContaForm? tipoContaForm;
 
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
 
-        protected override void OnInitialized()
-        {
-            cuenta.Nit = EmpresaService.EmpresaSeleccionada.Nit;
-        }
-
         private async Task CreateAsync()
         {
-            //cuenta.Nit = EmpresaService.EmpresaSeleccionada.Nit;
-
-            var responseHttp = await Repository.PostAsync("/api/cuenta", cuenta);
+            var responseHttp = await Repository.PostAsync("/api/tipoconta", tipoConta);
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
                 await SweetAlertService.FireAsync("Error", message);
                 return;
             }
-
             Return();
-
             var toast = SweetAlertService.Mixin(new SweetAlertOptions
             {
                 Toast = true,
@@ -49,8 +37,8 @@ namespace WebJar.Frontend.Pages.Conta.Cuentas
 
         private void Return()
         {
-            cuentasForm!.FormPostedSuccessfully = true;
-            NavigationManager.NavigateTo("/cuentas");
+            tipoContaForm!.FormPostedSuccessfully = true;
+            NavigationManager.NavigateTo("/tiposconta");
         }
     }
 }

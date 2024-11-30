@@ -2,7 +2,7 @@
 using WebJar.Backend.UnitOfWork.Interfaces.Generico;
 using WebJar.Shared.Responses;
 
-namespace WebJar.Backend.UnitOfWork.Implementations.Generico
+namespace WebJar.Backend.UnitOfWork.Implementations.Gererico
 {
     public class GenericUnitOfWork<T> : IGenericUnitOfWork<T> where T : class
     {

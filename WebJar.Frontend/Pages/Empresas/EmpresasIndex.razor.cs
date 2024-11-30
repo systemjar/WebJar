@@ -9,11 +9,8 @@ namespace WebJar.Frontend.Pages.Empresas
     {
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
-
-        [Inject]
-        private IRepository Repository { get; set; } = null!;
-
-        public List<Empresa>? LEmpresas { get; set; }
+        [Inject] private IRepository repository { get; set; } = null!;
+        public List<Empresa>? LEmpresas { get; set; } = new List<Empresa>();
 
         protected override async Task OnInitializedAsync()
         {
@@ -22,14 +19,14 @@ namespace WebJar.Frontend.Pages.Empresas
 
         private async Task LoadAsync()
         {
-            var responseHttp = await Repository.GetAsync<List<Empresa>>("/api/empresa");
+            var responseHttp = await repository.GetAsync<List<Empresa>>("/api/empresa");
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
                 await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
                 return;
             }
-            LEmpresas = responseHttp.Response!;
+            LEmpresas = responseHttp.Response;
         }
 
         private async Task DeleteAsync(Empresa empresa)
@@ -37,7 +34,7 @@ namespace WebJar.Frontend.Pages.Empresas
             var result = await SweetAlertService.FireAsync(new SweetAlertOptions
             {
                 Title = "Confirmación",
-                Text = $"Esta seguro de borrar esta empresa: {empresa.Nombre}?",
+                Text = $"Esta seguro de borrar el tipo de documento: {empresa.Nombre}?",
                 Icon = SweetAlertIcon.Question,
                 ShowCancelButton = true
             });
@@ -48,13 +45,13 @@ namespace WebJar.Frontend.Pages.Empresas
                 return;
             }
 
-            var resposeHttp = await Repository.DeleteAsync<Empresa>($"api/empresa/{empresa.Id}");
+            var resposeHttp = await repository.DeleteAsync<Empresa>($"api/empresa/{empresa.Id}");
 
             if (resposeHttp.Error)
             {
                 if (resposeHttp.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
                 {
-                    NavigationManager.NavigateTo("/");
+                    NavigationManager.NavigateTo("/empresas");
                 }
                 else
                 {

@@ -1,24 +1,21 @@
 using CurrieTechnologies.Razor.SweetAlert2;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Routing;
-using Microsoft.AspNetCore.Components;
-using WebJar.Shared.Entities.Conta;
-using WebJar.Shared.Enums;
-using WebJar.Shared.Servicios;
+using WebJar.Shared.Entities;
 
-namespace WebJar.Frontend.Pages.Conta.Cuentas
+namespace WebJar.Frontend.Pages.Empresas
 {
-    public partial class CuentasForm
+    public partial class EmpresaForm
     {
         private EditContext editContext = null!;
 
         protected override void OnInitialized()
         {
-            editContext = new(Cuenta);
-            Cuenta.DebeHaber = TipoSaldoCuenta.D.ToString();
+            editContext = new(Empresa);
         }
 
-        [EditorRequired, Parameter] public Cuenta Cuenta { get; set; } = null!;
+        [EditorRequired, Parameter] public Empresa Empresa { get; set; } = null!;
         [EditorRequired, Parameter] public EventCallback OnValidSubmit { get; set; }
         [EditorRequired, Parameter] public EventCallback ReturnAction { get; set; }
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;

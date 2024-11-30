@@ -1,9 +1,8 @@
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
-using WebJar.Frontend.Pages.Conta.TiposConta;
+using System.Net.Http.Headers;
 using WebJar.Frontend.Repositories;
 using WebJar.Shared.Entities;
-using WebJar.Shared.Entities.Conta;
 
 namespace WebJar.Frontend.Pages.Empresas
 {
@@ -11,7 +10,7 @@ namespace WebJar.Frontend.Pages.Empresas
     {
         private Empresa empresa = new();
 
-        private EmpresasForm? empresasForm;
+        private EmpresaForm? empresaForm;
 
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
@@ -39,7 +38,7 @@ namespace WebJar.Frontend.Pages.Empresas
 
         private void Return()
         {
-            empresasForm!.FormPostedSuccessfully = true;
+            empresaForm!.FormPostedSuccessfully = true;
             NavigationManager.NavigateTo("/empresas");
         }
     }

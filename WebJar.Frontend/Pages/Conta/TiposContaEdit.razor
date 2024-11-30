@@ -1,0 +1,12 @@
+﻿@page "/tiposconta/edit/{Id:int}"
+
+<h3>Editar Tipo documento contable</h3>
+
+@if (tipoConta is null)
+{
+    <Loading/>
+}
+else
+{
+    <TipoContaForm @ref="tipoContaForm" TipoConta="tipoConta" OnValidSubmit="EditAsync" ReturnAction="Return" />
+}

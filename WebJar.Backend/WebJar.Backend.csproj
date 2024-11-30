@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+	  <InvariantGlobalization>false</InvariantGlobalization>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,6 +26,13 @@
   <ItemGroup>
     <ProjectReference Include="..\WebJar.Frontend\WebJar.Frontend.csproj" />
     <ProjectReference Include="..\WebJar.Shared\WebJar.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Repositories\Implementations\Conta\" />
+    <Folder Include="Repositories\Interfaces\Conta\" />
+    <Folder Include="UnitOfWork\Implementations\Conta\" />
+    <Folder Include="UnitOfWork\Interfaces\Conta\" />
   </ItemGroup>
 
 </Project>

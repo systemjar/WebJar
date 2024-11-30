@@ -1,14 +1,11 @@
 ﻿@page "/empresas"
-@using WebJar.Frontend.Repositories
-@using WebJar.Frontend.Shared
-@using WebJar.Shared.Entities
-@inject IRepository repository
 
 <h3>Mantenimiento Empresas</h3>
 
 <div class="mb-3">
     <a class="btn btn-primary" href="/empresas/create">Nueva Empresa</a>
 </div>
+
 <GenericList MyList="LEmpresas">
     <Body>
         <table class="table table-striped">
@@ -23,15 +20,11 @@
                 @foreach (var empresa in LEmpresas!)
                 {
                     <tr>
+                        <td>@empresa.Nit</td>
+                        <td>@empresa.Nombre</td>
                         <td>
-                            @empresa.Nit
-                        </td>
-                        <td>
-                            @empresa.Nombre
-                        </td>
-                        <td>
-                            <a href="/empresas/edit/@empresa.Id" class="btn btn-warning">Editar</a>
-                            <button class="btn btn-danger" @onclick=@(() => DeleteAsync(empresa))>Borrar</button>
+                            <a href="/empresas/edit/@empresa.Id"class="btn btn-warning">Editar</a>
+                            <button class="btn btn-danger" @onclick=@(() => DeleteAsync(empresa))>Eliminar</button>
                         </td>
                     </tr>
                 }

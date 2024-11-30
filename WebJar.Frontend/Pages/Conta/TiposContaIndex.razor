@@ -1,0 +1,33 @@
+﻿@page "/tiposconta"
+
+<h3>Tipos de documentos contables</h3>
+
+<div class="mb-3">
+    <a class="btn btn-primary" href="/tiposconta/create">Nuevo Tipo de documento</a>
+</div>
+<GenericList MyList="LTiposConta">
+    <Body>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Tipo Documento</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var tiposConta in LTiposConta!)
+                {
+                    <tr>
+                        <td>
+                            @tiposConta.Nombre
+                        </td>
+                        <td>
+                            <a href="/tiposconta/edit/@tiposConta.Id" class="btn btn-warning">Editar</a>
+                            <button class="btn btn-danger" @onclick=@(() => DeleteAsync(tiposConta))>Borrar</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </Body>
+</GenericList>

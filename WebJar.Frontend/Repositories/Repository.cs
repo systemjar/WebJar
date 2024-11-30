@@ -155,6 +155,7 @@ namespace WebJar.Frontend.Repositories
             var response = await responsehttp.Content.ReadAsStringAsync();
 
             //Regresamos la respuesta como un objeto tipo <T> tomado en cuenta las opciones que definimos en _jsonDefaultOptions
+
             return JsonSerializer.Deserialize<T>(response, _jsonDefaultOptions)!;
         }
     }

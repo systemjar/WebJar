@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Win32;
 using WebJar.Backend.Data;
 using WebJar.Backend.Repositories.Interfaces.Generico;
 using WebJar.Shared.Responses;
@@ -10,7 +9,6 @@ namespace WebJar.Backend.Repositories.Implementations.Generico
     {
         private readonly DataContext _context;
 
-        //Inyectamos el DbSet para la entidad
         private readonly DbSet<T> _entity;
 
         public GenericRepository(DataContext context)
@@ -34,6 +32,10 @@ namespace WebJar.Backend.Repositories.Implementations.Generico
             catch (DbUpdateException)
             {
                 return DbUpdateExceptionActionResponse();
+            }
+            catch (Exception ex)
+            {
+                return ExceptionActionResponse(ex);
             }
         }
 
@@ -119,6 +121,15 @@ namespace WebJar.Backend.Repositories.Implementations.Generico
             }
         }
 
+        private ActionResponse<T> DbUpdateExceptionActionResponse()
+        {
+            return new ActionResponse<T>
+            {
+                WasSuccess = false,
+                Message = "Ese registro ya existe, favor revisar."
+            };
+        }
+
         private ActionResponse<T> UpdateExceptionActionResponse(Exception ex)
         {
             return new ActionResponse<T>
@@ -128,12 +139,12 @@ namespace WebJar.Backend.Repositories.Implementations.Generico
             };
         }
 
-        private ActionResponse<T> DbUpdateExceptionActionResponse()
+        private ActionResponse<T> ExceptionActionResponse(Exception ex)
         {
             return new ActionResponse<T>
             {
                 WasSuccess = false,
-                Message = "Ese registro ya existe, favor revisar."
+                Message = ex.Message
             };
         }
     }

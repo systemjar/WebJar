@@ -3,13 +3,13 @@ using Microsoft.AspNetCore.Components;
 using WebJar.Frontend.Repositories;
 using WebJar.Shared.Entities.Conta;
 
-namespace WebJar.Frontend.Pages.Conta.TiposConta
+namespace WebJar.Frontend.Pages.Conta
 {
     public partial class TiposContaEdit
     {
         private TipoConta? tipoConta;
 
-        private TiposContaForm? tiposContaForm;
+        private TipoContaForm? tipoContaForm;
 
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
@@ -59,7 +59,7 @@ namespace WebJar.Frontend.Pages.Conta.TiposConta
 
         private void Return()
         {
-            tiposContaForm!.FormPostedSuccessfully = true;
+            tipoContaForm!.FormPostedSuccessfully = true;
             NavigationManager.NavigateTo("/tiposconta");
         }
     }

@@ -8,10 +8,10 @@ namespace WebJar.Backend.UnitOfWork.Interfaces.Generico
 
         Task<ActionResponse<IEnumerable<T>>> GetAsync();
 
-        Task<ActionResponse<T>> AddAsync(T model);
-
-        Task<ActionResponse<T>> UpdateAsync(T model);
+        Task<ActionResponse<T>> AddAsync(T entity);
 
         Task<ActionResponse<T>> DeleteAsync(int id);
+
+        Task<ActionResponse<T>> UpdateAsync(T entity);
     }
 }

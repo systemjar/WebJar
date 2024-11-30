@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebJar.Backend.UnitOfWork.Interfaces;
 using WebJar.Backend.UnitOfWork.Interfaces.Generico;
 using WebJar.Shared.Entities;
 
@@ -8,8 +9,33 @@ namespace WebJar.Backend.Controllers
     [Route("api/[controller]")]
     public class EmpresaController : GenericController<Empresa>
     {
-        public EmpresaController(IGenericUnitOfWork<Empresa> unitOfWork) : base(unitOfWork)
+        private readonly IEmpresasUnitOfWork _empresasUnitOfWork;
+
+        public EmpresaController(IGenericUnitOfWork<Empresa> unitOfWork, IEmpresasUnitOfWork empresasUnitOfWork) : base(unitOfWork)
         {
+            _empresasUnitOfWork = empresasUnitOfWork;
+        }
+
+        [HttpGet("{id}")]
+        public override async Task<IActionResult> GetAsync(int id)
+        {
+            var response = await _empresasUnitOfWork.GetAsync(id);
+            if (response.WasSuccess)
+            {
+                return Ok(response.Result);
+            }
+            return NotFound(response.Message);
+        }
+
+        [HttpGet]
+        public override async Task<IActionResult> GetAsync()
+        {
+            var response = await _empresasUnitOfWork.GetAsync();
+            if (response.WasSuccess)
+            {
+                return Ok(response.Result);
+            }
+            return BadRequest();
         }
     }
 }

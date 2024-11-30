@@ -1,9 +1,0 @@
-﻿@page "/cuentas/create"
-@using WebJar.Shared.Servicios
-@inject EmpresaService EmpresaService
-
-<h3>Crear codigo de cuenta contable</h3>
-
-<CuentasForm @ref="cuentasForm" Cuenta="cuenta" OnValidSubmit="CreateAsync" ReturnAction="Return" />
-
-
