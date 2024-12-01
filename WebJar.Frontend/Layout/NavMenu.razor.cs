@@ -1,3 +1,6 @@
+using CurrieTechnologies.Razor.SweetAlert2;
+using Microsoft.AspNetCore.Components;
+
 namespace WebJar.Frontend.Layout
 {
     public partial class NavMenu
@@ -28,6 +31,23 @@ namespace WebJar.Frontend.Layout
         private void ToggleSubMenu2()
         {
             showSubMenu2 = !showSubMenu2;
+        }
+
+        private async Task NavigateToCuentasAsync()
+        {
+            if (EmpresaService.EmpresaSeleccionada != null && EmpresaService.EmpresaSeleccionada.Id != 0)
+            {
+                NavigationManager.NavigateTo($"/cuentas/{EmpresaService.EmpresaSeleccionada.Id}");
+            }
+            else
+            {
+                await SweetAlertService.FireAsync(new SweetAlertOptions
+                {
+                    Text = "No ha seleccionado ninguna empresa para trabajar.",
+                    Icon = SweetAlertIcon.Question,
+                    ShowCancelButton = false
+                });
+            }
         }
     }
 }

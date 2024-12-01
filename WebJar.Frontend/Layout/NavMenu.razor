@@ -1,5 +1,7 @@
 ﻿@using WebJar.Shared.Servicios
 @inject EmpresaService EmpresaService
+@inject SweetAlertService SweetAlertService
+@inject NavigationManager NavigationManager
 
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
@@ -28,8 +30,13 @@
             </NavLink>
             @if (showSubMenuConta)
             {
-                <NavLink class="mb-3 nav-link" href="@($"/cuentas/{EmpresaService.EmpresaSeleccionada?.Id}")">
+                
+                @* <NavLink class="mb-3 nav-link" href="@GetCuentasLink()">
                     <span class="bi bi-fill-nav-menu" aria-hidden="true"></span> Cuentas
+                </NavLink> *@
+
+                <NavLink class="mb-3 nav-link" href="#" @onclick="NavigateToCuentasAsync"> 
+                    <span class="bi bi-fill-nav-menu" aria-hidden="true"></span> Cuentas 
                 </NavLink>
                 <NavLink class="mb-3 nav-link" href="tiposconta">
                     <span class="bi bi-fill-nav-menu" aria-hidden="true"></span> Tipos de documentos
