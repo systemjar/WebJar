@@ -16,6 +16,7 @@ namespace WebJar.Shared.Entities
         [Display(Name = "Codigo contable")]
         [MaxLength(11, ErrorMessage = "El campo {0} no puede tener mas de {1} carácteres")]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
+        [CodigoCuentaValido(ErrorMessage = "El Código ingresado no es válido")]
         public string Codigo { get; set; } = null!;
 
         [Display(Name = "Nombre de la cuenta")]
