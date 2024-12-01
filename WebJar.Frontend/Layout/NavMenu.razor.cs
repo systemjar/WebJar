@@ -33,10 +33,13 @@ namespace WebJar.Frontend.Layout
             showSubMenu2 = !showSubMenu2;
         }
 
+        public int aa = 2;
+
         private async Task NavigateToCuentasAsync()
         {
             if (EmpresaService.EmpresaSeleccionada != null && EmpresaService.EmpresaSeleccionada.Id != 0)
             {
+                await Task.Delay(100);
                 NavigationManager.NavigateTo($"/cuentas/{EmpresaService.EmpresaSeleccionada.Id}");
             }
             else
