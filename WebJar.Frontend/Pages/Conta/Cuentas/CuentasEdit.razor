@@ -1,0 +1,13 @@
+﻿@page "/cuentas/edit/{CuentaId:int}"
+
+<h3>Editar empresa</h3>
+
+@if (cuenta is null)
+{
+    <Loading/>
+}
+else
+{
+    <CuentaForm @ref="cuentaForm" Cuenta="cuenta" OnValidSubmit="EditAsync" ReturnAction="Return" />
+}
+

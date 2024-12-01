@@ -1,0 +1,44 @@
+﻿@page "/cuentas/{EmpresaId:int}"
+
+@if (empresa == null)
+{
+    <Loading/>
+}
+else
+{
+    <h3>@empresa.Nombre</h3>
+    <h4>Maestro de Cuentas</h4>
+
+    <div class="mb-2">
+        <a class="btn btn-primary" href="/cuentas/create/@empresa.Id">Nueva Cuenta</a>
+        <a class="btn btn-success" href="/">Salir</a>
+    </div>
+    <GenericList MyList="empresa.Cuentas!.ToList()">
+        <Body>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Codigo</th>
+                        <th>Nombre</th>
+                        <th>Debe/Haber</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var cuenta in empresa.Cuentas!)
+                    {
+                        <tr>
+                            <td>@cuenta.Codigo</td>
+                            <td>@cuenta.Nombre</td>
+                            <td>@cuenta.DebeHaber</td>
+                            <td>
+                                <a class="btn btn-warning btn-sm" href="/cuentas/edit/@cuenta.Id">Editar</a>
+                                <button class="btn btn-danger btn-sm" @onclick=@(() => DeleteAsync(cuenta))>Eliminar</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </Body>
+    </GenericList>
+}

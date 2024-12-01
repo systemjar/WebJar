@@ -1,0 +1,30 @@
+﻿@using WebJar.Shared.Enums
+<NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation" />
+
+<EditForm EditContext="editContext" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator />
+    <div class="mb-3">
+        <label>Codigo:</label>
+        <div>
+            <InputText class="form-control" @bind-Value="@Cuenta.Codigo" />
+            <ValidationMessage For="@(() => Cuenta.Codigo)" />
+        </div>
+        <label>Cuenta:</label>
+        <div>
+            <InputText class="form-control" @bind-Value="@Cuenta.Nombre" />
+            <ValidationMessage For="@(() => Cuenta.Nombre)" />
+        </div>
+        <label>Debe/Haber:</label>
+        <div>
+            <InputSelect class="form-control" @bind-Value="Cuenta.DebeHaber">
+                @foreach (TipoSaldoCuenta tipoSaldo in Enum.GetValues(typeof(TipoSaldoCuenta)))
+                {
+                    <option value="@tipoSaldo">@tipoSaldo</option>
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => Cuenta.DebeHaber)" />
+        </div>
+    </div>
+    <button class="btn btn-primary" type="submit">Guardar Cambios</button>
+    <button class="btn btn-success" @onclick="ReturnAction">Regresar</button>
+</EditForm>

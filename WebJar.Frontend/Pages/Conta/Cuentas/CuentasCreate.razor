@@ -1,0 +1,7 @@
+﻿@page "/cuentas/create/{EmpresaId:int}"
+
+<h3>Crear una nueva Empresa</h3>
+
+<CuentaForm @ref="cuentaForm" Cuenta="cuenta" OnValidSubmit="CreateAsync" ReturnAction="Return" />
+
+

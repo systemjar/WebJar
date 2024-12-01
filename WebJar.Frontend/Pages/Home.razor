@@ -1,2 +1,58 @@
 ﻿@page "/"
- 
+@*
+@using WebJar.Frontend.Shared
+@using WebJar.Shared.Servicios
+@inject EmpresaService EmpresaService
+
+<h3>Selecciona la empresa en la que va a trabajar</h3>
+
+@if (LEmpresas is null)
+{
+    <Loading />
+}
+else
+{
+    <GenericList MyList="LEmpresas">
+        <Body>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nit</th>
+                        <th>Nombre</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var empresa in LEmpresas!)
+                    {
+                        <tr>
+                            <td>
+                                @empresa.Nit
+                            </td>
+                            <td>
+                                @empresa.Nombre
+                            </td>
+                            @if (@EmpresaService.EmpresaSeleccionada != null)
+                            {
+                                mostrarBoton = !(@EmpresaService.EmpresaSeleccionada.Nit == empresa.Nit);
+                            }
+                            else
+                            {
+                                mostrarBoton = true;
+                            }
+                            <td>
+                                @if (mostrarBoton)
+                                {
+                                    <button @onclick="() => SelEmpresa(empresa)" class="btn btn-sm btn-primary">
+                                        <i class="bi bi-trash" /> Seleccionar
+                                    </button>
+                                }
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </Body>
+    </GenericList>
+}  *@

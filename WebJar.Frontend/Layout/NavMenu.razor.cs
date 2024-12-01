@@ -15,6 +15,9 @@ namespace WebJar.Frontend.Layout
         private bool showSubSubMenu1 = false;
         private bool showSubMenu2 = false;
 
+        //
+        public int queEmpresa = 2;
+
         private void ToggleSubMenu()
         {
             showSubMenuConta = !showSubMenuConta;
