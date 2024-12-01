@@ -1,10 +1,10 @@
 ﻿@page "/"
-@*
-@using WebJar.Frontend.Shared
-@using WebJar.Shared.Servicios
 @inject EmpresaService EmpresaService
 
+@using WebJar.Shared.Servicios
+
 <h3>Selecciona la empresa en la que va a trabajar</h3>
+
 
 @if (LEmpresas is null)
 {
@@ -26,15 +26,11 @@ else
                     @foreach (var empresa in LEmpresas!)
                     {
                         <tr>
-                            <td>
-                                @empresa.Nit
-                            </td>
-                            <td>
-                                @empresa.Nombre
-                            </td>
+                            <td>@empresa.Nit</td>
+                            <td>@empresa.Nombre</td>
                             @if (@EmpresaService.EmpresaSeleccionada != null)
                             {
-                                mostrarBoton = !(@EmpresaService.EmpresaSeleccionada.Nit == empresa.Nit);
+                                mostrarBoton = !(@EmpresaService.EmpresaSeleccionada.Id == empresa.Id);
                             }
                             else
                             {
@@ -55,4 +51,4 @@ else
             </table>
         </Body>
     </GenericList>
-}  *@
+}

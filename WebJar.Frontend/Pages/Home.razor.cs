@@ -1,42 +1,40 @@
-﻿//using CurrieTechnologies.Razor.SweetAlert2;
-//using Microsoft.AspNetCore.Components;
-//using WebJar.Frontend.Repositories;
-//using WebJar.Shared.Entities;
-//using WebJar.Shared.Servicios;
+﻿using CurrieTechnologies.Razor.SweetAlert2;
+using Microsoft.AspNetCore.Components;
+using WebJar.Frontend.Repositories;
+using WebJar.Shared.Entities;
+using WebJar.Shared.Servicios;
 
-//namespace WebJar.Frontend.Pages
-//{
-//    public partial class Home
-//    {
-//        [Inject] private NavigationManager NavigationManager { get; set; } = null!;
-//        [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
+namespace WebJar.Frontend.Pages
+{
+    public partial class Home
+    {
+        [Inject] private NavigationManager NavigationManager { get; set; } = null!;
+        [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
+        [Inject] private IRepository repository { get; set; } = null!;
+        public List<Empresa>? LEmpresas { get; set; } = new List<Empresa>();
 
-//        [Inject] private IRepository Repository { get; set; } = null!;
+        private bool mostrarBoton = false;
 
-//        public List<Empresa>? LEmpresas { get; set; }
+        protected override async Task OnInitializedAsync()
+        {
+            await LoadAsync();
+        }
 
-//        public bool mostrarBoton = false;
+        private async Task LoadAsync()
+        {
+            var responseHttp = await repository.GetAsync<List<Empresa>>("/api/empresa");
+            if (responseHttp.Error)
+            {
+                var message = await responseHttp.GetErrorMessageAsync();
+                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                return;
+            }
+            LEmpresas = responseHttp.Response;
+        }
 
-//        protected override async Task OnInitializedAsync()
-//        {
-//            await LoadAsync();
-//        }
-
-//        private async Task LoadAsync()
-//        {
-//            var responseHttp = await Repository.GetAsync<List<Empresa>>("/api/empresa");
-//            if (responseHttp.Error)
-//            {
-//                var message = await responseHttp.GetErrorMessageAsync();
-//                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
-//                return;
-//            }
-//            LEmpresas = responseHttp.Response!;
-//        }
-
-//        public void SelEmpresa(Empresa empresa)
-//        {
-//            EmpresaService.SeleccionarEmpresa(empresa);
-//        }
-//    }
-//}
+        public void SelEmpresa(Empresa empresa)
+        {
+            EmpresaService.SeleccionarEmpresa(empresa);
+        }
+    }
+}

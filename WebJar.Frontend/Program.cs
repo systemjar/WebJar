@@ -14,8 +14,10 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https:/
 
 //Inyectamos el Repositorio del Http del Frontend
 builder.Services.AddScoped<IRepository, Repository>();
+
 //Inyectar el Servicio
 builder.Services.AddSingleton<EmpresaService>(); // Registra el servicio como singleton
+
 //Inyectamos el SweetAlert2
 builder.Services.AddSweetAlert2();
 
