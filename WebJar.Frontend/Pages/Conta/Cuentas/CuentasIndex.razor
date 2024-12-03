@@ -16,7 +16,8 @@ else
         <a class="btn btn-primary" href="/cuentas/create/@empresa.Id">Nueva Cuenta</a>
         <a class="btn btn-success" href="/">Salir</a>
     </div>
-    <GenericList MyList="empresa.Cuentas!.ToList()">
+    <GenericList MyList="empresa.Cuentas!.OrderBy(x => x.Codigo)
+                                        .ToList()">
         <Body>
             <table class="table table-striped">
                 <thead>

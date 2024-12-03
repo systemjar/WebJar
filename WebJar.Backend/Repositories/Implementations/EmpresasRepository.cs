@@ -19,7 +19,7 @@ namespace WebJar.Backend.Repositories.Implementations
         public override async Task<ActionResponse<Empresa>> GetAsync(int id)
         {
             var empresa = await _context.Empresas
-                                .Include(x => x.Cuentas)
+                                .Include(x => x.Cuentas.OrderBy(c => c.Codigo))
                                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if (empresa == null)

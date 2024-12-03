@@ -19,7 +19,7 @@ namespace WebJar.Shared.Validaciones.Conta
             }
 
             var empresa = empresaService.EmpresaSeleccionada;
-            avar codigo = cuenta.Codigo;
+            var codigo = cuenta.Codigo;
             var niveles = new[] { empresa.Nivel1, empresa.Nivel2, empresa.Nivel3, empresa.Nivel4, empresa.Nivel5, empresa.Nivel6 };
             // Convertir los niveles a enteros
             int[] nivelesInt = new int[niveles.Length];
