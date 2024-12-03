@@ -20,13 +20,13 @@ namespace WebJar.Frontend.Pages.Conta.Cuentas
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
-        [Inject] private EmpresaService EmpresaService { get; set; }
+        [Inject] private EmpresaService? EmpresaService { get; set; }
 
         private async Task CreateAsync()
         {
             cuenta.EmpresaId = EmpresaId;
 
-            bool isValid = await ValidarYAsignarCodigoMayor(cuenta, EmpresaService.EmpresaSeleccionada);
+            bool isValid = await ValidarYAsignarCodigoMayor(cuenta, EmpresaService?.EmpresaSeleccionada!);
 
             if (!isValid)
             {
@@ -84,7 +84,7 @@ namespace WebJar.Frontend.Pages.Conta.Cuentas
                 if (codigo.Length == longitudAcumulada)
                 {
                     var codigoAnterior = codigo.Substring(0, codigo.Length - niveles[i]);
-                    var cuentaAnterior = empresa.Cuentas.FirstOrDefault(c => c.Codigo == codigoAnterior);
+                    var cuentaAnterior = empresa.Cuentas!.FirstOrDefault(c => c.Codigo == codigoAnterior);
                     if (cuentaAnterior != null)
                     {
                         cuenta.CodigoMayor = codigoAnterior;

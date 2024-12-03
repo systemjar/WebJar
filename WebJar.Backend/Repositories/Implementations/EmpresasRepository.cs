@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebJar.Backend.Data;
+using WebJar.Backend.Helpers;
 using WebJar.Backend.Repositories.Implementations.Generico;
 using WebJar.Backend.Repositories.Interfaces;
+using WebJar.Shared.DTOs;
 using WebJar.Shared.Entities;
 using WebJar.Shared.Responses;
 
@@ -19,7 +21,7 @@ namespace WebJar.Backend.Repositories.Implementations
         public override async Task<ActionResponse<Empresa>> GetAsync(int id)
         {
             var empresa = await _context.Empresas
-                                .Include(x => x.Cuentas.OrderBy(c => c.Codigo))
+                                .Include(x => x.Cuentas!.OrderBy(c => c.Codigo))
                                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if (empresa == null)
@@ -47,6 +49,22 @@ namespace WebJar.Backend.Repositories.Implementations
             {
                 WasSuccess = true,
                 Result = empresas
+            };
+        }
+
+        public override async Task<ActionResponse<IEnumerable<Empresa>>> GetAsync(PaginationDTO pagination)
+        {
+            var queryable = _context.Empresas
+            .Include(c => c.Cuentas)
+            .AsQueryable();
+
+            return new ActionResponse<IEnumerable<Empresa>>
+            {
+                WasSuccess = true,
+                Result = await queryable
+                                .OrderBy(e => e.Nit)
+                                .Paginate(pagination)
+                                .ToListAsync()
             };
         }
     }

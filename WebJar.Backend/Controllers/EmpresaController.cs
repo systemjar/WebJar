@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebJar.Backend.UnitOfWork.Interfaces;
 using WebJar.Backend.UnitOfWork.Interfaces.Generico;
+using WebJar.Shared.DTOs;
 using WebJar.Shared.Entities;
 
 namespace WebJar.Backend.Controllers
@@ -27,10 +28,21 @@ namespace WebJar.Backend.Controllers
             return NotFound(response.Message);
         }
 
-        [HttpGet]
+        [HttpGet("full")]
         public override async Task<IActionResult> GetAsync()
         {
             var response = await _empresasUnitOfWork.GetAsync();
+            if (response.WasSuccess)
+            {
+                return Ok(response.Result);
+            }
+            return BadRequest();
+        }
+
+        [HttpGet]
+        public override async Task<IActionResult> GetAsync(PaginationDTO pagination)
+        {
+            var response = await _empresasUnitOfWork.GetAsync(pagination);
             if (response.WasSuccess)
             {
                 return Ok(response.Result);

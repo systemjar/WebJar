@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebJar.Backend.Data;
+using WebJar.Backend.Helpers;
 using WebJar.Backend.Repositories.Interfaces.Generico;
+using WebJar.Shared.DTOs;
 using WebJar.Shared.Responses;
 
 namespace WebJar.Backend.Repositories.Implementations.Generico
@@ -96,6 +98,39 @@ namespace WebJar.Backend.Repositories.Implementations.Generico
             {
                 WasSuccess = true,
                 Result = await _entity.ToListAsync()
+            };
+        }
+
+        public virtual async Task<ActionResponse<IEnumerable<T>>> GetAsync(PaginationDTO pagination)
+        {
+            //Es la entidad queryable es decir la instruccion para obtener toda la lista pero sin ejecutar
+            var queryable = _entity.AsQueryable();
+
+            //Le agregamos al queryable la paginacion y lo ejecutamos, asi nos devuelve solo lo que necesitamos
+            return new ActionResponse<IEnumerable<T>>
+            {
+                WasSuccess = true,
+                Result = await queryable
+                .Paginate(pagination)
+                .ToListAsync()
+            };
+        }
+
+        public virtual async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination)
+        {
+            var queryable = _entity.AsQueryable();
+
+            //Contamos los registros
+            double count = await queryable.CountAsync();
+
+            //Redondea haci arriba
+            int totalPages = (int)Math.Ceiling(count / pagination.RecordsNumber);
+
+            //Regresamos el total de paginas
+            return new ActionResponse<int>
+            {
+                WasSuccess = true,
+                Result = totalPages
             };
         }
 

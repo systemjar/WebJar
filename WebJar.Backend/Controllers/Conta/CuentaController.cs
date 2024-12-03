@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebJar.Backend.UnitOfWork.Interfaces.Conta;
 using WebJar.Backend.UnitOfWork.Interfaces.Generico;
+using WebJar.Shared.DTOs;
 using WebJar.Shared.Entities;
 
 namespace WebJar.Backend.Controllers.Conta
@@ -27,13 +28,35 @@ namespace WebJar.Backend.Controllers.Conta
             return NotFound();
         }
 
-        [HttpGet]
+        [HttpGet("full")]
         public override async Task<IActionResult> GetAsync()
         {
             var response = await _cuentasUnitOfWork.GetAsync();
             if (response.WasSuccess)
             {
                 return Ok(response.Result);
+            }
+            return BadRequest();
+        }
+
+        [HttpGet]
+        public override async Task<IActionResult> GetAsync(PaginationDTO pagination)
+        {
+            var response = await _cuentasUnitOfWork.GetAsync(pagination);
+            if (response.WasSuccess)
+            {
+                return Ok(response.Result);
+            }
+            return BadRequest();
+        }
+
+        [HttpGet("totalPages")]
+        public override async Task<IActionResult> GetPagesAsync([FromQuery] PaginationDTO pagination)
+        {
+            var action = await _cuentasUnitOfWork.GetTotalPagesAsync(pagination);
+            if (action.WasSuccess)
+            {
+                return Ok(action.Result);
             }
             return BadRequest();
         }

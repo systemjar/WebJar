@@ -1,7 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using WebJar.Backend.Data;
+using WebJar.Backend.Helpers;
 using WebJar.Backend.Repositories.Implementations.Generico;
 using WebJar.Backend.Repositories.Interfaces.Conta;
+using WebJar.Shared.DTOs;
 using WebJar.Shared.Entities;
 using WebJar.Shared.Responses;
 
@@ -39,12 +42,46 @@ namespace WebJar.Backend.Repositories.Implementations.Conta
         public override async Task<ActionResponse<IEnumerable<Cuenta>>> GetAsync()
         {
             var cuentas = await _context.Cuentas
+                                .OrderBy(x => x.Codigo)
                                 .ToListAsync();
 
             return new ActionResponse<IEnumerable<Cuenta>>()
             {
                 WasSuccess = true,
                 Result = cuentas
+            };
+        }
+
+        public override async Task<ActionResponse<IEnumerable<Cuenta>>> GetAsync(PaginationDTO pagination)
+        {
+            var cuentas = _context.Cuentas
+                          .Where(x => x.Empresa!.Id == pagination.Id)
+                          .AsQueryable();
+
+            return new ActionResponse<IEnumerable<Cuenta>>()
+            {
+                WasSuccess = true,
+                Result = await cuentas
+                                .OrderBy(x => x.Codigo)
+                                .Paginate(pagination)
+                                .ToListAsync()
+            };
+        }
+
+        public override async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination)
+        {
+            var cuentas = _context.Cuentas
+                        .Where(x => x.Empresa!.Id == pagination.Id)
+                        .AsQueryable();
+
+            double count = await cuentas.CountAsync();
+
+            int totalPages = (int)Math.Ceiling(count / pagination.RecordsNumber);
+
+            return new ActionResponse<int>
+            {
+                WasSuccess = true,
+                Result = totalPages
             };
         }
     }

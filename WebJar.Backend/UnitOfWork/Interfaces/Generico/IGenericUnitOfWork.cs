@@ -1,4 +1,5 @@
-﻿using WebJar.Shared.Responses;
+﻿using WebJar.Shared.DTOs;
+using WebJar.Shared.Responses;
 
 namespace WebJar.Backend.UnitOfWork.Interfaces.Generico
 {
@@ -7,6 +8,12 @@ namespace WebJar.Backend.UnitOfWork.Interfaces.Generico
         Task<ActionResponse<T>> GetAsync(int id);
 
         Task<ActionResponse<IEnumerable<T>>> GetAsync();
+
+        //Para obtener una lista con paginacion
+        Task<ActionResponse<IEnumerable<T>>> GetAsync(PaginationDTO pagination);
+
+        //Para obtener una lista con paginacion necesito saber cuantas pagins tiene la lista
+        Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination);
 
         Task<ActionResponse<T>> AddAsync(T entity);
 
