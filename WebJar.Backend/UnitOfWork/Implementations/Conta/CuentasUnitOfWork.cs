@@ -1,4 +1,5 @@
-﻿using WebJar.Backend.Repositories.Interfaces.Conta;
+﻿using WebJar.Backend.Repositories.Implementations.Generico;
+using WebJar.Backend.Repositories.Interfaces.Conta;
 using WebJar.Backend.Repositories.Interfaces.Generico;
 using WebJar.Backend.UnitOfWork.Implementations.Gererico;
 using WebJar.Backend.UnitOfWork.Interfaces.Conta;
@@ -10,11 +11,11 @@ namespace WebJar.Backend.UnitOfWork.Implementations.Conta
 {
     public class CuentasUnitOfWork : GenericUnitOfWork<Cuenta>, ICuentasUnitOfWork
     {
-        private readonly IGenericRepository<Cuenta> _cuentasRepository;
+        private readonly ICuentasRepository _cuentasRepository;
 
         public CuentasUnitOfWork(IGenericRepository<Cuenta> repository, ICuentasRepository cuentasRepository) : base(repository)
         {
-            _cuentasRepository = repository;
+            _cuentasRepository = cuentasRepository;
         }
 
         public override async Task<ActionResponse<Cuenta>> GetAsync(int id) => await _cuentasRepository.GetAsync(id);

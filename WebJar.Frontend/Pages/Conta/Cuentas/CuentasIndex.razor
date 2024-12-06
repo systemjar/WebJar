@@ -16,8 +16,9 @@ else
         <a class="btn btn-primary" href="/cuentas/create/@empresa.Id">Nueva Cuenta</a>
         <a class="btn btn-success" href="/">Salir</a>
     </div>
-    <GenericList MyList="empresa.Cuentas!.OrderBy(x => x.Codigo)
-                                        .ToList()">
+    @* <GenericList MyList="empresa.Cuentas!.OrderBy(x => x.Codigo)
+                                        .ToList()"> *@
+    <GenericList MyList="LCuentas!">
         <Body>
             <table class="table table-striped">
                 <thead>
@@ -28,7 +29,7 @@ else
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var cuenta in empresa.Cuentas!)
+                    @foreach (var cuenta in LCuentas!)
                     {
                         <tr>
                             <td>@cuenta.Codigo</td>
@@ -43,6 +44,10 @@ else
                 </tbody>
 
             </table>
+            <Pagination CurrentPage="currentPage"
+                        TotalPages="totalPages"
+                        SelectedPage="SelectedPageAsync"
+                        RecordsNumber="SelectedRecordsNumberAsync" />
         </Body>
     </GenericList>
 }

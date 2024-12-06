@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 using WebJar.Frontend.Repositories;
 using WebJar.Shared.Entities.Conta;
 
-namespace WebJar.Frontend.Pages.Conta
+namespace WebJar.Frontend.Pages.Conta.TiposConta
 {
     public partial class TiposContaCreate
     {

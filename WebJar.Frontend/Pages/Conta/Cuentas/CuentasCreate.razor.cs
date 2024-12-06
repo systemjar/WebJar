@@ -92,7 +92,7 @@ namespace WebJar.Frontend.Pages.Conta.Cuentas
                     }
                     else
                     {
-                        await SweetAlertService.FireAsync("Error", "El código de nivel anterior {codigoAnterior} no existe.", SweetAlertIcon.Error);
+                        await SweetAlertService.FireAsync("Error", $"El código de nivel anterior {codigoAnterior} no existe.", SweetAlertIcon.Error);
                         return false;
                         //throw new Exception($"El código de nivel anterior {codigoAnterior} no existe.");
                     }

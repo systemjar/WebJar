@@ -40,7 +40,7 @@ namespace WebJar.Backend.Controllers.Conta
         }
 
         [HttpGet]
-        public override async Task<IActionResult> GetAsync(PaginationDTO pagination)
+        public override async Task<IActionResult> GetAsync([FromQuery] PaginationDTO pagination)
         {
             var response = await _cuentasUnitOfWork.GetAsync(pagination);
             if (response.WasSuccess)

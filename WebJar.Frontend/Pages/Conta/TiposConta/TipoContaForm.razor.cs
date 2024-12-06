@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Routing;
 using WebJar.Shared.Entities.Conta;
 
-namespace WebJar.Frontend.Pages.Conta
+namespace WebJar.Frontend.Pages.Conta.TiposConta
 {
     public partial class TipoContaForm
     {
