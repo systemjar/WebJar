@@ -1,7 +1,9 @@
 using CurrieTechnologies.Razor.SweetAlert2;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using WebJar.Frontend;
+using WebJar.Frontend.AuthenticationProviders;
 using WebJar.Frontend.Repositories;
 using WebJar.Shared.Servicios;
 
@@ -10,7 +12,7 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 /*builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });*/
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7032/") });
+builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7032/") });
 
 //Inyectamos el Repositorio del Http del Frontend
 builder.Services.AddScoped<IRepository, Repository>();
@@ -20,5 +22,11 @@ builder.Services.AddSingleton<EmpresaService>(); // Registra el servicio como si
 
 //Inyectamos el SweetAlert2
 builder.Services.AddSweetAlert2();
+
+//Servicio de autenticacion
+builder.Services.AddAuthorizationCore();
+
+//Proveedor de seguridad
+builder.Services.AddScoped<AuthenticationStateProvider, AuthenticationProviderTest>();
 
 await builder.Build().RunAsync();

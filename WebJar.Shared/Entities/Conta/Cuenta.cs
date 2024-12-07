@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WebJar.Shared.Validaciones.Conta;
 
-namespace WebJar.Shared.Entities
+namespace WebJar.Shared.Entities.Conta
 {
     public class Cuenta
     {
@@ -40,7 +40,7 @@ namespace WebJar.Shared.Entities
         public decimal Abonos { get; set; } = 0;
 
         [Column(TypeName = "decimal(13,2)")]
-        public decimal SaldoAcumulado => DebeHaber == "D" ? (Saldo + Cargos - Abonos) : (Saldo - Cargos + Abonos);
+        public decimal SaldoAcumulado => DebeHaber == "D" ? Saldo + Cargos - Abonos : Saldo - Cargos + Abonos;
 
         [Column(TypeName = "decimal(13,2)")]
         public decimal SaldoMes { get; set; } = 0;
@@ -57,9 +57,9 @@ namespace WebJar.Shared.Entities
             get
             {
                 if (DebeHaber == "D")
-                    return (SaldoMes + CargosMes - AbonosMes);
+                    return SaldoMes + CargosMes - AbonosMes;
                 else
-                    return (SaldoMes - CargosMes + AbonosMes);
+                    return SaldoMes - CargosMes + AbonosMes;
             }
         }
 

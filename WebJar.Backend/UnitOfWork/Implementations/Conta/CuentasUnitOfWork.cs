@@ -4,7 +4,7 @@ using WebJar.Backend.Repositories.Interfaces.Generico;
 using WebJar.Backend.UnitOfWork.Implementations.Gererico;
 using WebJar.Backend.UnitOfWork.Interfaces.Conta;
 using WebJar.Shared.DTOs;
-using WebJar.Shared.Entities;
+using WebJar.Shared.Entities.Conta;
 using WebJar.Shared.Responses;
 
 namespace WebJar.Backend.UnitOfWork.Implementations.Conta

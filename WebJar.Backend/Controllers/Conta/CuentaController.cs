@@ -2,7 +2,7 @@
 using WebJar.Backend.UnitOfWork.Interfaces.Conta;
 using WebJar.Backend.UnitOfWork.Interfaces.Generico;
 using WebJar.Shared.DTOs;
-using WebJar.Shared.Entities;
+using WebJar.Shared.Entities.Conta;
 
 namespace WebJar.Backend.Controllers.Conta
 {

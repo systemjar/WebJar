@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using WebJar.Shared.Entities.Conta;
 
 namespace WebJar.Shared.Entities
 {
@@ -133,5 +134,7 @@ namespace WebJar.Shared.Entities
         public string Resultado { get; set; } = null!;
 
         public ICollection<Cuenta>? Cuentas { get; set; }
+
+        public ICollection<Usuario>? Usuarios { get; set; }
     }
 }

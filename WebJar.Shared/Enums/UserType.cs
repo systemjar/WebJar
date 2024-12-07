@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Orders.Shared.Enums
+namespace WebJar.Shared.Enums
 {
     public enum UserType
     {

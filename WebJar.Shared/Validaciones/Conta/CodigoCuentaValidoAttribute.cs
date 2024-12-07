@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using WebJar.Shared.Entities;
 using WebJar.Shared.Servicios;
 using Microsoft.Extensions.DependencyInjection;
+using WebJar.Shared.Entities.Conta;
 
 namespace WebJar.Shared.Validaciones.Conta
 {

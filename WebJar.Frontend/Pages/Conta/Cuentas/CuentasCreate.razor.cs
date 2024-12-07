@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components;
 using WebJar.Frontend.Pages.Empresas;
 using WebJar.Frontend.Repositories;
 using WebJar.Shared.Entities;
+using WebJar.Shared.Entities.Conta;
 using WebJar.Shared.Servicios;
 
 namespace WebJar.Frontend.Pages.Conta.Cuentas

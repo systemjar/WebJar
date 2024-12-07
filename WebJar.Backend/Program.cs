@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using WebJar.Backend.Data;
@@ -13,6 +14,7 @@ using WebJar.Backend.UnitOfWork.Implementations.Gererico;
 using WebJar.Backend.UnitOfWork.Interfaces;
 using WebJar.Backend.UnitOfWork.Interfaces.Conta;
 using WebJar.Backend.UnitOfWork.Interfaces.Generico;
+using WebJar.Shared.Entities;
 using WebJar.Shared.Servicios;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -41,12 +43,32 @@ builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepositor
 builder.Services.AddScoped<IEmpresasRepository, EmpresasRepository>();
 builder.Services.AddScoped<ICuentasRepository, CuentasRepository>();
 builder.Services.AddScoped<ITiposContaRepository, TiposContaRepository>();
+builder.Services.AddScoped<IUsuariosRepository, UsuariosRepository>();
 
 //Inyectamos las UnitOfWork
 builder.Services.AddScoped(typeof(IGenericUnitOfWork<>), typeof(GenericUnitOfWork<>));
 builder.Services.AddScoped<IEmpresasUnitOfWork, EmpresasUnitOfWork>();
 builder.Services.AddScoped<ICuentasUnitOfWork, CuentasUnitOfWork>();
 builder.Services.AddScoped<ITiposContaUnitOfWork, TiposContaUnitOfWork>();
+builder.Services.AddScoped<IUsuariosUnitOfWork, UsuariosUnitOfWork>();
+
+//Estas lineas es para decirle al sistema como comportarse con los usuarios
+builder.Services.AddIdentity<Usuario, IdentityRole>(x =>
+{
+    //x.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultAuthenticatorProvider;
+    //x.SignIn.RequireConfirmedEmail = true;
+    x.User.RequireUniqueEmail = true;
+    x.Password.RequireDigit = false;
+    x.Password.RequiredUniqueChars = 0;
+    x.Password.RequireLowercase = false;
+    x.Password.RequireNonAlphanumeric = false;
+    x.Password.RequireUppercase = false;
+    //x.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+    //x.Lockout.MaxFailedAccessAttempts = 3;
+    //x.Lockout.AllowedForNewUsers = true;
+})
+.AddEntityFrameworkStores<DataContext>()
+.AddDefaultTokenProviders();
 
 var app = builder.Build();
 

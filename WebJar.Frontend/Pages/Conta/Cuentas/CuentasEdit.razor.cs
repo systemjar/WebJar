@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 using System.Net;
 using WebJar.Frontend.Pages.Empresas;
 using WebJar.Frontend.Repositories;
-using WebJar.Shared.Entities;
+using WebJar.Shared.Entities.Conta;
 
 namespace WebJar.Frontend.Pages.Conta.Cuentas
 {
@@ -58,7 +58,7 @@ namespace WebJar.Frontend.Pages.Conta.Cuentas
         private void Return()
         {
             cuentaForm!.FormPostedSuccessfully = true;
-            NavigationManager.NavigateTo($"/cuentas/{cuenta.EmpresaId}");
+            NavigationManager.NavigateTo($"/cuentas/{cuenta!.EmpresaId}");
         }
     }
 }
