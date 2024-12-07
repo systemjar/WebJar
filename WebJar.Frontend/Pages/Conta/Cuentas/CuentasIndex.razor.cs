@@ -82,6 +82,7 @@ namespace WebJar.Frontend.Pages.Conta.Cuentas
         {
             ValidateRecordsNumber(RecordsNumber);
             var url = $"api/cuenta/totalPages?id={EmpresaId}&recordsnumber={RecordsNumber}";
+
             if (!string.IsNullOrEmpty(Filter))
             {
                 url += $"&filter={Filter}";
@@ -147,6 +148,20 @@ namespace WebJar.Frontend.Pages.Conta.Cuentas
             LCuentas = responseHttp.Response;
 
             return true;
+        }
+
+        private async Task CleanFilterAsync()
+        {
+            Filter = string.Empty;
+            await ApplyFilterAsync();
+        }
+
+        //Para aplicar el filtro y refrescar la interfaz
+        private async Task FilterCallBack(string filter)
+        {
+            Filter = filter;
+            await ApplyFilterAsync();
+            StateHasChanged();
         }
 
         private async Task ApplyFilterAsync()

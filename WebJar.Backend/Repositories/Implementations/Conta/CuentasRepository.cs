@@ -58,6 +58,12 @@ namespace WebJar.Backend.Repositories.Implementations.Conta
                           .Where(x => x.Empresa!.Id == pagination.Id)
                           .AsQueryable();
 
+            if (!string.IsNullOrWhiteSpace(pagination.Filter))
+            {
+                cuentas = cuentas.Where(x => x.Codigo.ToLower().Contains(pagination.Filter.ToLower()) ||
+                                             x.Nombre.ToLower().Contains(pagination.Filter.ToLower()));
+            }
+
             return new ActionResponse<IEnumerable<Cuenta>>()
             {
                 WasSuccess = true,
@@ -73,6 +79,12 @@ namespace WebJar.Backend.Repositories.Implementations.Conta
             var cuentas = _context.Cuentas
                         .Where(x => x.Empresa!.Id == pagination.Id)
                         .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(pagination.Filter))
+            {
+                cuentas = cuentas.Where(x => x.Codigo.ToLower().Contains(pagination.Filter.ToLower()) ||
+                                             x.Nombre.ToLower().Contains(pagination.Filter.ToLower()));
+            }
 
             double count = await cuentas.CountAsync();
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Orders.Shared.Entities;
 using WebJar.Shared.Entities;
 using WebJar.Shared.Entities.Conta;
 
@@ -15,6 +16,9 @@ namespace WebJar.Backend.Data
         public DbSet<Empresa> Empresas { get; set; }
 
         public DbSet<TipoConta> TiposConta { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Rol> Roles { get; set; }
+        public DbSet<UsuarioRol> UsuarioRoles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -23,6 +27,8 @@ namespace WebJar.Backend.Data
             modelBuilder.Entity<Cuenta>().HasIndex(x => new { x.EmpresaId, x.Codigo }).IsUnique();
 
             modelBuilder.Entity<Empresa>().HasIndex(x => x.Nit).IsUnique();
+
+            modelBuilder.Entity<TipoConta>().HasIndex(x => x.Nombre).IsUnique();
 
             modelBuilder.Entity<TipoConta>().HasIndex(x => x.Nombre).IsUnique();
 

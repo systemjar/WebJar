@@ -40,11 +40,13 @@ builder.Services.AddSingleton<EmpresaService>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IEmpresasRepository, EmpresasRepository>();
 builder.Services.AddScoped<ICuentasRepository, CuentasRepository>();
+builder.Services.AddScoped<ITiposContaRepository, TiposContaRepository>();
 
 //Inyectamos las UnitOfWork
 builder.Services.AddScoped(typeof(IGenericUnitOfWork<>), typeof(GenericUnitOfWork<>));
 builder.Services.AddScoped<IEmpresasUnitOfWork, EmpresasUnitOfWork>();
 builder.Services.AddScoped<ICuentasUnitOfWork, CuentasUnitOfWork>();
+builder.Services.AddScoped<ITiposContaUnitOfWork, TiposContaUnitOfWork>();
 
 var app = builder.Build();
 

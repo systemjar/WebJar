@@ -7,11 +7,13 @@
 </div>
 <GenericList MyList="LTiposConta">
     <Body>
+        <Filter PlaceHolder="Buscar tipo de documento..." Callback=@FilterCallBack />
+
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Tipo Documento</th>
-                    <th></th>
+                    <th style="width:210px"></th>
                 </tr>
             </thead>
             <tbody>

@@ -22,5 +22,7 @@ namespace WebJar.Backend.UnitOfWork.Implementations
         public override async Task<ActionResponse<IEnumerable<Empresa>>> GetAsync() => await _empresasRepository.GetAsync();
 
         public override async Task<ActionResponse<IEnumerable<Empresa>>> GetAsync(PaginationDTO pagination) => await _empresasRepository.GetAsync(pagination);
+
+        public override async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination) => await _empresasRepository.GetTotalPagesAsync(pagination);
     }
 }

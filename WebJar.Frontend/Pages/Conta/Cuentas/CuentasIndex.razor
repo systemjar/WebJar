@@ -20,12 +20,15 @@ else
                                         .ToList()"> *@
     <GenericList MyList="LCuentas!">
         <Body>
+            <Filter PlaceHolder="Buscar cuenta..." Callback=@FilterCallBack />
+
             <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>Codigo</th>
                         <th>Nombre</th>
                         <th>Debe/Haber</th>
+                        <th style="width:210px"></th>
                     </tr>
                 </thead>
                 <tbody>

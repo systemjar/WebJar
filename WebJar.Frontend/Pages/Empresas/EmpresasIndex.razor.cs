@@ -133,6 +133,12 @@ namespace WebJar.Frontend.Pages.Empresas
             await LoadAsync(page);
         }
 
+        private async Task CleanFilterAsync()
+        {
+            Filter = string.Empty;
+            await ApplyFilterAsync();
+        }
+
         private async Task ApplyFilterAsync()
         {
             int page = 1;

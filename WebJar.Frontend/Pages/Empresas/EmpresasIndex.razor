@@ -8,12 +8,14 @@
 
 <GenericList MyList="LEmpresas">
     <Body>
+        <Filter PlaceHolder="Buscar empresa..." Callback=@FilterCallBack />
+
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th style="width:300px">Nit</th>
                     <th style="width:800px">Nombre</th>
-                    <th></th>
+                    <th style="width:210px"></th>
                 </tr>
             </thead>
             <tbody>

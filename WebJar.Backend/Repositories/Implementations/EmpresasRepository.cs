@@ -58,6 +58,12 @@ namespace WebJar.Backend.Repositories.Implementations
             .Include(c => c.Cuentas)
             .AsQueryable();
 
+            if (!string.IsNullOrWhiteSpace(pagination.Filter))
+            {
+                queryable = queryable
+                            .Where(x => x.Nombre.ToLower().Contains(pagination.Filter.ToLower()) || x.Nit.ToLower().Contains(pagination.Filter.ToLower()));
+            }
+
             return new ActionResponse<IEnumerable<Empresa>>
             {
                 WasSuccess = true,
@@ -65,6 +71,30 @@ namespace WebJar.Backend.Repositories.Implementations
                                 .OrderBy(e => e.Nit)
                                 .Paginate(pagination)
                                 .ToListAsync()
+            };
+        }
+
+        public override async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination)
+        {
+            var queryable = _context.Empresas.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(pagination.Filter))
+            {
+                queryable = queryable
+                            .Where(x => x.Nombre.ToLower().Contains(pagination.Filter.ToLower()) || x.Nit.ToLower().Contains(pagination.Filter.ToLower()));
+            }
+
+            //Contamos los registros
+            double count = await queryable.CountAsync();
+
+            //Redondea haci arriba
+            int totalPages = (int)Math.Ceiling(count / pagination.RecordsNumber);
+
+            //Regresamos el total de paginas
+            return new ActionResponse<int>
+            {
+                WasSuccess = true,
+                Result = totalPages
             };
         }
     }
