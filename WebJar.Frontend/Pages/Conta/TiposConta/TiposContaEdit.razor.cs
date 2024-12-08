@@ -1,10 +1,12 @@
 using CurrieTechnologies.Razor.SweetAlert2;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using WebJar.Frontend.Repositories;
 using WebJar.Shared.Entities.Conta;
 
 namespace WebJar.Frontend.Pages.Conta.TiposConta
 {
+    [Authorize(Roles = "Admin,Conta")]
     public partial class TiposContaEdit
     {
         private TipoConta? tipoConta;

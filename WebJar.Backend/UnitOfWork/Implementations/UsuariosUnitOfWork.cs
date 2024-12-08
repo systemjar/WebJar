@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using WebJar.Backend.Repositories.Interfaces;
 using WebJar.Backend.UnitOfWork.Interfaces;
+using WebJar.Shared.DTOs;
 using WebJar.Shared.Entities;
 
 namespace WebJar.Backend.UnitOfWork.Implementations
@@ -22,9 +23,13 @@ namespace WebJar.Backend.UnitOfWork.Implementations
 
         public async Task CheckRoleAsync(string roleName) => await _usersRepository.CheckRoleAsync(roleName);
 
-        public async Task<Usuario> GetUserAsync(string email) => await _usersRepository.GetUserAsync(email);
+        public async Task<Usuario?> GetUserAsync(string email) => await _usersRepository.GetUserAsync(email);
 
         public async Task<bool> IsUserInRoleAsync(Usuario user, string roleName) => await
         _usersRepository.IsUserInRoleAsync(user, roleName);
+
+        public async Task<SignInResult> LoginAsync(LoginDTO model) => await _usersRepository.LoginAsync(model);
+
+        public async Task LogoutAsync() => await _usersRepository.LogoutAsync();
     }
 }

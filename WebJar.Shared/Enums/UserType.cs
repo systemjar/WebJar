@@ -11,21 +11,29 @@ namespace WebJar.Shared.Enums
     {
         [Description("Administrador")] Admin,
 
-        [Description("Contabilidad")] Conta,
+        [Description("userConta")] UConta,
+        [Description("adminConta")] AConta,
 
-        [Description("Inventarios")] Inve,
+        [Description("userInve")] UInve,
+        [Description("adminInve")] AInve,
 
-        [Description("Cuentas por Pagar")] PorPagar,
+        [Description("userPagar")] UPagar,
+        [Description("adminPagar")] APagar,
 
-        [Description("Cuentas por Cobrar")] PorCobrar,
+        [Description("userCobrar")] UCobrar,
+        [Description("adminCobrar")] ACobrar,
 
-        [Description("Iva")] Iva,
+        [Description("userIva")] UIva,
+        [Description("adminIva")] AIva,
 
-        [Description("Activos Fijos")] Activos,
+        [Description("userActivos")] UActivos,
+        [Description("adminActivos")] AActivos,
 
-        [Description("Facturacion")] Facturacion,
+        [Description("userFactura")] UFactura,
+        [Description("adminFactura")] AFactura,
 
-        [Description("Punto de Venta")] Punto,
+        [Description("userPuntoV")] UPuntoV,
+        [Description("adminPuntoV")] APuntoV,
 
         [Description("Invitado")] Guest
     }

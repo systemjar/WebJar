@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WebJar.Backend.UnitOfWork.Interfaces;
 using WebJar.Backend.UnitOfWork.Interfaces.Generico;
 using WebJar.Shared.DTOs;
@@ -7,6 +9,7 @@ using WebJar.Shared.Entities;
 namespace WebJar.Backend.Controllers
 {
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     public class EmpresaController : GenericController<Empresa>
     {

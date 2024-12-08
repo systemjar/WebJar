@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using WebJar.Backend.Data;
 using WebJar.Backend.Repositories.Interfaces;
+using WebJar.Shared.DTOs;
 using WebJar.Shared.Entities;
 
 namespace WebJar.Backend.Repositories.Implementations
@@ -11,12 +12,17 @@ namespace WebJar.Backend.Repositories.Implementations
         private readonly DataContext _context;
         private readonly UserManager<Usuario> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly SignInManager<Usuario> _signInManager;
 
-        public UsuariosRepository(DataContext context, UserManager<Usuario> userManager, RoleManager<IdentityRole> roleManager)
+        public UsuariosRepository(DataContext context,
+                                    UserManager<Usuario> userManager,
+                                    RoleManager<IdentityRole> roleManager,
+                                    SignInManager<Usuario> signInManager)
         {
             _context = context;
             _userManager = userManager;
             _roleManager = roleManager;
+            _signInManager = signInManager;
         }
 
         public async Task<IdentityResult> AddUserAsync(Usuario user, string password)
@@ -42,7 +48,7 @@ namespace WebJar.Backend.Repositories.Implementations
             }
         }
 
-        public async Task<Usuario> GetUserAsync(string email)
+        public async Task<Usuario?> GetUserAsync(string email)
         {
             return await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
         }
@@ -50,6 +56,16 @@ namespace WebJar.Backend.Repositories.Implementations
         public async Task<bool> IsUserInRoleAsync(Usuario user, string roleName)
         {
             return await _userManager.IsInRoleAsync(user, roleName);
+        }
+
+        public async Task<SignInResult> LoginAsync(LoginDTO model)
+        {
+            return await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
+        }
+
+        public async Task LogoutAsync()
+        {
+            await _signInManager.SignOutAsync();
         }
     }
 }

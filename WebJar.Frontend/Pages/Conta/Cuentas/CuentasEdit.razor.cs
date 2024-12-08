@@ -1,4 +1,5 @@
 using CurrieTechnologies.Razor.SweetAlert2;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using System.Net;
 using WebJar.Frontend.Pages.Empresas;
@@ -7,6 +8,7 @@ using WebJar.Shared.Entities.Conta;
 
 namespace WebJar.Frontend.Pages.Conta.Cuentas
 {
+    [Authorize(Roles = "Admin,Conta")]
     public partial class CuentasEdit
     {
         [Parameter] public int CuentaId { get; set; }

@@ -1,10 +1,12 @@
 using CurrieTechnologies.Razor.SweetAlert2;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using WebJar.Frontend.Repositories;
 using WebJar.Shared.Entities;
 
 namespace WebJar.Frontend.Pages.Empresas
 {
+    [Authorize(Roles = "Admin,Conta")]
     public partial class EmpresasEdit
     {
         private Empresa? empresa;

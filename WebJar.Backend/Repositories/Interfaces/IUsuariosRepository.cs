@@ -8,7 +8,7 @@ namespace WebJar.Backend.Repositories.Interfaces
     public interface IUsuariosRepository
     {
         //Buscar el usuario por email
-        Task<Usuario> GetUserAsync(string email);
+        Task<Usuario?> GetUserAsync(string email);
 
         //Adiciona un usuario con su password y regresa si fue existosa la operacion
         Task<IdentityResult> AddUserAsync(Usuario user, string password);
@@ -21,5 +21,11 @@ namespace WebJar.Backend.Repositories.Interfaces
 
         //Revisa si ese usuario pertenece a ese rol
         Task<bool> IsUserInRoleAsync(Usuario user, string roleName);
+
+        //Para poder hacer Login
+        Task<SignInResult> LoginAsync(LoginDTO model);
+
+        //Para Logout
+        Task LogoutAsync();
     }
 }

@@ -15,35 +15,44 @@
 <div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
     <nav class="flex-column">
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Inicio
+            <NavLink class="nav-link" href="selempresa" Match="NavLinkMatch.All">
+                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Seleccionar Empresa
             </NavLink>
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="empresas">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Empresas
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="">
-                <span class="bi bi-fill-nav-menu" aria-hidden="true" @onclick="ToggleSubMenu">Contabilidad</span>
-            </NavLink>
-            @if (showSubMenuConta)
-            {
-                
-                @* <NavLink class="mb-3 nav-link" href="@GetCuentasLink()">
+        <AuthorizeView Roles="Admin">
+            <Authorized>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="empresas">
+                        @*<span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Mentenimiento Empresas*@
+                        <span></span> Mantenimiento Empresas
+                    </NavLink>
+                </div>
+            </Authorized>
+        </AuthorizeView>
+        <AuthorizeView Roles="UConta">
+            <Authorized>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="">
+                        <span class="bi bi-fill-nav-menu" aria-hidden="true" @onclick="ToggleSubMenu">Contabilidad</span>
+                    </NavLink>
+                    @if (showSubMenuConta)
+                    {
+
+                        @* <NavLink class="mb-3 nav-link" href="@GetCuentasLink()">
                     <span class="bi bi-fill-nav-menu" aria-hidden="true"></span> Cuentas
                 </NavLink> *@
 
-                <NavLink class="mb-3 nav-link" href="#" @onclick="NavigateToCuentasAsync"> 
-                    <span class="bi bi-fill-nav-menu" aria-hidden="true"></span> Cuentas 
-                </NavLink>
-                <NavLink class="mb-3 nav-link" href="tiposconta">
-                    <span class="bi bi-fill-nav-menu" aria-hidden="true"></span> Tipos de documentos
-                </NavLink>
-            }
+                        <NavLink class="mb-3 nav-link" href="#" @onclick="NavigateToCuentasAsync">
+                            <span class="bi bi-fill-nav-menu" aria-hidden="true"></span> Cuentas
+                        </NavLink>
+                        <NavLink class="mb-3 nav-link" href="tiposconta">
+                            <span class="bi bi-fill-nav-menu" aria-hidden="true"></span> Tipos de documentos
+                        </NavLink>
+                    }
 
-        </div>
+                </div>
+            </Authorized>
+        </AuthorizeView>
     </nav>
 </div>
 

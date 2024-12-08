@@ -1,4 +1,5 @@
 using CurrieTechnologies.Razor.SweetAlert2;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using System.Net.Http.Headers;
 using WebJar.Frontend.Repositories;
@@ -6,6 +7,7 @@ using WebJar.Shared.Entities;
 
 namespace WebJar.Frontend.Pages.Empresas
 {
+    [Authorize(Roles = "Admin,Conta")]
     public partial class EmpresasCreate
     {
         private Empresa empresa = new();

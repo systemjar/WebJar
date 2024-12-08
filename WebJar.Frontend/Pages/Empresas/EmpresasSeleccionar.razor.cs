@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using WebJar.Frontend.Repositories;
 using WebJar.Shared.Entities;
-using WebJar.Shared.Entities.Conta;
+using WebJar.Shared.Servicios;
 
 namespace WebJar.Frontend.Pages.Empresas
 {
     [Authorize(Roles = "Admin,Conta")]
-    public partial class EmpresasIndex
+    public partial class EmpresasSeleccionar
     {
         //Para funcionamiento de la paginacion
         private int currentPage = 1;
@@ -24,6 +24,8 @@ namespace WebJar.Frontend.Pages.Empresas
         [Parameter, SupplyParameterFromQuery] public int RecordsNumber { get; set; } = 10;
 
         public List<Empresa>? LEmpresas { get; set; } = new List<Empresa>();
+
+        private bool mostrarBoton = false;
 
         protected override async Task OnInitializedAsync()
         {
@@ -135,12 +137,6 @@ namespace WebJar.Frontend.Pages.Empresas
             await LoadAsync(page);
         }
 
-        private async Task CleanFilterAsync()
-        {
-            Filter = string.Empty;
-            await ApplyFilterAsync();
-        }
-
         private async Task ApplyFilterAsync()
         {
             int page = 1;
@@ -156,48 +152,9 @@ namespace WebJar.Frontend.Pages.Empresas
             await SelectedPageAsync(page);
         }
 
-        private async Task DeleteAsync(Empresa empresa)
+        public void SelEmpresa(Empresa empresa)
         {
-            var result = await SweetAlertService.FireAsync(new SweetAlertOptions
-            {
-                Title = "Confirmación",
-                Text = $"Esta seguro de borrar el tipo de documento: {empresa.Nombre}?",
-                Icon = SweetAlertIcon.Question,
-                ShowCancelButton = true
-            });
-
-            var confirm = string.IsNullOrEmpty(result.Value);
-            if (confirm)
-            {
-                return;
-            }
-
-            var resposeHttp = await Repository.DeleteAsync<Empresa>($"api/empresa/{empresa.Id}");
-
-            if (resposeHttp.Error)
-            {
-                if (resposeHttp.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
-                {
-                    NavigationManager.NavigateTo("/empresas");
-                }
-                else
-                {
-                    var mensajeError = await resposeHttp.GetErrorMessageAsync();
-                    await SweetAlertService.FireAsync("Error", mensajeError, SweetAlertIcon.Error);
-                }
-                return;
-            }
-
-            await LoadAsync();
-
-            var toast = SweetAlertService.Mixin(new SweetAlertOptions
-            {
-                Toast = true,
-                Position = SweetAlertPosition.BottomEnd,
-                ShowConfirmButton = true,
-                Timer = 3000
-            });
-            await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Registro borrado con éxito.");
+            EmpresaService.SeleccionarEmpresa(empresa);
         }
     }
 }

@@ -1,0 +1,60 @@
+﻿@page "/selempresa"
+@inject EmpresaService EmpresaService
+
+@using WebJar.Shared.Servicios
+
+<h3>Selecciona la empresa en la que va a trabajar</h3>
+
+
+@if (LEmpresas is null)
+{
+    <Loading />
+}
+else
+{
+    <GenericList MyList="LEmpresas">
+        <Body>
+            <Filter PlaceHolder="Buscar empresa..." Callback=@FilterCallBack />
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th style="width:300px">Nit</th>
+                        <th style="width:800px">Nombre</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var empresa in LEmpresas!)
+                    {
+                        <tr>
+                            <td>@empresa.Nit</td>
+                            <td>@empresa.Nombre</td>
+                            @if (@EmpresaService.EmpresaSeleccionada != null)
+                            {
+                                mostrarBoton = !(@EmpresaService.EmpresaSeleccionada.Id == empresa.Id);
+                            }
+                            else
+                            {
+                                mostrarBoton = true;
+                            }
+                            <td>
+                                @if (mostrarBoton)
+                                {
+                                    <button @onclick="() => SelEmpresa(empresa)" class="btn btn-sm btn-primary">
+                                        <i class="bi bi-trash" /> Seleccionar
+                                    </button>
+                                }
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <Pagination CurrentPage="currentPage"
+                        TotalPages="totalPages"
+                        SelectedPage="SelectedPageAsync"
+                        RecordsNumber="SelectedRecordsNumberAsync" />
+        </Body>
+    </GenericList>
+}
