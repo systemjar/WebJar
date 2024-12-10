@@ -41,6 +41,13 @@ namespace WebJar.Backend.Repositories.Implementations.Conta
             };
         }
 
+        public async Task<IEnumerable<TipoConta>> GetComboAsync()
+        {
+            return await _context.TiposConta
+                       .OrderBy(c => c.Nombre)
+                       .ToListAsync();
+        }
+
         public override async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination)
         {
             var queryable = _context.TiposConta

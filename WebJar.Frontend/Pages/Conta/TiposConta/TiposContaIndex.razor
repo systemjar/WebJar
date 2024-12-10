@@ -1,39 +1,49 @@
 ﻿@page "/tiposconta"
 
-<h3>Tipos de documentos contables</h3>
+<div class="card">
+    <div class="card-header">
+        <span>
+            <i class="bi bi-globe-americas" /> Tipos de documentos contables
+            <a class="btn btn-primary btn-sm float-end" href="/tiposconta/create">
+                <i class="bi bi-plus-square" /> Nuevo Tipo de documento</a>
+        </span>
+    </div>
+    <div class="card-body">
 
-<div class="mb-3">
-    <a class="btn btn-primary" href="/tiposconta/create">Nuevo Tipo de documento</a>
-</div>
-<GenericList MyList="LTiposConta">
-    <Body>
-        <Filter PlaceHolder="Buscar tipo de documento..." Callback=@FilterCallBack />
+        <GenericList MyList="LTiposConta">
+            <Body>
+                <Filter PlaceHolder="Buscar tipo de documento..." Callback=@FilterCallBack />
 
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Tipo Documento</th>
-                    <th style="width:210px"></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var tiposConta in LTiposConta!)
-                {
-                    <tr>
-                        <td>
-                            @tiposConta.Nombre
-                        </td>
-                        <td>
-                            <a href="/tiposconta/edit/@tiposConta.Id" class="btn btn-warning">Editar</a>
-                            <button class="btn btn-danger" @onclick=@(() => DeleteAsync(tiposConta))>Borrar</button>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Tipo Documento</th>
+                            <th style="width:210px"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var tiposConta in LTiposConta!)
+                        {
+                            <tr>
+                                <td>
+                                    @tiposConta.Nombre
+                                </td>
+                                <td>
+                                    <a href="/tiposconta/edit/@tiposConta.Id" class="btn btn-warning">Editar</a>
+                                    <button class="btn btn-danger" @onclick=@(() => DeleteAsync(tiposConta))>Borrar</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </Body>
+        </GenericList>
+    </div>
+    <div class="card-footer">
         <Pagination CurrentPage="currentPage"
                     TotalPages="totalPages"
                     SelectedPage="SelectedPageAsync"
                     RecordsNumber="SelectedRecordsNumberAsync" />
-    </Body>
-</GenericList>
+    </div>
+</div>
+

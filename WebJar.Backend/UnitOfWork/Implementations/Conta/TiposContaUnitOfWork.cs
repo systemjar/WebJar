@@ -21,6 +21,8 @@ namespace WebJar.Backend.UnitOfWork.Implementations.Conta
 
         public override async Task<ActionResponse<IEnumerable<TipoConta>>> GetAsync(PaginationDTO pagination) => await _tiposContaRepository.GetAsync(pagination);
 
+        public async Task<IEnumerable<TipoConta>> GetComboAsync() => await _tiposContaRepository.GetComboAsync();
+
         public override async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination) => await _tiposContaRepository.GetTotalPagesAsync(pagination);
     }
 }

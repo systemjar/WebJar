@@ -35,7 +35,7 @@ namespace WebJar.Backend.Data
         private async Task CheckRolesAsync()
         {
             await _usuariosUnitOfWork.CheckRoleAsync(UserType.Admin.ToString());
-            await _usuariosUnitOfWork.CheckRoleAsync(UserType.AConta.ToString());
+            await _usuariosUnitOfWork.CheckRoleAsync(UserType.Guest.ToString());
         }
 
         private async Task<Usuario> CheckUsersAsync(string document, string firstName, string lastName, string email, string phoneNumber, string address, UserType userType)

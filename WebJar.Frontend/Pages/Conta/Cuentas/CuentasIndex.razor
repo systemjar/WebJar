@@ -10,47 +10,59 @@
 else
 {
     <h3>@empresa.Nombre</h3>
-    <h4>Maestro de Cuentas</h4>
-
-    <div class="mb-2">
-        <a class="btn btn-primary" href="/cuentas/create/@empresa.Id">Nueva Cuenta</a>
-        <a class="btn btn-success" href="/">Salir</a>
-    </div>
+    
     @* <GenericList MyList="empresa.Cuentas!.OrderBy(x => x.Codigo)
                                         .ToList()"> *@
-    <GenericList MyList="LCuentas!">
-        <Body>
-            <Filter PlaceHolder="Buscar cuenta..." Callback=@FilterCallBack />
 
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Codigo</th>
-                        <th>Nombre</th>
-                        <th>Debe/Haber</th>
-                        <th style="width:210px"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var cuenta in LCuentas!)
-                    {
-                        <tr>
-                            <td>@cuenta.Codigo</td>
-                            <td>@cuenta.Nombre</td>
-                            <td>@cuenta.DebeHaber</td>
-                            <td>
-                                <a class="btn btn-warning btn-sm" href="/cuentas/edit/@cuenta.Id">Editar</a>
-                                <button class="btn btn-danger btn-sm" @onclick=@(() => DeleteAsync(cuenta))>Eliminar</button>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
+    <div class="card">
+        <div class="card-header">
+            <span>
+                <i class="bi bi-globe-americas" /> Maestro de cuentas
+                <a class="btn btn-primary btn-sm float-end" href="/cuentas/create/@empresa.Id">
+                    <i class="bi bi-plus-square" /> Nuevo Codigo de Cuenta
 
-            </table>
+                </a>
+            </span>
+        </div>
+        <div class="card-body">
+            <GenericList MyList="LCuentas!">
+                <Body>
+                    <Filter PlaceHolder="Buscar cuenta..." Callback=@FilterCallBack />
+
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Codigo</th>
+                                <th>Nombre</th>
+                                <th>Debe/Haber</th>
+                                <th style="width:210px"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var cuenta in LCuentas!)
+                            {
+                                <tr>
+                                    <td>@cuenta.Codigo</td>
+                                    <td>@cuenta.Nombre</td>
+                                    <td>@cuenta.DebeHaber</td>
+                                    <td>
+                                        <a class="btn btn-warning btn-sm" href="/cuentas/edit/@cuenta.Id">Editar</a>
+                                        <button class="btn btn-danger btn-sm" @onclick=@(() => DeleteAsync(cuenta))>Eliminar</button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+
+                    </table>
+                    
+                </Body>
+            </GenericList>
+        </div>
+        <div class="card-footer">
             <Pagination CurrentPage="currentPage"
                         TotalPages="totalPages"
                         SelectedPage="SelectedPageAsync"
                         RecordsNumber="SelectedRecordsNumberAsync" />
-        </Body>
-    </GenericList>
+        </div>
+    </div>
 }

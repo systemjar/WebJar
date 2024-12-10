@@ -1,40 +1,49 @@
 ﻿@page "/empresas"
 
-<h3>Mantenimiento Empresas</h3>
+<div class="card">
+    <div class="card-header">
+        <span>
+            <i class="bi bi-globe-americas" /> Mantenimiento de Empresas
+            <a class="btn btn-primary btn-sm float-end" href="/empresas/create">
+                <i class="bi bi-plus-square" /> Nueva Empresa
+            </a>
+        </span>
+    </div>
+    <div class="card-body">
+        <GenericList MyList="LEmpresas">
+            <Body>
+                <Filter PlaceHolder="Buscar empresa..." Callback=@FilterCallBack />
 
-<div class="mb-3">
-    <a class="btn btn-primary" href="/empresas/create">Nueva Empresa</a>
-</div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th style="width:300px">Nit</th>
+                            <th style="width:800px">Nombre</th>
+                            <th style="width:210px"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var empresa in LEmpresas!)
+                        {
+                            <tr>
+                                <td>@empresa.Nit</td>
+                                <td>@empresa.Nombre</td>
+                                <td>
+                                    <a href="/empresas/edit/@empresa.Id" class="btn btn-warning">Editar</a>
+                                    <button class="btn btn-danger" @onclick=@(() => DeleteAsync(empresa))>Eliminar</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
 
-<GenericList MyList="LEmpresas">
-    <Body>
-        <Filter PlaceHolder="Buscar empresa..." Callback=@FilterCallBack />
-
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th style="width:300px">Nit</th>
-                    <th style="width:800px">Nombre</th>
-                    <th style="width:210px"></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var empresa in LEmpresas!)
-                {
-                    <tr>
-                        <td>@empresa.Nit</td>
-                        <td>@empresa.Nombre</td>
-                        <td>
-                            <a href="/empresas/edit/@empresa.Id"class="btn btn-warning">Editar</a>
-                            <button class="btn btn-danger" @onclick=@(() => DeleteAsync(empresa))>Eliminar</button>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+            </Body>
+        </GenericList>
+    </div>
+    <div class="card-footer">
         <Pagination CurrentPage="currentPage"
                     TotalPages="totalPages"
                     SelectedPage="SelectedPageAsync"
                     RecordsNumber="SelectedRecordsNumberAsync" />
-    </Body>
-</GenericList>
+    </div>
+</div>

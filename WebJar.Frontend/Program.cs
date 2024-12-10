@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using WebJar.Frontend;
 using WebJar.Frontend.AuthenticationProviders;
 using WebJar.Frontend.Repositories;
+using WebJar.Frontend.Services;
 using WebJar.Shared.Servicios;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -27,6 +28,12 @@ builder.Services.AddSweetAlert2();
 builder.Services.AddAuthorizationCore();
 
 //Proveedor de seguridad
-builder.Services.AddScoped<AuthenticationStateProvider, AuthenticationProviderTest>();
+//Linea de pruba inicial
+//builder.Services.AddScoped<AuthenticationStateProvider, AuthenticationProviderTest>();
+builder.Services.AddScoped<AuthenticationProviderJWT>();
+builder.Services.AddScoped<AuthenticationStateProvider, AuthenticationProviderJWT>(x =>
+x.GetRequiredService<AuthenticationProviderJWT>());
+builder.Services.AddScoped<ILoginService, AuthenticationProviderJWT>(x =>
+x.GetRequiredService<AuthenticationProviderJWT>());
 
 await builder.Build().RunAsync();

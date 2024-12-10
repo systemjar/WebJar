@@ -10,5 +10,7 @@ namespace WebJar.Backend.Repositories.Interfaces.Conta
         Task<ActionResponse<IEnumerable<TipoConta>>> GetAsync(PaginationDTO pagination);
 
         Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination);
+
+        Task<IEnumerable<TipoConta>> GetComboAsync();
     }
 }

@@ -1,7 +1,6 @@
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
-using WebJar.Frontend.Pages.Empresas;
 using WebJar.Frontend.Repositories;
 using WebJar.Shared.Entities;
 using WebJar.Shared.Entities.Conta;
