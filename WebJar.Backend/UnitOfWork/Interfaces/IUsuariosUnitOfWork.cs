@@ -9,6 +9,12 @@ namespace WebJar.Backend.UnitOfWork.Interfaces
         //Buscar el usuario por email
         Task<Usuario?> GetUserAsync(string email);
 
+        Task<Usuario> GetUserAsync(Guid userId);
+
+        Task<IdentityResult> ChangePasswordAsync(Usuario user, string currentPassword, string newPassword);
+
+        Task<IdentityResult> UpdateUserAsync(Usuario user);
+
         //Adiciona un usuario con su password y regresa si fue existosa la operacion
         Task<IdentityResult> AddUserAsync(Usuario user, string password);
 

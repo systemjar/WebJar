@@ -24,6 +24,13 @@ namespace WebJar.Backend.Controllers
             _configuration = configuration;
         }
 
+        [HttpGet]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> GetAsync()
+        {
+            return Ok(await _usuariosUnitOfWork.GetUserAsync(User.Identity!.Name!));
+        }
+
         [HttpPost("CreateUser")]
         public async Task<IActionResult> CreateUser([FromBody] UserDTO model)
         {
@@ -47,6 +54,48 @@ namespace WebJar.Backend.Controllers
                 return Ok(BuildToken(user!));
             }
             return BadRequest("Email o contraseña incorrectos.");
+        }
+
+        [HttpPut]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> PutAsync(Usuario user)
+        {
+            try
+            {
+                var currentUser = await _usuariosUnitOfWork.GetUserAsync(User.Identity!.Name!);
+
+                if (currentUser == null)
+                {
+                    return NotFound();
+                }
+
+                //if (!string.IsNullOrEmpty(user.Photo))
+                //{
+                //    var photoUser = Convert.FromBase64String(user.Photo);
+                //    user.Photo = await _fileStorage.SaveFileAsync(photoUser, ".jpg", _container);
+                //}
+
+                currentUser.Document = user.Document;
+                currentUser.FirstName = user.FirstName;
+                currentUser.LastName = user.LastName;
+                currentUser.Address = user.Address;
+                currentUser.PhoneNumber = user.PhoneNumber;
+                currentUser.Photo = !string.IsNullOrEmpty(user.Photo) && user.Photo != currentUser.Photo ? user.Photo :
+                currentUser.Photo;
+
+                var result = await _usuariosUnitOfWork.UpdateUserAsync(currentUser);
+
+                if (result.Succeeded)
+                {
+                    return Ok(BuildToken(currentUser));
+                }
+
+                return BadRequest(result.Errors.FirstOrDefault());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         private TokenDTO BuildToken(Usuario user)

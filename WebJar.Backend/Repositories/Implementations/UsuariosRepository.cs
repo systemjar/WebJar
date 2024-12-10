@@ -35,6 +35,11 @@ namespace WebJar.Backend.Repositories.Implementations
             await _userManager.AddToRoleAsync(user, roleName);
         }
 
+        public async Task<IdentityResult> ChangePasswordAsync(Usuario user, string currentPassword, string newPassword)
+        {
+            return await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+        }
+
         public async Task CheckRoleAsync(string roleName)
         {
             var roleExists = await _roleManager.RoleExistsAsync(roleName);
@@ -50,7 +55,16 @@ namespace WebJar.Backend.Repositories.Implementations
 
         public async Task<Usuario?> GetUserAsync(string email)
         {
-            return await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
+            return await _context.Users
+                .Include(x => x.Empresas)
+                .FirstOrDefaultAsync(x => x.Email == email);
+        }
+
+        public async Task<Usuario> GetUserAsync(Guid userId)
+        {
+            var user = await _context.Users
+                        .FirstOrDefaultAsync(x => x.Id == userId.ToString());
+            return user!;
         }
 
         public async Task<bool> IsUserInRoleAsync(Usuario user, string roleName)
@@ -66,6 +80,11 @@ namespace WebJar.Backend.Repositories.Implementations
         public async Task LogoutAsync()
         {
             await _signInManager.SignOutAsync();
+        }
+
+        public async Task<IdentityResult> UpdateUserAsync(Usuario user)
+        {
+            return await _userManager.UpdateAsync(user);
         }
     }
 }

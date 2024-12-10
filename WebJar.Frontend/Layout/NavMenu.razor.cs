@@ -1,5 +1,6 @@
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
+using WebJar.Shared.Servicios;
 
 namespace WebJar.Frontend.Layout
 {
@@ -15,10 +16,11 @@ namespace WebJar.Frontend.Layout
         }
 
         private bool showSubMenuConta = false;
+        private bool showSubMenuUsuario = false;
+        private bool showSubMenu1 = false;
         private bool showSubSubMenu1 = false;
-        private bool showSubMenu2 = false;
 
-        private void ToggleSubMenu()
+        private void ToggleSubMenuConta()
         {
             showSubMenuConta = !showSubMenuConta;
         }
@@ -28,12 +30,10 @@ namespace WebJar.Frontend.Layout
             showSubSubMenu1 = !showSubSubMenu1;
         }
 
-        private void ToggleSubMenu2()
+        private void ToggleSubMenuUsuario()
         {
-            showSubMenu2 = !showSubMenu2;
+            showSubMenuUsuario = !showSubMenuUsuario;
         }
-
-        public int aa = 2;
 
         private async Task NavigateToCuentasAsync()
         {
@@ -51,7 +51,6 @@ namespace WebJar.Frontend.Layout
                     ShowCancelButton = false
                 });
             }
-            //Para el commit
         }
     }
 }

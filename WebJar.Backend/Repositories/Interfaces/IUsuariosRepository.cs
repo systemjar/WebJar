@@ -10,8 +10,17 @@ namespace WebJar.Backend.Repositories.Interfaces
         //Buscar el usuario por email
         Task<Usuario?> GetUserAsync(string email);
 
+        //Buscar usuario por ID cuando confirmamos usuario
+        Task<Usuario> GetUserAsync(Guid userId);
+
         //Adiciona un usuario con su password y regresa si fue existosa la operacion
         Task<IdentityResult> AddUserAsync(Usuario user, string password);
+
+        //Editar usuario
+        Task<IdentityResult> UpdateUserAsync(Usuario user);
+
+        //Cambiar contraseña
+        Task<IdentityResult> ChangePasswordAsync(Usuario user, string currentPassword, string newPassword);
 
         //Chequea si existe el rol, si no existe lo crea
         Task CheckRoleAsync(string roleName);
