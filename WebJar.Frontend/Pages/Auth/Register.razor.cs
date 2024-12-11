@@ -1,10 +1,12 @@
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
+using System;
 using WebJar.Frontend.Repositories;
 using WebJar.Frontend.Services;
 using WebJar.Shared.DTOs;
 using WebJar.Shared.Entities;
 using WebJar.Shared.Enums;
+using static MudBlazor.CategoryTypes;
 
 namespace WebJar.Frontend.Pages.Auth
 {
@@ -24,7 +26,9 @@ namespace WebJar.Frontend.Pages.Auth
             userDTO.UserType = UserType.Guest;
             loading = true;
 
-            var responseHttp = await Repository.PostAsync<UserDTO, TokenDTO>("/api/account/CreateUser", userDTO);
+            //var responseHttp = await Repository.PostAsync<UserDTO, TokenDTO>("/api/account/CreateUser", userDTO);
+            //Ahora usamos el post que no devuelve nada
+            var responseHttp = await Repository.PostAsync<UserDTO>("/api/account/CreateUser", userDTO);
 
             loading = false;
 
@@ -34,8 +38,10 @@ namespace WebJar.Frontend.Pages.Auth
                 await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
                 return;
             }
-            await LoginService.LoginAsync(responseHttp.Response!.Token);
-            NavigationManager.NavigateTo("/");
+
+            await SweetAlertService.FireAsync("Confirmación", "Su cuenta ha sido creada con éxito. Se te ha enviado un correo electrónico con las instrucciones para activar tu usuario.", SweetAlertIcon.Info);
+
+            NavigationManager.NavigateTo(" / ");
         }
     }
 }

@@ -5,9 +5,11 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using WebJar.Backend.Helpers;
 using WebJar.Backend.UnitOfWork.Interfaces;
 using WebJar.Shared.DTOs;
 using WebJar.Shared.Entities;
+using WebJar.Shared.Responses;
 
 namespace WebJar.Backend.Controllers
 {
@@ -17,11 +19,13 @@ namespace WebJar.Backend.Controllers
     {
         private readonly IUsuariosUnitOfWork _usuariosUnitOfWork;
         private readonly IConfiguration _configuration;
+        private readonly IMailHelper _mailHelper;
 
-        public AccountController(IUsuariosUnitOfWork usersUnitOfWork, IConfiguration configuration)
+        public AccountController(IUsuariosUnitOfWork usersUnitOfWork, IConfiguration configuration, IMailHelper mailHelper)
         {
             _usuariosUnitOfWork = usersUnitOfWork;
             _configuration = configuration;
+            _mailHelper = mailHelper;
         }
 
         [HttpGet]
@@ -36,12 +40,51 @@ namespace WebJar.Backend.Controllers
         {
             Usuario user = model;
             var result = await _usuariosUnitOfWork.AddUserAsync(user, model.Password);
+
             if (result.Succeeded)
             {
                 await _usuariosUnitOfWork.AddUserToRoleAsync(user, user.UserType.ToString());
-                return Ok(BuildToken(user));
+                var response = await SendConfirmationEmailAsync(user);
+                if (response.WasSuccess)
+                {
+                    return NoContent();
+                }
+                return BadRequest(response.Message);
             }
+
             return BadRequest(result.Errors.FirstOrDefault());
+        }
+
+        private async Task<ActionResponse<string>> SendConfirmationEmailAsync(Usuario user)
+        {
+            var myToken = await _usuariosUnitOfWork.GenerateEmailConfirmationTokenAsync(user);
+            var tokenLink = Url.Action("ConfirmEmail", "account", new
+            {
+                userid = user.Id,
+                token = myToken
+            }, HttpContext.Request.Scheme, _configuration["UrlFrontend"]);
+            return _mailHelper.SendMail(user.FullName, user.Email!,
+            $"Orders - Confirmación de cuenta",
+            $"<h1>Orders - Confirmación de cuenta</h1>" +
+            $"<p>Para habilitar el usuario, por favor hacer clic 'Confirmar Email':</p>" +
+            $"<b><a href ={tokenLink}>Confirmar Email</a></b>");
+        }
+
+        [HttpGet("ConfirmEmail")]
+        public async Task<IActionResult> ConfirmEmailAsync(string userId, string token)
+        {
+            token = token.Replace(" ", "+");
+            var user = await _usuariosUnitOfWork.GetUserAsync(new Guid(userId));
+            if (user == null)
+            {
+                return NotFound();
+            }
+            var result = await _usuariosUnitOfWork.ConfirmEmailAsync(user, token);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors.FirstOrDefault());
+            }
+            return NoContent();
         }
 
         [HttpPost("Login")]
@@ -52,6 +95,14 @@ namespace WebJar.Backend.Controllers
             {
                 var user = await _usuariosUnitOfWork.GetUserAsync(model.Email);
                 return Ok(BuildToken(user!));
+            }
+            if (result.IsLockedOut)
+            {
+                return BadRequest("Ha superado el máximo número de intentos, su cuenta está bloqueada, intente de nuevo en 5 minutos.");
+            }
+            if (result.IsNotAllowed)
+            {
+                return BadRequest("El usuario no ha sido habilitado, debes de seguir las instrucciones del correo enviado para poder habilitar el usuario.");
             }
             return BadRequest("Email o contraseña incorrectos.");
         }

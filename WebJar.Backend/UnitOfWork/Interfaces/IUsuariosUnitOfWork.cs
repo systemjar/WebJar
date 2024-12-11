@@ -31,5 +31,9 @@ namespace WebJar.Backend.UnitOfWork.Interfaces
         Task<SignInResult> LoginAsync(LoginDTO model);
 
         Task LogoutAsync();
+
+        Task<string> GenerateEmailConfirmationTokenAsync(Usuario user);
+
+        Task<IdentityResult> ConfirmEmailAsync(Usuario user, string token);
     }
 }

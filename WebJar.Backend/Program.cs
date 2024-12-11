@@ -6,6 +6,7 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Text.Json.Serialization;
 using WebJar.Backend.Data;
+using WebJar.Backend.Helpers;
 using WebJar.Backend.Repositories.Implementations;
 using WebJar.Backend.Repositories.Implementations.Conta;
 using WebJar.Backend.Repositories.Implementations.Generico;
@@ -75,6 +76,9 @@ builder.Services.AddTransient<SeedDb>();
 //Inyectamos el Servicio de la EmpresaService para la variable global de la empresa seleccionada
 builder.Services.AddSingleton<EmpresaService>();
 
+//Inyectar el servicio de correo
+builder.Services.AddScoped<IMailHelper, MailHelper>();
+
 //Inyectamos los Repository
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IEmpresasRepository, EmpresasRepository>();
@@ -92,17 +96,17 @@ builder.Services.AddScoped<IUsuariosUnitOfWork, UsuariosUnitOfWork>();
 //Estas lineas es para decirle al sistema como comportarse con los usuarios
 builder.Services.AddIdentity<Usuario, IdentityRole>(x =>
 {
-    //x.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultAuthenticatorProvider;
-    //x.SignIn.RequireConfirmedEmail = true;
+    x.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultAuthenticatorProvider;
+    x.SignIn.RequireConfirmedEmail = true;
     x.User.RequireUniqueEmail = true;
     x.Password.RequireDigit = false;
     x.Password.RequiredUniqueChars = 0;
     x.Password.RequireLowercase = false;
     x.Password.RequireNonAlphanumeric = false;
     x.Password.RequireUppercase = false;
-    //x.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-    //x.Lockout.MaxFailedAccessAttempts = 3;
-    //x.Lockout.AllowedForNewUsers = true;
+    x.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+    x.Lockout.MaxFailedAccessAttempts = 3;
+    x.Lockout.AllowedForNewUsers = true;
 })
 .AddEntityFrameworkStores<DataContext>()
 .AddDefaultTokenProviders();

@@ -38,5 +38,9 @@ namespace WebJar.Backend.UnitOfWork.Implementations
         public async Task<SignInResult> LoginAsync(LoginDTO model) => await _usersRepository.LoginAsync(model);
 
         public async Task LogoutAsync() => await _usersRepository.LogoutAsync();
+
+        public async Task<string> GenerateEmailConfirmationTokenAsync(Usuario user) => await _usersRepository.GenerateEmailConfirmationTokenAsync(user);
+
+        public async Task<IdentityResult> ConfirmEmailAsync(Usuario user, string token) => await _usersRepository.ConfirmEmailAsync(user, token);
     }
 }

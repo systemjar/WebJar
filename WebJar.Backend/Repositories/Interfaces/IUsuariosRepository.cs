@@ -36,5 +36,9 @@ namespace WebJar.Backend.Repositories.Interfaces
 
         //Para Logout
         Task LogoutAsync();
+
+        Task<string> GenerateEmailConfirmationTokenAsync(Usuario user);
+
+        Task<IdentityResult> ConfirmEmailAsync(Usuario user, string token);
     }
 }

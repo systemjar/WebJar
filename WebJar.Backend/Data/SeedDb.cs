@@ -72,8 +72,8 @@ namespace WebJar.Backend.Data
                 await _usuariosUnitOfWork.AddUserAsync(user, "123456");
                 await _usuariosUnitOfWork.AddUserToRoleAsync(user, userType.ToString());
 
-                //var token = await _usuariosUnitOfWork.GenerateEmailConfirmationTokenAsync(user);
-                //await _usuariosUnitOfWork.ConfirmEmailAsync(user, token);
+                var token = await _usuariosUnitOfWork.GenerateEmailConfirmationTokenAsync(user);
+                await _usuariosUnitOfWork.ConfirmEmailAsync(user, token);
             }
             return user;
         }
