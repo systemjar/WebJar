@@ -197,5 +197,23 @@ namespace WebJar.Backend.Controllers
                 Expiration = expiration
             };
         }
+
+        //Para reeenviar el correo de confirmacion
+        [HttpPost("ResedToken")]
+        public async Task<IActionResult> ResedTokenAsync([FromBody] EmailDTO model)
+        {
+            var user = await _usuariosUnitOfWork.GetUserAsync(model.Email);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            var response = await SendConfirmationEmailAsync(user);
+
+            if (response.WasSuccess)
+            {
+                return NoContent();
+            }
+            return BadRequest(response.Message);
+        }
     }
 }
