@@ -96,5 +96,16 @@ namespace WebJar.Backend.Repositories.Implementations
         {
             return await _userManager.UpdateAsync(user);
         }
+
+        //Para recuperacion de contraseña
+        public async Task<string> GeneratePasswordResetTokenAsync(Usuario user)
+        {
+            return await _userManager.GeneratePasswordResetTokenAsync(user);
+        }
+
+        public async Task<IdentityResult> ResetPasswordAsync(Usuario user, string token, string password)
+        {
+            return await _userManager.ResetPasswordAsync(user, token, password);
+        }
     }
 }

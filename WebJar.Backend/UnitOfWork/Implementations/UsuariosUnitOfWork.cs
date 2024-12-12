@@ -42,5 +42,10 @@ namespace WebJar.Backend.UnitOfWork.Implementations
         public async Task<string> GenerateEmailConfirmationTokenAsync(Usuario user) => await _usersRepository.GenerateEmailConfirmationTokenAsync(user);
 
         public async Task<IdentityResult> ConfirmEmailAsync(Usuario user, string token) => await _usersRepository.ConfirmEmailAsync(user, token);
+
+        //Para recuperacion de contraseña
+        public async Task<string> GeneratePasswordResetTokenAsync(Usuario user) => await _usersRepository.GeneratePasswordResetTokenAsync(user);
+
+        public async Task<IdentityResult> ResetPasswordAsync(Usuario user, string token, string password) => await _usersRepository.ResetPasswordAsync(user, token, password);
     }
 }

@@ -35,5 +35,10 @@ namespace WebJar.Backend.UnitOfWork.Interfaces
         Task<string> GenerateEmailConfirmationTokenAsync(Usuario user);
 
         Task<IdentityResult> ConfirmEmailAsync(Usuario user, string token);
+
+        //Para recuperacion de contraseña
+        Task<string> GeneratePasswordResetTokenAsync(Usuario user);
+
+        Task<IdentityResult> ResetPasswordAsync(Usuario user, string token, string password);
     }
 }

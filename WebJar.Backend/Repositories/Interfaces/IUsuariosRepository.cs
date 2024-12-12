@@ -40,5 +40,10 @@ namespace WebJar.Backend.Repositories.Interfaces
         Task<string> GenerateEmailConfirmationTokenAsync(Usuario user);
 
         Task<IdentityResult> ConfirmEmailAsync(Usuario user, string token);
+
+        //Para obtener una nueva contraseña cuando se olvida la anterior
+        Task<string> GeneratePasswordResetTokenAsync(Usuario user);
+
+        Task<IdentityResult> ResetPasswordAsync(Usuario user, string token, string password);
     }
 }

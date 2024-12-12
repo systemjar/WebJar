@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components;
 using System.Net;
 using WebJar.Frontend.Repositories;
 using WebJar.Frontend.Services;
+using WebJar.Shared.DTOs;
 using WebJar.Shared.Entities;
 
 namespace WebJar.Frontend.Pages.Auth
@@ -40,13 +41,17 @@ namespace WebJar.Frontend.Pages.Auth
 
         private async Task SaveUserAsync()
         {
-            var responseHttp = await Repository.PutAsync<Usuario>("/api/account", user!);
+            //var responseHttp = await Repository.PutAsync<Usuario>("/api/account", user!);
+            var responseHttp = await Repository.PutAsync<Usuario, TokenDTO>("/api/account", user!);
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
                 await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
                 return;
             }
+
+            await LoginService.LoginAsync(responseHttp.Response!.Token);
+
             NavigationManager.NavigateTo("/");
         }
     }
