@@ -1,3 +1,5 @@
+using Blazored.Modal;
+using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
@@ -24,6 +26,8 @@ namespace WebJar.Frontend.Pages.Empresas
         [Parameter, SupplyParameterFromQuery] public int RecordsNumber { get; set; } = 10;
 
         public List<Empresa>? LEmpresas { get; set; } = new List<Empresa>();
+
+        [CascadingParameter] private IModalService Modal { get; set; } = default!;
 
         protected override async Task OnInitializedAsync()
         {
@@ -198,6 +202,27 @@ namespace WebJar.Frontend.Pages.Empresas
                 Timer = 3000
             });
             await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Registro borrado con éxito.");
+        }
+
+        private async Task ShowModalAsync(int id = 0, bool isEdit = false)
+        {
+            IModalReference modalReference;
+
+            if (isEdit)
+            {
+                modalReference = Modal.Show<EmpresasEdit>(string.Empty, new ModalParameters().Add("Id", id));
+            }
+            else
+            {
+                modalReference = Modal.Show<EmpresasCreate>();
+            }
+
+            var result = await modalReference.Result;
+
+            if (result.Confirmed)
+            {
+                await LoadAsync();
+            }
         }
     }
 }

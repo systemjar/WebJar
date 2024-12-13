@@ -1,3 +1,5 @@
+using Blazored.Modal;
+using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
@@ -26,6 +28,8 @@ namespace WebJar.Frontend.Pages.Conta.TiposConta
         [Parameter, SupplyParameterFromQuery] public string Filter { get; set; } = string.Empty;
 
         [Parameter, SupplyParameterFromQuery] public int RecordsNumber { get; set; } = 10;
+
+        [CascadingParameter] private IModalService Modal { get; set; } = default!;
 
         public List<TipoConta>? LTiposConta { get; set; }
 
@@ -195,6 +199,28 @@ namespace WebJar.Frontend.Pages.Conta.TiposConta
                 Timer = 3000
             });
             await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Registro borrado con éxito.");
+        }
+
+        //Para la pantalla Modal
+        private async Task ShowModalAsync(int id = 0, bool isEdit = false)
+        {
+            IModalReference modalReference;
+
+            if (isEdit)
+            {
+                modalReference = Modal.Show<TiposContaEdit>(string.Empty, new ModalParameters().Add("Id", id));
+            }
+            else
+            {
+                modalReference = Modal.Show<TiposContaCreate>();
+            }
+
+            var result = await modalReference.Result;
+
+            if (result.Confirmed)
+            {
+                await LoadAsync();
+            }
         }
     }
 }

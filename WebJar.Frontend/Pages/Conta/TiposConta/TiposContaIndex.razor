@@ -4,8 +4,10 @@
     <div class="card-header">
         <span>
             <i class="bi bi-globe-americas" /> Tipos de documentos contables
-            <a class="btn btn-primary btn-sm float-end" href="/tiposconta/create">
-                <i class="bi bi-plus-square" /> Nuevo Tipo de documento</a>
+            @* <a class="btn btn-primary btn-sm float-end" href="/tiposconta/create">
+                <i class="bi bi-plus-square" /> Nuevo Tipo de documento</a> *@
+            <a class="btn btn-sm btn-primary float-end" @onclick=@(() => ShowModalAsync())><i class="bi bi-plus-circle" />Nuevo Tipo de documento</a>
+
         </span>
     </div>
     <div class="card-body">
@@ -29,7 +31,8 @@
                                     @tiposConta.Nombre
                                 </td>
                                 <td>
-                                    <a href="/tiposconta/edit/@tiposConta.Id" class="btn btn-warning">Editar</a>
+@*                                     <a href="/tiposconta/edit/@tiposConta.Id" class="btn btn-warning">Editar</a>*@
+                                    <a @onclick=@(() => ShowModalAsync(tiposConta.Id, true)) class="btn btn-sm btn-warning"><i class="bi bi-pencil" /> Editar</a>
                                     <button class="btn btn-danger" @onclick=@(() => DeleteAsync(tiposConta))>Borrar</button>
                                 </td>
                             </tr>

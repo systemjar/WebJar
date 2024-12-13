@@ -1,3 +1,5 @@
+using Blazored.Modal;
+using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
@@ -18,6 +20,8 @@ namespace WebJar.Frontend.Pages.Empresas
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
 
         [Parameter] public int Id { get; set; }
+
+        [CascadingParameter] private BlazoredModalInstance BlazoredModal { get; set; } = default!;
 
         protected override async Task OnParametersSetAsync()
         {
@@ -49,7 +53,11 @@ namespace WebJar.Frontend.Pages.Empresas
                 await SweetAlertService.FireAsync("Error", mensajeError, SweetAlertIcon.Error);
                 return;
             }
+
+            await BlazoredModal.CloseAsync(ModalResult.Ok());
+
             Return();
+
             var toast = SweetAlertService.Mixin(new SweetAlertOptions
             {
                 Toast = true,

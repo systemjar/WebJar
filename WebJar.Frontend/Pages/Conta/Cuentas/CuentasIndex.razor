@@ -18,9 +18,10 @@ else
         <div class="card-header">
             <span>
                 <i class="bi bi-globe-americas" /> Maestro de cuentas
-                <a class="btn btn-primary btn-sm float-end" href="/cuentas/create/@empresa.Id">
+                @* <a class="btn btn-primary btn-sm float-end" href="/cuentas/create/@empresa.Id">
+                    <i class="bi bi-plus-square" /> Nuevo Codigo de Cuenta </a> *@
+                <a class="btn btn-sm btn-primary float-end mx-1" @onclick=@(() => ShowModalAsync())>
                     <i class="bi bi-plus-square" /> Nuevo Codigo de Cuenta
-
                 </a>
             </span>
         </div>
@@ -46,7 +47,10 @@ else
                                     <td>@cuenta.Nombre</td>
                                     <td>@cuenta.DebeHaber</td>
                                     <td>
-                                        <a class="btn btn-warning btn-sm" href="/cuentas/edit/@cuenta.Id">Editar</a>
+@*                                         <a class="btn btn-warning btn-sm" href="/cuentas/edit/@cuenta.Id">Editar</a>*@
+                                        <a class="btn btn-warning btn-sm" @onclick=@(() => ShowModalAsync(cuenta.Id, true))>
+                                            <i class="bi bi-pencil" />Editar
+                                        </a>
                                         <button class="btn btn-danger btn-sm" @onclick=@(() => DeleteAsync(cuenta))>Eliminar</button>
                                     </td>
                                 </tr>

@@ -1,3 +1,5 @@
+using Blazored.Modal;
+using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
@@ -18,6 +20,8 @@ namespace WebJar.Frontend.Pages.Empresas
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
 
+        [CascadingParameter] private BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
         private async Task CreateAsync()
         {
             var responseHttp = await Repository.PostAsync("/api/empresa", empresa);
@@ -27,7 +31,12 @@ namespace WebJar.Frontend.Pages.Empresas
                 await SweetAlertService.FireAsync("Error", message);
                 return;
             }
+
+            //Si guardo el objeto
+            await BlazoredModal.CloseAsync(ModalResult.Ok());
+
             Return();
+
             var toast = SweetAlertService.Mixin(new SweetAlertOptions
             {
                 Toast = true,
