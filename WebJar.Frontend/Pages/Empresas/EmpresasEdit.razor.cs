@@ -21,7 +21,7 @@ namespace WebJar.Frontend.Pages.Empresas
 
         [Parameter] public int Id { get; set; }
 
-        [CascadingParameter] private BlazoredModalInstance BlazoredModal { get; set; } = default!;
+        //[CascadingParameter] private BlazoredModalInstance BlazoredModal { get; set; } = default!;
 
         protected override async Task OnParametersSetAsync()
         {
@@ -54,7 +54,7 @@ namespace WebJar.Frontend.Pages.Empresas
                 return;
             }
 
-            await BlazoredModal.CloseAsync(ModalResult.Ok());
+            //await BlazoredModal.CloseAsync(ModalResult.Ok());
 
             Return();
 

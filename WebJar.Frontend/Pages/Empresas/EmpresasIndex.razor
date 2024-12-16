@@ -4,12 +4,12 @@
     <div class="card-header">
         <span>
             <i class="bi bi-globe-americas" /> Mantenimiento de Empresas
-            @* <a class="btn btn-primary btn-sm float-end" href="/empresas/create">
-                <i class="bi bi-plus-square" /> Nueva Empresa
-            </a> *@
-            <a class="btn btn-primary btn-sm float-end" @onclick=@(() => ShowModalAsync())>
+            <a class="btn btn-primary btn-sm float-end" href="/empresas/create">
                 <i class="bi bi-plus-square" /> Nueva Empresa
             </a>
+            @* <a class="btn btn-primary btn-sm float-end" @onclick=@(() => ShowModalAsync())>
+                <i class="bi bi-plus-square" /> Nueva Empresa
+            </a> *@
 
         </span>
     </div>
@@ -33,9 +33,9 @@
                                 <td>@empresa.Nit</td>
                                 <td>@empresa.Nombre</td>
                                 <td>
-@*                                     <a href="/empresas/edit/@empresa.Id" class="btn btn-warning">Editar</a>*@
-                                    <a class="btn btn-warning btn-sm" @onclick=@(() => ShowModalAsync(empresa.Id, true))><i class="bi bi-pencil" />Editar</a>
-
+                                    <a href="/empresas/edit/@empresa.Id" class="btn btn-warning">Editar</a>
+@*                                     <a class="btn btn-warning btn-sm" @onclick=@(() => ShowModalAsync(empresa.Id, true))><i class="bi bi-pencil" />Editar</a>
+ *@
                                     <button class="btn btn-danger" @onclick=@(() => DeleteAsync(empresa))>Eliminar</button>
                                 </td>
                             </tr>

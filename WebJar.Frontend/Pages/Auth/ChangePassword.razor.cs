@@ -23,7 +23,7 @@ namespace WebJar.Frontend.Pages.Auth
             var responseHttp = await Repository.PostAsync("/api/account/changePassword", changePasswordDTO);
             loading = false;
 
-            //await BlazoredModal.CloseAsync(ModalResult.Ok());
+            await BlazoredModal.CloseAsync(ModalResult.Ok());
 
             if (responseHttp.Error)
             {

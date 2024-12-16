@@ -1,3 +1,4 @@
+using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using System.Net;
@@ -15,6 +16,8 @@ namespace WebJar.Frontend.Pages.Auth
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private ILoginService LoginService { get; set; } = null!;
+
+        [CascadingParameter] private IModalService Modal { get; set; } = default!;
 
         protected override async Task OnInitializedAsync()
         {
@@ -53,6 +56,11 @@ namespace WebJar.Frontend.Pages.Auth
             await LoginService.LoginAsync(responseHttp.Response!.Token);
 
             NavigationManager.NavigateTo("/");
+        }
+
+        private void ShowModal()
+        {
+            Modal.Show<ChangePassword>();
         }
     }
 }

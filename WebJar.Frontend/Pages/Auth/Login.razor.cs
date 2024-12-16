@@ -17,8 +17,17 @@ namespace WebJar.Frontend.Pages.Auth
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private ILoginService LoginService { get; set; } = null!;
 
+        private bool wasClose;
+        [CascadingParameter] private BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
         private async Task LoginAsync()
         {
+            if (wasClose)
+            {
+                NavigationManager.NavigateTo("/");
+                return;
+            }
+
             var responseHttp = await Repository.PostAsync<LoginDTO, TokenDTO>("/api/account/Login", loginDTO);
             if (responseHttp.Error)
             {
@@ -28,6 +37,12 @@ namespace WebJar.Frontend.Pages.Auth
             }
             await LoginService.LoginAsync(responseHttp.Response!.Token);
             NavigationManager.NavigateTo("/");
+        }
+
+        private async Task CloseModalAsync()
+        {
+            wasClose = true;
+            await BlazoredModal.CloseAsync(ModalResult.Ok());
         }
     }
 }

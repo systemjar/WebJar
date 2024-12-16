@@ -31,9 +31,9 @@ namespace WebJar.Frontend.Pages.Auth
             await SweetAlertService.FireAsync("Confirmación", "Gracias por confirmar su email, ahora puedes ingresar al sistema.", SweetAlertIcon.Info);
 
             //Asi estaba antes del modal
-            NavigationManager.NavigateTo("/Login");
+            //NavigationManager.NavigateTo("/Login");
 
-            //Modal.Show<Login>();
+            Modal.Show<Login>();
         }
     }
 }

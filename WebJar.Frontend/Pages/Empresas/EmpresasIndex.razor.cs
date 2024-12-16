@@ -204,25 +204,25 @@ namespace WebJar.Frontend.Pages.Empresas
             await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Registro borrado con éxito.");
         }
 
-        private async Task ShowModalAsync(int id = 0, bool isEdit = false)
-        {
-            IModalReference modalReference;
+        //private async Task ShowModalAsync(int id = 0, bool isEdit = false)
+        //{
+        //    IModalReference modalReference;
 
-            if (isEdit)
-            {
-                modalReference = Modal.Show<EmpresasEdit>(string.Empty, new ModalParameters().Add("Id", id));
-            }
-            else
-            {
-                modalReference = Modal.Show<EmpresasCreate>();
-            }
+        //    if (isEdit)
+        //    {
+        //        modalReference = Modal.Show<EmpresasEdit>(string.Empty, new ModalParameters().Add("Id", id));
+        //    }
+        //    else
+        //    {
+        //        modalReference = Modal.Show<EmpresasCreate>();
+        //    }
 
-            var result = await modalReference.Result;
+        //    var result = await modalReference.Result;
 
-            if (result.Confirmed)
-            {
-                await LoadAsync();
-            }
-        }
+        //    if (result.Confirmed)
+        //    {
+        //        await LoadAsync();
+        //    }
+        //}
     }
 }

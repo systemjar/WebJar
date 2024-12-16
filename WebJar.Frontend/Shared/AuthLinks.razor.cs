@@ -12,6 +12,8 @@ namespace WebJar.Frontend.Shared
         [CascadingParameter]
         private Task<AuthenticationState> AuthenticationStateTask { get; set; } = null!;
 
+        [CascadingParameter] private IModalService Modal { get; set; } = default!;
+
         protected override async Task OnParametersSetAsync()
         {
             var authenticationState = await AuthenticationStateTask;
@@ -21,6 +23,11 @@ namespace WebJar.Frontend.Shared
             {
                 photoUser = photoClaim.Value;
             }
+        }
+
+        private void ShowModal()
+        {
+            Modal.Show<Login>();
         }
     }
 }
