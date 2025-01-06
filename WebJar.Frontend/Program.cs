@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor.Services;
+using System.Globalization;
+
 using WebJar.Frontend;
 using WebJar.Frontend.AuthenticationProviders;
 using WebJar.Frontend.Repositories;
@@ -43,5 +45,10 @@ builder.Services.AddBlazoredModal();
 
 //Inyectamos MudBlazor
 builder.Services.AddMudServices();
+
+//Localizacion
+//builder.Services.AddLocalization();
+//CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("es-GT");
+//CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("es-GT");
 
 await builder.Build().RunAsync();

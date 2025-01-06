@@ -1,0 +1,135 @@
+﻿@page "/documentos/create/{EmpresaId:int}"
+
+<h3>Mantenimiento de Documentos</h3>
+
+@* <DocumentoForm @ref="documentoForm" Poliza="poliza" OnValidSubmit="CreateAsync" ReturnAction="Return" />
+ *@
+
+@using WebJar.Shared.Entities.Conta
+
+<h3>Ingreso de Póliza</h3>
+
+<EditForm Model="@poliza" OnValidSubmit="CreateAsync">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="row">
+        <div class="col-md-6">
+            <div class="mb-3 row">
+                <label for="documento" class="col-sm-3 col-form-label">Documento:</label>
+                <div class="col-sm-9">
+                    <InputText id="documento" class="form-control" @bind-Value="poliza.Documento" />
+                    <ValidationMessage For="@(() => poliza.Documento)" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="mb-3 row">
+                <label for="tipo" class="col-sm-4 col-form-label">Tipo:</label>
+                <div class="col-sm-8">
+                    <select class="form-select" @onchange="TipoChanged">
+                        <option value="0">-- Seleccione un tipo --</option>
+                        @if (tiposConta is not null)
+                        {
+                            @foreach (var eltipo in tiposConta)
+                            {
+                                <option value="@eltipo.Id">@eltipo.Nombre</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="mb-3 row">
+                <label for="fecha" class="col-sm-4 col-form-label">Fecha:</label>
+                <div class="col-sm-8">
+                    <InputDate id="fecha" class="form-control" @bind-Value="poliza.Fecha" DateFormat="dd/MM/yyyy" />
+                    <ValidationMessage For="@(() => poliza.Fecha)" />
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    @* <div class="form-group"> 
+        <label>Tipo</label> 
+        <div>
+            <select class="form-select" @onchange="TipoChanged">
+                <option value="0">-- Seleccione un tipo --</option>
+                @if (tiposConta is not null)
+                {
+                    @foreach (var eltipo in tiposConta)
+                    {
+                        <option value="@eltipo.Id">@eltipo.Nombre</option>
+                    }
+                }
+            </select>
+        </div>
+   
+    </div>  *@
+    <div class="col-md-12">
+        <div class="mb-3 row">
+            <label for="aquien" class="col-sm-1 col-form-label">A favor de:</label>
+            <div class="col-sm-11">
+                <InputText id="aquien" class="form-control" @bind-Value="poliza.Aquien" />
+                <ValidationMessage For="@(() => poliza.Aquien)" />
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label for="porque" class="col-sm-1 col-form-label">Motivo:</label>
+            <div class="col-sm-11">
+                <InputText id="porque" class="form-control" @bind-Value="poliza.Porque" />
+                <ValidationMessage For="@(() => poliza.Porque)" />
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label for="Comentario" class="col-sm-1 col-form-label">Comentario:</label>
+            <div class="col-sm-11">
+                <InputText id="comentario" class="form-control" @bind-Value="poliza.Comentario" />
+                <ValidationMessage For="@(() => poliza.Comentario)" />
+            </div>
+        </div>
+    </div>
+    
+    
+    <h4>Detalles</h4> 
+    <div class="form-group"> 
+        <label for="codigoCuenta">Código Cuenta</label> 
+        <InputText id="codigo" @bind-Value="losDetalles.Codigo" class="form-control" /> 
+        <label for="debe">Debe</label> 
+        <InputNumber id="debe" @bind-Value="losDetalles.Debe" class="form-control" />
+        <label for="haber">Haber</label> 
+        <InputNumber id="haber" @bind-Value="losDetalles.Haber" class="form-control" />
+        <button type="button" class="btn btn-primary" @onclick="AgregarDetalle">Agregar Detalle</button> 
+    </div>
+    <table class="table"> 
+        <thead> 
+            <tr> 
+                <th>Empresa</th> 
+                <th>Código Cuenta</th> 
+                <th>Tipo</th> 
+                <th>Acciones</th> 
+            </tr> 
+        </thead> 
+        <tbody>
+            @if (poliza.Detalles is not null)
+            {
+                @foreach (var item in poliza.Detalles)
+                {
+                    <tr>
+                        <td>@item.Codigo</td>
+                        <td>@item.Debe</td>
+                        <td>@item.Haber</td>
+                        <td>
+                            <button type="button" class="btn btn-danger" @onclick="() => EliminarDetalle(item.Id)">Eliminar</button>
+                        </td>
+                    </tr>
+                }
+            }          
+        </tbody> 
+    </table> 
+    <button type="submit" class="btn btn-success">Grabar</button> 
+    <button type="button" class="btn btn-secondary" @onclick="Cancelar">Salir sin Grabar</button>
+</EditForm>
+
+

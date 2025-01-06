@@ -41,5 +41,11 @@ namespace WebJar.Backend.Controllers.Conta
             }
             return BadRequest();
         }
+
+        [HttpGet("combo")]
+        public async Task<IActionResult> GetComboAsync()
+        {
+            return Ok(await _tiposContaUnitOfWork.GetComboAsync());
+        }
     }
 }

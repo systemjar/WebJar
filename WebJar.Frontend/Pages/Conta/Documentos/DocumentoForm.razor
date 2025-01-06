@@ -1,0 +1,79 @@
+﻿<NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation" />
+
+<EditForm EditContext="editContext" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div>
+        <label for="Documento">Número de documento:</label>
+        <InputText class="form-control" id="Documento" @bind-Value="@Poliza.Documento" />
+        <ValidationMessage For="@(() => Poliza.Documento)" />
+    </div>
+    <div>
+        <label for="TipoId">Tipo de Documento:</label>
+        <InputSelect class="form-control" id="TipoId" @bind-Value="@Poliza.TipoId">
+            @foreach (var tipo in tiposConta)
+            {
+                <option value="@tipo.Id">@tipo.Nombre</option>
+            }
+        </InputSelect>
+        <ValidationMessage For="@(() => Poliza.TipoId)" />
+    </div>
+    <div>
+        <label for="Fecha">Fecha:</label>
+        <InputDate class="form-control" id="Fecha" @bind-Value="@Poliza.Fecha" />
+        <ValidationMessage For="@(() => Poliza.Fecha)" />
+    </div>
+    <div>
+        <label for="Aquien">A nombre de:</label>
+        <InputText class="form-control" id="Aquien" @bind-Value="@Poliza.Aquien" />
+        <ValidationMessage For="@(() => Poliza.Aquien)" />
+    </div>
+    <div>
+        <label for="Porque">Por concepto de:</label>
+        <InputText class="form-control" id="Porque" @bind-Value="@Poliza.Porque" />
+        <ValidationMessage For="@(() => Poliza.Porque)" />
+    </div>
+    <div>
+        <label for="Comentario">Comentarios:</label>
+        <InputTextArea class="form-control" id="Comentario" @bind-Value="@Poliza.Comentario" />
+        <ValidationMessage For="@(() => Poliza.Comentario)" />
+    </div>
+
+    <h4>Detalles de la Póliza</h4>
+    <table class="table"> 
+        <thead> 
+            <tr> 
+                <th>Codigo contable</th> 
+                <th>Debe</th> 
+                <th>Haber</th> 
+                <th>Acciones</th> 
+            </tr> 
+        </thead> 
+        <tbody> 
+            @foreach (var detalle in Poliza.Detalles)
+            {
+                <tr> 
+                    <td> 
+                        <InputText class="form-control" @bind-Value="detalle.Codigo" /> 
+                        <ValidationMessage For="@(() => detalle.Codigo)" /> 
+                    </td> 
+                    <td> 
+                        <InputNumber class="form-control" @bind-Value="detalle.Debe" /> 
+                        <ValidationMessage For="@(() => detalle.Debe)" /> 
+                    </td> 
+                    <td> 
+                        <InputNumber class="form-control" @bind-Value="detalle.Haber" /> 
+                        <ValidationMessage For="@(() => detalle.Haber)" /> 
+                    </td> 
+                    <td> 
+@*                         <button type="button" class="btn btn-danger" @onclick="() => EliminarDetalle(detalle)">Eliminar</button> 
+ *@                    </td> 
+                </tr>
+            } 
+        </tbody> 
+    </table>
+
+    <button class="btn btn-primary" type="submit">Guardar Cambios</button>
+    <button class="btn btn-success" @onclick="ReturnAction">Regresar</button>
+</EditForm>

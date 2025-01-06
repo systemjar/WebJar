@@ -18,6 +18,10 @@ namespace WebJar.Backend.Data
 
         public DbSet<TipoConta>? TiposConta { get; set; }
 
+        public DbSet<Poliza>? Polizas { get; set; }
+
+        public DbSet<Detalle>? Detalles { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -27,6 +31,10 @@ namespace WebJar.Backend.Data
             modelBuilder.Entity<Empresa>().HasIndex(x => x.Nit).IsUnique();
 
             modelBuilder.Entity<TipoConta>().HasIndex(x => x.Nombre).IsUnique();
+
+            modelBuilder.Entity<Poliza>().HasIndex(x => new { x.EmpresaId, x.Documento, x.TipoId }).IsUnique();
+
+            //modelBuilder.Entity<Detalle>().HasIndex(x => new { x.EmpresaId, x.Documento, x.TipoId }).IsUnique();
 
             DisableCascadingDelete(modelBuilder);
         }

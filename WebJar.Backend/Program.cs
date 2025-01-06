@@ -5,6 +5,9 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Text.Json.Serialization;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
+
 using WebJar.Backend.Data;
 using WebJar.Backend.Helpers;
 using WebJar.Backend.Repositories.Implementations;
@@ -83,6 +86,7 @@ builder.Services.AddScoped<IMailHelper, MailHelper>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IEmpresasRepository, EmpresasRepository>();
 builder.Services.AddScoped<ICuentasRepository, CuentasRepository>();
+builder.Services.AddScoped<IPolizasRepository, PolizasRepository>();
 builder.Services.AddScoped<ITiposContaRepository, TiposContaRepository>();
 builder.Services.AddScoped<IUsuariosRepository, UsuariosRepository>();
 
@@ -90,6 +94,7 @@ builder.Services.AddScoped<IUsuariosRepository, UsuariosRepository>();
 builder.Services.AddScoped(typeof(IGenericUnitOfWork<>), typeof(GenericUnitOfWork<>));
 builder.Services.AddScoped<IEmpresasUnitOfWork, EmpresasUnitOfWork>();
 builder.Services.AddScoped<ICuentasUnitOfWork, CuentasUnitOfWork>();
+builder.Services.AddScoped<IPolizasUnitOfWork, PolizasUnitOfWork>();
 builder.Services.AddScoped<ITiposContaUnitOfWork, TiposContaUnitOfWork>();
 builder.Services.AddScoped<IUsuariosUnitOfWork, UsuariosUnitOfWork>();
 
@@ -122,6 +127,22 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["jwtKey"]!)),
     ClockSkew = TimeSpan.Zero
 });
+
+//Para manejar la localizacion
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+//builder.Services.Configure<RequestLocalizationOptions>(options =>
+//{
+//    var supportedCultures = new[]
+//    {
+//        new CultureInfo("es-GT"),
+//        new CultureInfo("en-US")
+//    };
+
+//    options.DefaultRequestCulture = new RequestCulture("es-GT");
+//    options.SupportedCultures = supportedCultures;
+//    options.SupportedUICultures = supportedCultures;
+//});
 
 var app = builder.Build();
 

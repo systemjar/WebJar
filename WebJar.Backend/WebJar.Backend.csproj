@@ -28,4 +28,8 @@
     <ProjectReference Include="..\WebJar.Shared\WebJar.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Helpers\Conta\" />
+  </ItemGroup>
+
 </Project>

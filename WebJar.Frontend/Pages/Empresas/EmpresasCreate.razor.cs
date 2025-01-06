@@ -33,7 +33,7 @@ namespace WebJar.Frontend.Pages.Empresas
             }
 
             //Si guardo el objeto
-            await BlazoredModal.CloseAsync(ModalResult.Ok());
+            //await BlazoredModal.CloseAsync(ModalResult.Ok());
 
             Return();
 

@@ -1,0 +1,84 @@
+﻿@page "/documentos/{EmpresaId:int}"
+@using WebJar.Shared.Servicios
+@inject EmpresaService EmpresaService
+
+@if (LPolizas is null)
+{
+    <Loading />
+}
+else
+{
+    <h3>@empresa.Nombre</h3>
+
+    <div class="card">
+        <div class="card-header">
+            <span>
+                <i class="bi bi-globe-americas" /> Documentos
+                <a class="btn btn-primary btn-sm float-end" href="/documentos/create/@empresa.Id">
+                    <i class="bi bi-plus-square" /> Ingresar Nuevo Documento
+                </a>
+                @* <a class="btn btn-sm btn-primary float-end mx-1" @onclick=@(() => ShowModalAsync())>
+                    <i class="bi bi-plus-square" /> Nuevo Codigo de Cuenta </a> *@
+            </span>
+        </div>
+        <div class="card-body">
+            <GenericList MyList="LPolizas">
+                <Body>
+                    <Filter PlaceHolder="Buscar cuenta..." Callback=@FilterCallBack />
+
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Documento</th>
+                                <th>Tipo</th>
+                                <th>Fecha</th>
+                                <th>Debe</th>
+                                <th>Líneas</th>
+                                <th>Haber</th>
+                                <th>Hecha por</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var poliza in LPolizas)
+                            {
+                                <tr>
+                                    <td>
+                                    @poliza.Documento
+                                    </td>
+                                   @*  <td>
+                                    @poliza.Tipo
+                                    </td>
+                                    <td>
+                                    @($"{poliza.Fecha:yyyy/MM/dd hh:mm tt}")
+                                    </td>
+                                    <td>
+                                    @($"{poliza.SumaDebe:C2}")
+                                    </td>
+                                    <td>
+                                    @($"{poliza.SumaHaber:C2}")
+                                    </td>
+                                    <td>
+                                    @poliza.Hechopor
+                                    </td> *@
+                                    <td>
+                                        <a href="/cart/orderDetails/@poliza.Id" class="btn btn-info btn-sm">
+                                            <i class="bi bi-info-circle" />
+                                            Detalles
+                                        </a>
+                                    @* <a @onclick=@(() => ShowModalAsync(poliza.Id, true)) class="btn btn-sm btn-warning"><i class="bi bi-pencil" /> Editar</a>
+                                        <button class="btn btn-danger" @onclick=@(() => DeleteAsync(poliza))>Borrar</button> *@
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </Body>
+            </GenericList>
+            <Pagination CurrentPage="currentPage"
+                        TotalPages="totalPages"
+                        SelectedPage="SelectedPageAsync"
+                        RecordsNumber="SelectedRecordsNumberAsync" />
+        </div>
+    </div>
+}

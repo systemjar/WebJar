@@ -243,6 +243,125 @@ namespace WebJar.Backend.Migrations
                     b.ToTable("Cuentas");
                 });
 
+            modelBuilder.Entity("WebJar.Shared.Entities.Conta.Detalle", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Codigo")
+                        .IsRequired()
+                        .HasMaxLength(11)
+                        .HasColumnType("nvarchar(11)");
+
+                    b.Property<string>("Contras")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<int>("CuentaId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Debe")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("DocumentoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EmpresaId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Factura")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<decimal>("Haber")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Origen")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<int?>("PolizaId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Serie")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<int>("TipoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CuentaId");
+
+                    b.HasIndex("EmpresaId");
+
+                    b.HasIndex("PolizaId");
+
+                    b.HasIndex("TipoId");
+
+                    b.ToTable("Detalles");
+                });
+
+            modelBuilder.Entity("WebJar.Shared.Entities.Conta.Poliza", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Aquien")
+                        .IsRequired()
+                        .HasMaxLength(65)
+                        .HasColumnType("nvarchar(65)");
+
+                    b.Property<string>("Comentario")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Documento")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
+                    b.Property<int>("EmpresaId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("FechaOperado")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Hechopor")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Origen")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(65)");
+
+                    b.Property<string>("Porque")
+                        .IsRequired()
+                        .HasMaxLength(65)
+                        .HasColumnType("nvarchar(65)");
+
+                    b.Property<int>("TipoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TipoId");
+
+                    b.HasIndex("EmpresaId", "Documento", "TipoId")
+                        .IsUnique();
+
+                    b.ToTable("Polizas");
+                });
+
             modelBuilder.Entity("WebJar.Shared.Entities.Conta.TipoConta", b =>
                 {
                     b.Property<int>("Id")
@@ -569,6 +688,67 @@ namespace WebJar.Backend.Migrations
                         .IsRequired();
 
                     b.Navigation("Empresa");
+                });
+
+            modelBuilder.Entity("WebJar.Shared.Entities.Conta.Detalle", b =>
+                {
+                    b.HasOne("WebJar.Shared.Entities.Conta.Cuenta", "Cuenta")
+                        .WithMany()
+                        .HasForeignKey("CuentaId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("WebJar.Shared.Entities.Empresa", "Empresa")
+                        .WithMany()
+                        .HasForeignKey("EmpresaId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("WebJar.Shared.Entities.Conta.Poliza", null)
+                        .WithMany("Detalles")
+                        .HasForeignKey("PolizaId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("WebJar.Shared.Entities.Conta.TipoConta", "Tipo")
+                        .WithMany()
+                        .HasForeignKey("TipoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Cuenta");
+
+                    b.Navigation("Empresa");
+
+                    b.Navigation("Tipo");
+                });
+
+            modelBuilder.Entity("WebJar.Shared.Entities.Conta.Poliza", b =>
+                {
+                    b.HasOne("WebJar.Shared.Entities.Empresa", "Empresa")
+                        .WithMany()
+                        .HasForeignKey("EmpresaId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("WebJar.Shared.Entities.Conta.TipoConta", "Tipo")
+                        .WithMany("Polizas")
+                        .HasForeignKey("TipoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Empresa");
+
+                    b.Navigation("Tipo");
+                });
+
+            modelBuilder.Entity("WebJar.Shared.Entities.Conta.Poliza", b =>
+                {
+                    b.Navigation("Detalles");
+                });
+
+            modelBuilder.Entity("WebJar.Shared.Entities.Conta.TipoConta", b =>
+                {
+                    b.Navigation("Polizas");
                 });
 
             modelBuilder.Entity("WebJar.Shared.Entities.Empresa", b =>

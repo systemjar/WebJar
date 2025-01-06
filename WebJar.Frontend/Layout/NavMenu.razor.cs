@@ -52,5 +52,23 @@ namespace WebJar.Frontend.Layout
                 });
             }
         }
+
+        private async Task NavigateToDocumentosAsync()
+        {
+            if (EmpresaService.EmpresaSeleccionada != null && EmpresaService.EmpresaSeleccionada.Id != 0)
+            {
+                await Task.Delay(100);
+                NavigationManager.NavigateTo($"/documentos/{EmpresaService.EmpresaSeleccionada.Id}");
+            }
+            else
+            {
+                await SweetAlertService.FireAsync(new SweetAlertOptions
+                {
+                    Text = "No ha seleccionado ninguna empresa para trabajar.",
+                    Icon = SweetAlertIcon.Question,
+                    ShowCancelButton = false
+                });
+            }
+        }
     }
 }

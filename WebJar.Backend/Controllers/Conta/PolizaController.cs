@@ -11,30 +11,19 @@ namespace WebJar.Backend.Controllers.Conta
     [ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
-    public class CuentaController : GenericController<Cuenta>
+    public class PolizaController : GenericController<Poliza>
     {
-        private readonly ICuentasUnitOfWork _cuentasUnitOfWork;
+        private readonly IPolizasUnitOfWork _polizasUnitOfWork;
 
-        public CuentaController(IGenericUnitOfWork<Cuenta> unitOfWork, ICuentasUnitOfWork cuentasUnitOfWork) : base(unitOfWork)
+        public PolizaController(IGenericUnitOfWork<Poliza> unitOfWork, IPolizasUnitOfWork polizasUnitOfWork) : base(unitOfWork)
         {
-            _cuentasUnitOfWork = cuentasUnitOfWork;
+            _polizasUnitOfWork = polizasUnitOfWork;
         }
 
         [HttpGet("{Id}")]
         public override async Task<IActionResult> GetAsync(int Id)
         {
-            var response = await _cuentasUnitOfWork.GetAsync(Id);
-            if (response.WasSuccess)
-            {
-                return Ok(response.Result);
-            }
-            return NotFound();
-        }
-
-        [HttpGet("buscar")]
-        public async Task<IActionResult> GetAsync(int empresaId, int cuentaId)
-        {
-            var response = await _cuentasUnitOfWork.GetAsync(empresaId, cuentaId);
+            var response = await _polizasUnitOfWork.GetAsync(Id);
             if (response.WasSuccess)
             {
                 return Ok(response.Result);
@@ -45,7 +34,7 @@ namespace WebJar.Backend.Controllers.Conta
         [HttpGet("full")]
         public override async Task<IActionResult> GetAsync()
         {
-            var response = await _cuentasUnitOfWork.GetAsync();
+            var response = await _polizasUnitOfWork.GetAsync();
             if (response.WasSuccess)
             {
                 return Ok(response.Result);
@@ -56,7 +45,7 @@ namespace WebJar.Backend.Controllers.Conta
         [HttpGet]
         public override async Task<IActionResult> GetAsync([FromQuery] PaginationDTO pagination)
         {
-            var response = await _cuentasUnitOfWork.GetAsync(pagination);
+            var response = await _polizasUnitOfWork.GetAsync(pagination);
             if (response.WasSuccess)
             {
                 return Ok(response.Result);
@@ -67,7 +56,7 @@ namespace WebJar.Backend.Controllers.Conta
         [HttpGet("totalPages")]
         public override async Task<IActionResult> GetPagesAsync([FromQuery] PaginationDTO pagination)
         {
-            var action = await _cuentasUnitOfWork.GetTotalPagesAsync(pagination);
+            var action = await _polizasUnitOfWork.GetTotalPagesAsync(pagination);
             if (action.WasSuccess)
             {
                 return Ok(action.Result);

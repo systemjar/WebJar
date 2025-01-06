@@ -8,6 +8,8 @@ namespace WebJar.Backend.UnitOfWork.Interfaces.Conta
     {
         Task<ActionResponse<Cuenta>> GetAsync(int id);
 
+        Task<ActionResponse<Cuenta>> GetAsync(int empresaid, int cuenta);
+
         Task<ActionResponse<IEnumerable<Cuenta>>> GetAsync();
 
         Task<ActionResponse<IEnumerable<Cuenta>>> GetAsync(PaginationDTO pagination);

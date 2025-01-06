@@ -20,6 +20,8 @@ namespace WebJar.Backend.UnitOfWork.Implementations.Conta
 
         public override async Task<ActionResponse<Cuenta>> GetAsync(int id) => await _cuentasRepository.GetAsync(id);
 
+        public async Task<ActionResponse<Cuenta>> GetAsync(int empresaId, int cuentaId) => await _cuentasRepository.GetAsync(empresaId, cuentaId);
+
         public override async Task<ActionResponse<IEnumerable<Cuenta>>> GetAsync() => await _cuentasRepository.GetAsync();
 
         public override async Task<ActionResponse<IEnumerable<Cuenta>>> GetAsync(PaginationDTO pagination) => await _cuentasRepository.GetAsync(pagination);

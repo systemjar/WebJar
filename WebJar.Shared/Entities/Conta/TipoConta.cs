@@ -11,5 +11,7 @@ namespace WebJar.Shared.Entities.Conta
         [MaxLength(100, ErrorMessage = "El campo {0} no puede tener mas de {1} carácteres")]  //EL largo maximo del campo
         [Required(ErrorMessage = "El campo {0} es obligatorio")]  //El campo es obligatorio
         public string Nombre { get; set; } = null!; //null! indica que no puede ser null
+
+        public ICollection<Poliza> Polizas { get; set; }
     }
 }
