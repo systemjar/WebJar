@@ -10,6 +10,8 @@ namespace WebJar.Backend.UnitOfWork.Interfaces.Conta
 
         Task<ActionResponse<IEnumerable<Poliza>>> GetAsync();
 
+        Task<ActionResponse<Poliza>> GetAsync(int empresaId, string documento, int tipoId);
+
         Task<ActionResponse<IEnumerable<Poliza>>> GetAsync(PaginationDTO pagination);
 
         Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination);

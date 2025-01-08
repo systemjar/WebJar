@@ -13,8 +13,12 @@ namespace WebJar.Shared.DTOs.Conta
 {
     public class PolizaDTO
     {
-        public int Id { get; set; }
+        public PolizaDTO()
+        {
+            Detalles = new List<DetalleDTO>();
+        }
 
+        public int Id { get; set; }
         public int EmpresaId { get; set; }
 
         [Display(Name = "Número de documento")]
@@ -54,6 +58,6 @@ namespace WebJar.Shared.DTOs.Conta
 
         public string? Hechopor { get; set; }
 
-        public ICollection<Detalle>? Detalles { get; set; }
+        public List<DetalleDTO>? Detalles { get; set; }
     }
 }

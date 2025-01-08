@@ -13,5 +13,7 @@ namespace WebJar.Shared.Entities.Conta
         public string Nombre { get; set; } = null!; //null! indica que no puede ser null
 
         public ICollection<Poliza> Polizas { get; set; }
+
+        public ICollection<Detalle> Detalles { get; set; } = new List<Detalle>();
     }
 }

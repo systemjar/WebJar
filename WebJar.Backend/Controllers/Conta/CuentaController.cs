@@ -42,6 +42,17 @@ namespace WebJar.Backend.Controllers.Conta
             return NotFound();
         }
 
+        [HttpGet("codigo")]
+        public async Task<IActionResult> GetAsync([FromQuery] int empresaId, [FromQuery] string codigoCuenta)
+        {
+            var response = await _cuentasUnitOfWork.GetAsync(empresaId, codigoCuenta);
+            if (response.WasSuccess)
+            {
+                return Ok(response.Result);
+            }
+            return NotFound();
+        }
+
         [HttpGet("full")]
         public override async Task<IActionResult> GetAsync()
         {

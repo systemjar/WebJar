@@ -10,10 +10,8 @@ namespace WebJar.Shared.Entities.Conta
         public int EmpresaId { get; set; }
         public Empresa? Empresa { get; set; }
 
-        public int DocumentoId { get; set; }
-
-        [NotMapped]
-        public Poliza? Documento { get; set; }
+        public int PolizaId { get; set; }
+        public Poliza? Poliza { get; set; }
 
         public int TipoId { get; set; }
         public TipoConta? Tipo { get; set; }

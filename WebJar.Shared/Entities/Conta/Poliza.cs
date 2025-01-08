@@ -43,13 +43,13 @@ namespace WebJar.Shared.Entities.Conta
         [Display(Name = "Comentarios")]
         public string Comentario { get; set; }
 
-        public string ElMes
-        {
-            get
-            {
-                return Fecha.ToString("MM/yyyy");
-            }
-        }
+        public string ElMes => Fecha.ToString("MM/yyyy");
+        //{
+        //    get
+        //    {
+        //        return Fecha.ToString("MM/yyyy");
+        //    }
+        //}
 
         public DateTime FechaOperado { get; set; }
 

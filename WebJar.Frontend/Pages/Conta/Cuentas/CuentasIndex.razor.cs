@@ -102,8 +102,7 @@ namespace WebJar.Frontend.Pages.Conta.Cuentas
                 await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
                 return;
             }
-            totalPages =
-            responseHttp.Response;
+            totalPages = responseHttp.Response;
         }
 
         private void ValidateRecordsNumber(int recordsnumber)

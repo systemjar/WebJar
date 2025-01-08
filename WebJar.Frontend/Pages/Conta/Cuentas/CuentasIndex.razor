@@ -26,10 +26,9 @@ else
             </span>
         </div>
         <div class="card-body">
+            <Filter PlaceHolder="Buscar cuenta..." Callback=@FilterCallBack />
             <GenericList MyList="LCuentas!">
                 <Body>
-                    <Filter PlaceHolder="Buscar cuenta..." Callback=@FilterCallBack />
-
                     <table class="table table-striped">
                         <thead>
                             <tr>

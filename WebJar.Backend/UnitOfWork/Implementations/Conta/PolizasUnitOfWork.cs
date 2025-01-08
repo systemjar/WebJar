@@ -19,6 +19,8 @@ namespace WebJar.Backend.UnitOfWork.Implementations.Conta
 
         public async Task<ActionResponse<Poliza>> GetAsync(int id) => await _polizasRepository.GetAsync(id);
 
+        public async Task<ActionResponse<Poliza>> GetAsync(int empresaId, string documento, int tipoId) => await _polizasRepository.GetAsync(empresaId, documento, tipoId);
+
         public async Task<ActionResponse<IEnumerable<Poliza>>> GetAsync(PaginationDTO pagination) => await _polizasRepository.GetAsync(pagination);
 
         public async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination) => await _polizasRepository.GetTotalPagesAsync(pagination);

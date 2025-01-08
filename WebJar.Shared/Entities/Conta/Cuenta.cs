@@ -76,5 +76,7 @@ namespace WebJar.Shared.Entities.Conta
         public int EmpresaId { get; set; }
 
         public Empresa? Empresa { get; set; }
+
+        public ICollection<Detalle>? Detalles { get; set; }
     }
 }

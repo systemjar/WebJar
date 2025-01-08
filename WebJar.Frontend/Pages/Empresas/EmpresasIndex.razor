@@ -14,9 +14,10 @@
         </span>
     </div>
     <div class="card-body">
+        <Filter PlaceHolder="Buscar empresa..." Callback=@FilterCallBack />
+
         <GenericList MyList="LEmpresas">
             <Body>
-                <Filter PlaceHolder="Buscar empresa..." Callback=@FilterCallBack />
 
                 <table class="table table-striped">
                     <thead>

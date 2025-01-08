@@ -22,9 +22,10 @@ else
             </span>
         </div>
         <div class="card-body">
+            <Filter PlaceHolder="Buscar documento..." Callback=@FilterCallBack />
+
             <GenericList MyList="LPolizas">
                 <Body>
-                    <Filter PlaceHolder="Buscar cuenta..." Callback=@FilterCallBack />
 
                     <table class="table table-striped">
                         <thead>
@@ -33,7 +34,6 @@ else
                                 <th>Tipo</th>
                                 <th>Fecha</th>
                                 <th>Debe</th>
-                                <th>Líneas</th>
                                 <th>Haber</th>
                                 <th>Hecha por</th>
                                 <th></th>
@@ -42,15 +42,15 @@ else
                         <tbody>
                             @foreach (var poliza in LPolizas)
                             {
-                                <tr>
-                                    <td>
-                                    @poliza.Documento
-                                    </td>
-                                   @*  <td>
-                                    @poliza.Tipo
+                                <tr>                       
+                                    <td style="color:@(poliza.SumaDebe == poliza.SumaHaber ? "black" : "red")"> 
+                                        @poliza.Documento 
                                     </td>
                                     <td>
-                                    @($"{poliza.Fecha:yyyy/MM/dd hh:mm tt}")
+                                    @poliza.Tipo.Nombre
+                                    </td>
+                                    <td>
+                                    @($"{poliza.Fecha:dd/MM/yyyy}")
                                     </td>
                                     <td>
                                     @($"{poliza.SumaDebe:C2}")
@@ -60,7 +60,7 @@ else
                                     </td>
                                     <td>
                                     @poliza.Hechopor
-                                    </td> *@
+                                    </td>
                                     <td>
                                         <a href="/cart/orderDetails/@poliza.Id" class="btn btn-info btn-sm">
                                             <i class="bi bi-info-circle" />

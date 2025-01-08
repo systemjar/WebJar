@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WebJar.Backend.UnitOfWork.Implementations.Conta;
 using WebJar.Backend.UnitOfWork.Interfaces.Conta;
 using WebJar.Backend.UnitOfWork.Interfaces.Generico;
 using WebJar.Shared.DTOs;
@@ -40,6 +41,17 @@ namespace WebJar.Backend.Controllers.Conta
                 return Ok(response.Result);
             }
             return BadRequest();
+        }
+
+        [HttpGet("existe")]
+        public async Task<IActionResult> GetAsync([FromQuery] int empresaId, [FromQuery] string documento, [FromQuery] int tipoId)
+        {
+            var response = await _polizasUnitOfWork.GetAsync(empresaId, documento, tipoId);
+            if (response.WasSuccess)
+            {
+                return Ok(response.Result);
+            }
+            return NotFound();
         }
 
         [HttpGet]

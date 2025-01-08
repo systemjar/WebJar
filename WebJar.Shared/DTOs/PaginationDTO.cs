@@ -19,7 +19,7 @@ namespace WebJar.Shared.DTOs
         //Filtro de busqueda
         public string? Filter { get; set; }
 
-        //Filto pro agrupacion
+        //Filtro pro agrupacion
         public string? AgruparFilter { get; set; }
     }
 }

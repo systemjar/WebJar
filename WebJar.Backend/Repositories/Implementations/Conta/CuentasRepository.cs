@@ -59,6 +59,26 @@ namespace WebJar.Backend.Repositories.Implementations.Conta
             };
         }
 
+        public async Task<ActionResponse<Cuenta>> GetAsync(int empresaId, string codigoCuenta)
+        {
+            var cuenta = await _context.Cuentas
+                                .FirstOrDefaultAsync(x => x.EmpresaId == empresaId && x.Codigo == codigoCuenta);
+            if (cuenta == null)
+            {
+                return new ActionResponse<Cuenta>
+                {
+                    WasSuccess = false,
+                    Message = "Cuenta no existe"
+                };
+            }
+
+            return new ActionResponse<Cuenta>
+            {
+                WasSuccess = true,
+                Result = cuenta
+            };
+        }
+
         public override async Task<ActionResponse<IEnumerable<Cuenta>>> GetAsync()
         {
             var cuentas = await _context.Cuentas

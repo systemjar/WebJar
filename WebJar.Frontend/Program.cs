@@ -47,8 +47,8 @@ builder.Services.AddBlazoredModal();
 builder.Services.AddMudServices();
 
 //Localizacion
-//builder.Services.AddLocalization();
-//CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("es-GT");
-//CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("es-GT");
+var culture = new CultureInfo("es-GT");
+CultureInfo.DefaultThreadCurrentCulture = culture;
+CultureInfo.DefaultThreadCurrentUICulture = culture;
 
 await builder.Build().RunAsync();

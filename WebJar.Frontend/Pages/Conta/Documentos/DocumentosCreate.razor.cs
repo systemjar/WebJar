@@ -1,5 +1,6 @@
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
+using System.Net;
 using WebJar.Frontend.Repositories;
 using WebJar.Shared.DTOs;
 using WebJar.Shared.DTOs.Conta;
@@ -13,13 +14,24 @@ namespace WebJar.Frontend.Pages.Conta.Documentos
     {
         [Parameter] public int EmpresaId { get; set; }
 
-        public PolizaDTO poliza = new();
-        public DetalleDTO losDetalles = new DetalleDTO();
+        public PolizaDTO poliza { get; set; } = new PolizaDTO();
+
+        public DetalleDTO losDetalles { get; set; } = new DetalleDTO();
 
         private DocumentoForm? documentoForm;
         public List<TipoConta>? tiposConta { get; set; }
 
-        private List<Cuenta>? cuentas { get; set; }
+        public string elCodigo { get; set; } = string.Empty;
+        public decimal? alDebe { get; set; } = decimal.Zero;
+        public decimal? alHaber { get; set; } = decimal.Zero;
+
+        public Cuenta laCuenta { get; set; }
+        public int laCuentaId { get; set; }
+        public string? laCuentaNombre { get; set; }
+
+        public int elTipoId { get; set; }
+
+        private List<DetalleDTO>? detalleDTOs { get; set; }
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
@@ -31,13 +43,63 @@ namespace WebJar.Frontend.Pages.Conta.Documentos
             //var losTipos = await Repository.GetAsync<List<TipoConta>>(url);
             var responseHttp = await Repository.GetAsync<List<TipoConta>>("/api/tipoconta/combo");
             tiposConta = responseHttp.Response;
-            poliza.Fecha = DateTime.Today;
+            poliza.Fecha = DateTime.UtcNow;
         }
 
-        private void TipoChanged(ChangeEventArgs e)
+        public void TipoChanged(ChangeEventArgs e)
         {
-            var selectedTipo = Convert.ToInt32(e.Value!);
-            poliza.TipoId = selectedTipo;
+            var selectedTipoId = Convert.ToInt32(e.Value!);
+            poliza.TipoId = selectedTipoId;
+            var selectedTipo = tiposConta?.FirstOrDefault(t => t.Id == selectedTipoId);
+            elTipoId = selectedTipoId;
+            VerificarDocumentoAsync();
+        }
+
+        private async Task VerificarDocumentoAsync()
+        {
+            if (string.IsNullOrWhiteSpace(poliza.Documento) || poliza.TipoId == 0)
+                return;
+
+            var url = $"api/poliza/existe?empresaId={EmpresaId}&documento={poliza.Documento}&tipoId={poliza.TipoId}";
+
+            var responseHttp = await Repository.GetAsync<Poliza>(url);
+
+            if (responseHttp.Error)
+            {
+                if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
+                {
+                    await SweetAlertService.FireAsync("Advertencia", "Este documento con este tipo ya existe.", SweetAlertIcon.Warning);
+                    return;
+                }
+            }
+            else
+            {
+                var message = await responseHttp.GetErrorMessageAsync();
+                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                return;
+            }
+        }
+
+        private async void BuscarCuenta()
+        {
+            var url = $"api/cuenta/codigo?empresaId={EmpresaId}&codigoCuenta={elCodigo}";
+
+            var responseHttp = await Repository.GetAsync<Cuenta>(url);
+            if (responseHttp.Error)
+            {
+                if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
+                {
+                    await SweetAlertService.FireAsync("Error", "Ese Codigo de cuenta no existe", SweetAlertIcon.Error);
+                    return;
+                }
+                var message = await responseHttp.GetErrorMessageAsync();
+                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                return;
+            }
+            laCuenta = responseHttp.Response;
+            laCuentaNombre = responseHttp.Response.Nombre;
+            laCuentaId = responseHttp.Response.Id;
+            StateHasChanged();
         }
 
         private async Task CreateAsync()
@@ -51,28 +113,40 @@ namespace WebJar.Frontend.Pages.Conta.Documentos
                 Porque = poliza.Porque,
                 Comentario = poliza.Comentario,
                 EmpresaId = EmpresaId,
+                Origen = "Conta",
+                FechaOperado = DateTime.UtcNow,
+
+                Detalles = poliza.Detalles.Select(d => new Detalle
+                {
+                    EmpresaId = EmpresaId,
+                    PolizaId = poliza.Id,
+                    TipoId = poliza.TipoId,
+                    // Es posible que necesites ajustar esto según tu lógica
+                    CuentaId = d.CuentaId,
+                    Codigo = d.Codigo,
+                    Debe = d.Debe,
+                    Haber = d.Haber,
+                    Origen = "Conta",
+                    Serie = string.Empty,
+                    Contras = string.Empty,
+                    Factura = string.Empty
+                }).ToList()
             };
-
-            //var url = $"api/cuenta/buscar?empresaId={EmpresaId}&cuentaCodigo={RecordsNumber}";
-
-            //var detalleNuevo = new Detalle
-            //{
-            //    DocumentoId = elDocumentoId,
-
-            //    TipoId = poliza.TipoId,
-            //    CuentaId = cuenta.Id,
-            //    Debe = poliza.Detalles.Debe,
-            //    Haber = poliza.Detalles.  .Haber,
-            //    EmpresaId = 1, // Aquí puedes setear el EmpresaId correspondiente
-            //    Documento = poliza,
-            //    TipoId = poliza.TipoId // Usa el mismo TipoId que la póliza
-            //};
-
-            //poliza.Detalles = new List<Detalle> { detalle };
-
-            //dbContext.Polizas.Add(poliza);
-            //await dbContext.SaveChangesAsync();
-            NavigationManager.NavigateTo("/");
+            try
+            {
+                var responseHttp = await Repository.PostAsync("/api/poliza", polizaNueva);
+                if (responseHttp.Error)
+                {
+                    var message = await responseHttp.GetErrorMessageAsync();
+                    await SweetAlertService.FireAsync("Error", message);
+                    return;
+                }
+                NavigationManager.NavigateTo("/");
+            }
+            catch (Exception ex)
+            {
+                await SweetAlertService.FireAsync("Error", "Hubo un problema al crear la póliza: " + ex.Message, SweetAlertIcon.Error);
+            }
         }
 
         private void Return()
@@ -83,19 +157,35 @@ namespace WebJar.Frontend.Pages.Conta.Documentos
 
         private void AgregarDetalle()
         {
+            losDetalles.Codigo = elCodigo.ToString();
+            losDetalles.Debe = (decimal)alDebe;
+            losDetalles.Haber = (decimal)alHaber;
+            losDetalles.CuentaId = laCuentaId;
+            losDetalles.Cuenta = laCuenta;
+            if (poliza.Detalles == null)
+            {
+                poliza.Detalles = new List<DetalleDTO>();
+            }
+
+            // Agrega el nuevo detalle a la colección
+            poliza.Detalles.Add(losDetalles);
+            // Reinicia los detalles
+            losDetalles = new DetalleDTO();
+            laCuentaNombre = string.Empty;
+            StateHasChanged();
         }
 
         private void EliminarDetalle(int Id)
         {
+            //var detalle = poliza.Detalles.FirstOrDefault(d => d.CuentaId == id);
+            //if (detalle != null)
+            //{
+            //    poliza.Detalles.Remove(detalle);
+            //}
         }
 
         private void Cancelar()
         {
-        }
-
-        private void AsignarCuenta(Detalle detalle)
-        {
-            var url = "/cuentas/edit/@cuenta.Id";
         }
     }
 }

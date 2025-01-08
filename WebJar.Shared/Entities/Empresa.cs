@@ -133,8 +133,11 @@ namespace WebJar.Shared.Entities
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public string Resultado { get; set; } = null!;
 
-        public ICollection<Cuenta>? Cuentas { get; set; }
+        public ICollection<Cuenta>? Cuentas { get; set; } = new List<Cuenta>();
 
-        public ICollection<Usuario>? Usuarios { get; set; }
+        public ICollection<Usuario>? Usuarios { get; set; } = new List<Usuario>();
+
+        public ICollection<Poliza>? Polizas { get; set; } = new List<Poliza>();
+        public ICollection<Detalle>? Detalles { get; set; } = new List<Detalle>();
     }
 }

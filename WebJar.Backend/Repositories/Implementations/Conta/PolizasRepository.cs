@@ -3,7 +3,9 @@ using WebJar.Backend.Data;
 using WebJar.Backend.Helpers;
 using WebJar.Backend.Repositories.Implementations.Generico;
 using WebJar.Backend.Repositories.Interfaces.Conta;
+using WebJar.Frontend.Pages.Conta.Documentos;
 using WebJar.Shared.DTOs;
+using WebJar.Shared.DTOs.Conta;
 using WebJar.Shared.Entities.Conta;
 using WebJar.Shared.Enums;
 using WebJar.Shared.Responses;
@@ -39,9 +41,33 @@ namespace WebJar.Backend.Repositories.Implementations.Conta
             };
         }
 
+        public async Task<ActionResponse<Poliza>> GetAsync(int empresaId, string documento, int tipoId)
+        {
+            var poliza = await _context.Polizas
+                                .Include(x => x.Tipo)
+                                .Include(x => x.Detalles)
+                                .FirstOrDefaultAsync(x => x.EmpresaId == empresaId && x.Documento == documento && x.TipoId == tipoId);
+            if (poliza != null)
+            {
+                return new ActionResponse<Poliza>
+                {
+                    WasSuccess = false,
+                    Message = "Documento ya existe"
+                };
+            }
+
+            return new ActionResponse<Poliza>
+            {
+                WasSuccess = true,
+                Result = poliza
+            };
+        }
+
         public override async Task<ActionResponse<IEnumerable<Poliza>>> GetAsync()
         {
             var polizas = await _context.Polizas
+                                .Include(x => x.Tipo)
+                                .Include(x => x.Detalles)
                                 .OrderBy(x => x.Fecha)
                                 .ThenBy(x => x.Documento)
                                 .ToListAsync();
@@ -56,6 +82,8 @@ namespace WebJar.Backend.Repositories.Implementations.Conta
         public override async Task<ActionResponse<IEnumerable<Poliza>>> GetAsync(PaginationDTO pagination)
         {
             var polizas = _context.Polizas
+                          .Include(x => x.Tipo)
+                          .Include(x => x.Detalles)
                           .Where(x => x.Empresa!.Id == pagination.Id)
                           .AsQueryable();
 
@@ -100,11 +128,11 @@ namespace WebJar.Backend.Repositories.Implementations.Conta
             };
         }
 
-        public async Task<ActionResponse<Poliza>> UpdateFullAsync(int Id)
+        public async Task<ActionResponse<Poliza>> UpdateFullAsync(PolizaDTO polizaDTO)
         {
             var poliza = await _context.Polizas
             //.Include(s => s.Detalles)
-            .FirstOrDefaultAsync(s => s.Id == Id);
+            .FirstOrDefaultAsync(s => s.Id == polizaDTO.Id);
 
             _context.Update(poliza);
             await _context.SaveChangesAsync();
