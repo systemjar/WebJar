@@ -7,6 +7,8 @@ namespace WebJar.Backend.Repositories.Interfaces.Conta
 {
     public interface IPolizasRepository
     {
+        Task<ActionResponse<Poliza>> DeleteAsync(int id);
+
         Task<ActionResponse<Poliza>> GetAsync(int id);
 
         Task<ActionResponse<IEnumerable<Poliza>>> GetAsync();

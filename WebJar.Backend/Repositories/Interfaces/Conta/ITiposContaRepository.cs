@@ -1,5 +1,4 @@
 ﻿using WebJar.Shared.DTOs;
-using WebJar.Shared.Entities;
 using WebJar.Shared.Entities.Conta;
 using WebJar.Shared.Responses;
 

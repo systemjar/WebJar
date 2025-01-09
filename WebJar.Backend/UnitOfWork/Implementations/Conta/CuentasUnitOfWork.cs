@@ -1,5 +1,4 @@
-﻿using WebJar.Backend.Repositories.Implementations.Generico;
-using WebJar.Backend.Repositories.Interfaces.Conta;
+﻿using WebJar.Backend.Repositories.Interfaces.Conta;
 using WebJar.Backend.Repositories.Interfaces.Generico;
 using WebJar.Backend.UnitOfWork.Implementations.Gererico;
 using WebJar.Backend.UnitOfWork.Interfaces.Conta;

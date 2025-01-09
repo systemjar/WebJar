@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using WebJar.Shared.DTOs;
+﻿using WebJar.Shared.DTOs;
 using WebJar.Shared.Entities.Conta;
 using WebJar.Shared.Responses;
 

@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using WebJar.Backend.Data;
 using WebJar.Backend.Helpers;
 using WebJar.Backend.Repositories.Implementations.Generico;

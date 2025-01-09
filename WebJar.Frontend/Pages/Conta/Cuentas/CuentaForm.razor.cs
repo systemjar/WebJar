@@ -1,9 +1,9 @@
 using CurrieTechnologies.Razor.SweetAlert2;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Routing;
-using Microsoft.AspNetCore.Components;
-using WebJar.Shared.Enums;
 using WebJar.Shared.Entities.Conta;
+using WebJar.Shared.Enums;
 
 namespace WebJar.Frontend.Pages.Conta.Cuentas
 {

@@ -2,7 +2,6 @@ using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using WebJar.Frontend.Repositories;
 using WebJar.Shared.DTOs;
-using System;
 
 namespace WebJar.Frontend.Pages.Auth
 {

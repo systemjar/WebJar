@@ -1,12 +1,9 @@
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
-using System;
 using WebJar.Frontend.Repositories;
 using WebJar.Frontend.Services;
 using WebJar.Shared.DTOs;
-using WebJar.Shared.Entities;
 using WebJar.Shared.Enums;
-using static MudBlazor.CategoryTypes;
 
 namespace WebJar.Frontend.Pages.Auth
 {

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WebJar.Backend.UnitOfWork.Implementations.Conta;
 using WebJar.Backend.UnitOfWork.Interfaces.Conta;
 using WebJar.Backend.UnitOfWork.Interfaces.Generico;
 using WebJar.Shared.DTOs;
@@ -74,6 +73,19 @@ namespace WebJar.Backend.Controllers.Conta
                 return Ok(action.Result);
             }
             return BadRequest();
+        }
+
+        [HttpDelete("{id}")]
+        public override async Task<IActionResult> DeleteAsync(int id)
+        {
+            var action = await _polizasUnitOfWork.DeleteAsync(id);
+
+            if (!action.WasSuccess)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
         }
     }
 }

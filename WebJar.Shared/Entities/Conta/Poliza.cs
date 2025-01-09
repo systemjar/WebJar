@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WebJar.Shared.Entities.Conta
 {
@@ -43,7 +38,8 @@ namespace WebJar.Shared.Entities.Conta
         [Display(Name = "Comentarios")]
         public string Comentario { get; set; }
 
-        public string ElMes => Fecha.ToString("MM/yyyy");
+        public string ElMes { get; set; }
+        //public string ElMes => Fecha.ToString("MM/yyyy");
         //{
         //    get
         //    {
@@ -63,6 +59,6 @@ namespace WebJar.Shared.Entities.Conta
 
         public string? Hechopor { get; set; }
 
-        public ICollection<Detalle>? Detalles { get; set; }
+        public ICollection<Detalle>? Detalles { get; set; } = new List<Detalle>();
     }
 }

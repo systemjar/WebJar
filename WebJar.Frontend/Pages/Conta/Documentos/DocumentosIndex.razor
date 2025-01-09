@@ -1,4 +1,5 @@
-﻿@page "/documentos/{EmpresaId:int}"
+﻿@page ﻿"/documentos/{EmpresaId:int}"
+
 @using WebJar.Shared.Servicios
 @inject EmpresaService EmpresaService
 
@@ -8,8 +9,7 @@
 }
 else
 {
-    <h3>@empresa.Nombre</h3>
-
+    <h3>@empresa?.Nombre</h3>
     <div class="card">
         <div class="card-header">
             <span>
@@ -23,10 +23,8 @@ else
         </div>
         <div class="card-body">
             <Filter PlaceHolder="Buscar documento..." Callback=@FilterCallBack />
-
             <GenericList MyList="LPolizas">
                 <Body>
-
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -42,32 +40,30 @@ else
                         <tbody>
                             @foreach (var poliza in LPolizas)
                             {
-                                <tr>                       
-                                    <td style="color:@(poliza.SumaDebe == poliza.SumaHaber ? "black" : "red")"> 
-                                        @poliza.Documento 
+                                <tr>
+                                    <td>
+                                        @poliza.Documento
                                     </td>
                                     <td>
-                                    @poliza.Tipo.Nombre
+                                        @poliza.Tipo?.Nombre
                                     </td>
                                     <td>
-                                    @($"{poliza.Fecha:dd/MM/yyyy}")
+                                        @($"{poliza.SumaDebe:C2}")
                                     </td>
                                     <td>
-                                    @($"{poliza.SumaDebe:C2}")
+                                        @($"{poliza.SumaHaber:C2}")
                                     </td>
                                     <td>
-                                    @($"{poliza.SumaHaber:C2}")
-                                    </td>
-                                    <td>
-                                    @poliza.Hechopor
+                                        @poliza.Hechopor
                                     </td>
                                     <td>
                                         <a href="/cart/orderDetails/@poliza.Id" class="btn btn-info btn-sm">
                                             <i class="bi bi-info-circle" />
                                             Detalles
                                         </a>
-                                    @* <a @onclick=@(() => ShowModalAsync(poliza.Id, true)) class="btn btn-sm btn-warning"><i class="bi bi-pencil" /> Editar</a>
-                                        <button class="btn btn-danger" @onclick=@(() => DeleteAsync(poliza))>Borrar</button> *@
+                                        <a @onclick=@(() => ShowModalAsync(poliza.Id, true)) class="btn btn-sm btn-warning"><i class="bi bi-pencil" /> Editar</a>
+                                        <button class="btn btn-sm btn-danger" @onclick=@(() => DeleteAsync(poliza))>Eliminar</button> 
+
                                     </td>
                                 </tr>
                             }

@@ -1,11 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using WebJar.Backend.Data;
 using WebJar.Backend.Helpers;
 using WebJar.Backend.Repositories.Implementations.Generico;
 using WebJar.Backend.Repositories.Interfaces.Conta;
 using WebJar.Shared.DTOs;
-using WebJar.Shared.Entities;
 using WebJar.Shared.Entities.Conta;
 using WebJar.Shared.Responses;
 

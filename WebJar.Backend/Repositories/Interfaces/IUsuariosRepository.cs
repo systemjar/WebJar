@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using WebJar.Shared.DTOs;
 using WebJar.Shared.Entities;
-using WebJar.Shared.Responses;
 
 namespace WebJar.Backend.Repositories.Interfaces
 {

@@ -3,11 +3,9 @@ using WebJar.Backend.Data;
 using WebJar.Backend.Helpers;
 using WebJar.Backend.Repositories.Implementations.Generico;
 using WebJar.Backend.Repositories.Interfaces.Conta;
-using WebJar.Frontend.Pages.Conta.Documentos;
 using WebJar.Shared.DTOs;
 using WebJar.Shared.DTOs.Conta;
 using WebJar.Shared.Entities.Conta;
-using WebJar.Shared.Enums;
 using WebJar.Shared.Responses;
 
 namespace WebJar.Backend.Repositories.Implementations.Conta
@@ -89,8 +87,11 @@ namespace WebJar.Backend.Repositories.Implementations.Conta
 
             if (!string.IsNullOrWhiteSpace(pagination.Filter))
             {
-                polizas = polizas.Where(x => x.Documento.ToLower().Contains(pagination.Filter.ToLower()) ||
-                                             x.Comentario.ToLower().Contains(pagination.Filter.ToLower()));
+                polizas = polizas
+                    .Where(x => x.Documento.ToLower().Contains(pagination.Filter.ToLower())
+                    || x.Comentario.ToLower().Contains(pagination.Filter.ToLower())
+                    || x.Aquien.ToLower().Contains(pagination.Filter.ToLower())
+                    || x.Porque.ToLower().Contains(pagination.Filter.ToLower()));
             }
 
             return new ActionResponse<IEnumerable<Poliza>>()
@@ -141,6 +142,42 @@ namespace WebJar.Backend.Repositories.Implementations.Conta
                 WasSuccess = true,
                 Result = poliza
             };
+        }
+
+        public override async Task<ActionResponse<Poliza>> DeleteAsync(int id)
+        {
+            var poliza = await _context.Polizas
+            .Include(x => x.Detalles)
+            .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (poliza == null)
+            {
+                return new ActionResponse<Poliza>
+                {
+                    WasSuccess = false,
+                    Message = "Documento no encontrado"
+                };
+            }
+
+            try
+            {
+                //Borramos de las tablas Detalles para  luego borrar el producto Products
+                _context.Detalles.RemoveRange(poliza.Detalles!);
+                _context.Polizas.Remove(poliza);
+                await _context.SaveChangesAsync();
+                return new ActionResponse<Poliza>
+                {
+                    WasSuccess = true,
+                };
+            }
+            catch
+            {
+                return new ActionResponse<Poliza>
+                {
+                    WasSuccess = false,
+                    Message = "No se puede borrar el Documento, porque tiene registros relacionados"
+                };
+            }
         }
     }
 }

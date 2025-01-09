@@ -1,10 +1,4 @@
-﻿using CurrieTechnologies.Razor.SweetAlert2;
-using Microsoft.AspNetCore.Components;
-using WebJar.Frontend.Repositories;
-using WebJar.Shared.Entities;
-using WebJar.Shared.Servicios;
-
-namespace WebJar.Frontend.Pages
+﻿namespace WebJar.Frontend.Pages
 {
     public partial class Home
     {

@@ -1,6 +1,4 @@
-﻿using Azure;
-using System;
-using System.Text;
+﻿using System.Text;
 using System.Text.Json;
 
 namespace WebJar.Frontend.Repositories

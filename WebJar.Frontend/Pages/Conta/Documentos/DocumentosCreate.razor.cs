@@ -2,11 +2,9 @@ using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using System.Net;
 using WebJar.Frontend.Repositories;
-using WebJar.Shared.DTOs;
 using WebJar.Shared.DTOs.Conta;
 using WebJar.Shared.Entities.Conta;
 using WebJar.Shared.Servicios;
-using static MudBlazor.Colors;
 
 namespace WebJar.Frontend.Pages.Conta.Documentos
 {
@@ -46,13 +44,13 @@ namespace WebJar.Frontend.Pages.Conta.Documentos
             poliza.Fecha = DateTime.UtcNow;
         }
 
-        public void TipoChanged(ChangeEventArgs e)
+        private async Task TipoChanged(ChangeEventArgs e)
         {
             var selectedTipoId = Convert.ToInt32(e.Value!);
             poliza.TipoId = selectedTipoId;
             var selectedTipo = tiposConta?.FirstOrDefault(t => t.Id == selectedTipoId);
             elTipoId = selectedTipoId;
-            VerificarDocumentoAsync();
+            //VerificarDocumentoAsync();
         }
 
         private async Task VerificarDocumentoAsync()
@@ -80,7 +78,7 @@ namespace WebJar.Frontend.Pages.Conta.Documentos
             }
         }
 
-        private async void BuscarCuenta()
+        private async Task BuscarCuenta()
         {
             var url = $"api/cuenta/codigo?empresaId={EmpresaId}&codigoCuenta={elCodigo}";
 
@@ -109,6 +107,7 @@ namespace WebJar.Frontend.Pages.Conta.Documentos
                 Documento = poliza.Documento,
                 TipoId = poliza.TipoId,
                 Fecha = poliza.Fecha,
+                ElMes = poliza.Fecha.ToString("MM/yyyy"),
                 Aquien = poliza.Aquien,
                 Porque = poliza.Porque,
                 Comentario = poliza.Comentario,
@@ -141,7 +140,7 @@ namespace WebJar.Frontend.Pages.Conta.Documentos
                     await SweetAlertService.FireAsync("Error", message);
                     return;
                 }
-                NavigationManager.NavigateTo("/");
+                Return();
             }
             catch (Exception ex)
             {
@@ -149,13 +148,13 @@ namespace WebJar.Frontend.Pages.Conta.Documentos
             }
         }
 
-        private void Return()
+        private async Task Return()
         {
-            documentoForm!.FormPostedSuccessfully = true;
-            NavigationManager.NavigateTo($"/documentos/{poliza.EmpresaId}");
+            //documentoForm!.FormPostedSuccessfully = true;
+            NavigationManager.NavigateTo($"/documentos/{EmpresaId}");
         }
 
-        private void AgregarDetalle()
+        private async Task AgregarDetalle()
         {
             losDetalles.Codigo = elCodigo.ToString();
             losDetalles.Debe = (decimal)alDebe;
@@ -172,20 +171,24 @@ namespace WebJar.Frontend.Pages.Conta.Documentos
             // Reinicia los detalles
             losDetalles = new DetalleDTO();
             laCuentaNombre = string.Empty;
+            elCodigo = string.Empty;
+            alDebe = 0;
+            alHaber = 0;
             StateHasChanged();
         }
 
-        private void EliminarDetalle(int Id)
+        private async Task EliminarDetalle(int Id)
         {
-            //var detalle = poliza.Detalles.FirstOrDefault(d => d.CuentaId == id);
-            //if (detalle != null)
-            //{
-            //    poliza.Detalles.Remove(detalle);
-            //}
+            var detalle = poliza.Detalles.FirstOrDefault(d => d.Id == Id);
+            if (detalle != null)
+            {
+                poliza.Detalles.Remove(detalle);
+            }
         }
 
-        private void Cancelar()
+        private async Task Cancelar()
         {
+            Return();
         }
     }
 }

@@ -117,16 +117,19 @@
                         <td>@item.Debe</td>
                         <td>@item.Haber</td>
                         <td>
-@*                             <button type="button" class="btn btn-danger" @onclick="() => EliminarDetalle(item.Id)">Eliminar</button>
- *@                        </td>
+                            <button type="button" class="btn btn-danger" @onclick="() => EliminarDetalle(item.Id)">Eliminar</button>
+                        </td>
                     </tr>
                 }
             }          
         </tbody> 
     </table> 
-    <span class="@(poliza.SumaDebe != poliza.SumaHaber ? "texto-rojo" : "texto-negro")"> 
-        Suma póliza: @poliza.SumaDebe @poliza.SumaHaber 
-    </span>
+    <div>
+        <span class="@(poliza.SumaDebe != poliza.SumaHaber ? "texto-rojo" : "texto-negro")">
+            Suma póliza: @poliza.SumaDebe @poliza.SumaHaber
+        </span>
+    </div>
+    
     <button type="submit" class="btn btn-success">Grabar</button> 
     <button type="button" class="btn btn-secondary" @onclick="Cancelar">Salir sin Grabar</button>
 </EditForm>

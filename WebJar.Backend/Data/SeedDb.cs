@@ -1,8 +1,7 @@
-﻿using WebJar.Shared.Enums;
-using System.Runtime.InteropServices;
-using WebJar.Backend.UnitOfWork.Interfaces;
+﻿using WebJar.Backend.UnitOfWork.Interfaces;
 using WebJar.Shared.Entities;
 using WebJar.Shared.Entities.Conta;
+using WebJar.Shared.Enums;
 
 namespace WebJar.Backend.Data
 {

@@ -1,12 +1,12 @@
 using Blazored.Modal.Services;
-using Blazored.Modal;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
-using WebJar.Frontend.Pages.Conta.Cuentas;
 using WebJar.Frontend.Repositories;
-using WebJar.Shared.Entities;
 using WebJar.Shared.Entities.Conta;
+using WebJar.Shared.Entities;
+using Blazored.Modal;
+using WebJar.Frontend.Pages.Conta.Cuentas;
 
 namespace WebJar.Frontend.Pages.Conta.Documentos
 {
@@ -155,12 +155,6 @@ namespace WebJar.Frontend.Pages.Conta.Documentos
             LPolizas = responseHttp.Response;
 
             return true;
-        }
-
-        private async Task CleanFilterAsync()
-        {
-            Filter = string.Empty;
-            await ApplyFilterAsync();
         }
 
         //Para aplicar el filtro y refrescar la interfaz

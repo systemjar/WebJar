@@ -5,8 +5,6 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Text.Json.Serialization;
-using System.Globalization;
-using Microsoft.AspNetCore.Localization;
 
 using WebJar.Backend.Data;
 using WebJar.Backend.Helpers;

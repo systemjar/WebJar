@@ -1,3 +1,123 @@
-﻿<h3>DocumentosEdit</h3>
+﻿@page "/documentos/edit/{PolizaId:int}/{editar:bool}"
+
+@using WebJar.Shared.Entities.Conta
+
+<h3>Edicion de documentos</h3>
+
+<EditForm Model="@Poliza" OnValidSubmit="EditAsync">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="row">
+        <div class="col-md-5">
+            <div class="mb-1 row">
+                <label for="documento" class="col-sm-3 col-form-label">Documento:</label>
+                <div class="col-sm-6">
+                    <InputText id="documento" class="form-control" @bind-Value="ElDocumento" readonly  />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="mb-1 row">
+                <label for="tipo" class="col-sm-2 col-form-label">Tipo:</label>
+                <div class="col-sm-8">
+                    <div class="col-sm-6">
+                        <InputText id="tipoconta" class="form-control" @bind-Value="ElTipo" readonly />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="mb-1 row">
+                <label for="fecha" class="col-sm-4 col-form-label">Fecha:</label>
+                <div class="col-sm-8">
+                    <InputDate id="fecha" class="form-control" @bind-Value="LaFecha" DateFormat="dd/MM/yyyy" readonly/>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
+    <div class="col-md-12">
+        <div class="mb-3 row">
+            <label for="aquien" class="col-sm-2 col-form-label">A favor de:</label>
+            <div class="col-sm-8">
+                <InputText id="aquien" class="form-control" @bind-Value="Poliza.Aquien" />
+                <ValidationMessage For="@(() => Poliza.Aquien)" />
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label for="porque" class="col-sm-2 col-form-label">Motivo:</label>
+            <div class="col-sm-8">
+                <InputText id="porque" class="form-control" @bind-Value="Poliza.Porque" />
+                <ValidationMessage For="@(() => Poliza.Porque)" />
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label for="Comentario" class="col-sm-2 col-form-label">Comentario:</label>
+            <div class="col-sm-8">
+                <InputTextArea id="comentario" class="form-control" @bind-Value="Poliza.Comentario" rows="3" />
+                <ValidationMessage For="@(() => Poliza.Comentario)" />
+            </div>
+        </div>
+    </div>
+
+
+    <h4>Detalles</h4>
+    <div class="row mb-3">
+        <div class="col-md-2">
+            <label for="codigoCuenta" class="form-label">Código Cuenta</label>
+            <InputText id="codigoCuenta" @bind-Value="ElCodigo" class="form-control" @onblur="BuscarCuenta" />
+        </div>
+        <div class="col-md-2">
+            <label for="nombreCuenta" class="form-label">Nombre Cuenta</label>
+            <InputText id="nombreCuenta" @bind-Value="LaCuentaNombre" class="form-control" readonly />
+        </div>
+        <div class="col-md-2">
+            <label for="debe" class="form-label">Debe</label>
+            <InputNumber id="debe" @bind-Value="AlDebe" class="form-control" />
+        </div>
+        <div class="col-md-2">
+            <label for="haber" class="form-label">Haber</label>
+            <InputNumber id="haber" @bind-Value="AlHaber" class="form-control" />
+        </div>
+        <div class="col-md-2 align-self-end">
+            <button type="button" class="btn btn-primary" @onclick="AgregarDetalle1">Agregar Detalle</button>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Debe</th>
+                <th>Haber</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Poliza.Detalles is not null)
+            {
+                @foreach (var item in Poliza.Detalles)
+                {
+                    <tr>
+                        <td>@item.Codigo</td>
+                        <td>@item.Cuenta.Nombre</td>
+                        <td>@item.Debe</td>
+                        <td>@item.Haber</td>
+                        <td>
+                            <button type="button" class="btn btn-danger" @onclick="() => EliminarDetalle(item.Id)">Eliminar</button>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    <div>
+        <span class="@(Poliza.SumaDebe != Poliza.SumaHaber ? "texto-rojo" : "texto-negro")">
+            Suma póliza: @Poliza.SumaDebe @Poliza.SumaHaber
+        </span>
+    </div>
+
+    <button type="submit" class="btn btn-success">Grabar</button>
+    <button type="button" class="btn btn-secondary" @onclick="Cancelar">Salir sin Grabar</button>
+</EditForm>
