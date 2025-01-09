@@ -20,16 +20,17 @@ namespace WebJar.Backend.Controllers.Conta
             _polizasUnitOfWork = polizasUnitOfWork;
         }
 
-        [HttpGet("{Id}")]
-        public override async Task<IActionResult> GetAsync(int Id)
-        {
-            var response = await _polizasUnitOfWork.GetAsync(Id);
-            if (response.WasSuccess)
-            {
-                return Ok(response.Result);
-            }
-            return NotFound();
-        }
+        //Se va a usar el generico
+        //[HttpGet("{Id}")]
+        //public override async Task<IActionResult> GetAsync(int Id)
+        //{
+        //    var response = await _polizasUnitOfWork.GetAsync(Id);
+        //    if (response.WasSuccess)
+        //    {
+        //        return Ok(response.Result);
+        //    }
+        //    return NotFound();
+        //}
 
         [HttpGet("full")]
         public override async Task<IActionResult> GetAsync()

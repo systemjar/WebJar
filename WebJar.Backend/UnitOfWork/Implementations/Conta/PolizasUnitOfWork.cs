@@ -19,13 +19,13 @@ namespace WebJar.Backend.UnitOfWork.Implementations.Conta
 
         public override async Task<ActionResponse<Poliza>> DeleteAsync(int id) => await _polizasRepository.DeleteAsync(id);
 
-        public async Task<ActionResponse<Poliza>> GetAsync(int id) => await _polizasRepository.GetAsync(id);
+        //public async Task<ActionResponse<Poliza>> GetAsync(int id) => await _polizasRepository.GetAsync(id);
 
         public async Task<ActionResponse<Poliza>> GetAsync(int empresaId, string documento, int tipoId) => await _polizasRepository.GetAsync(empresaId, documento, tipoId);
 
-        public async Task<ActionResponse<IEnumerable<Poliza>>> GetAsync(PaginationDTO pagination) => await _polizasRepository.GetAsync(pagination);
+        public override async Task<ActionResponse<IEnumerable<Poliza>>> GetAsync(PaginationDTO pagination) => await _polizasRepository.GetAsync(pagination);
 
-        public async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination) => await _polizasRepository.GetTotalPagesAsync(pagination);
+        public override async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination) => await _polizasRepository.GetTotalPagesAsync(pagination);
 
         public async Task<ActionResponse<Poliza>> UpdateFullAsync(int id) => await UpdateFullAsync(id);
     }

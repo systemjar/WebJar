@@ -19,25 +19,26 @@ namespace WebJar.Backend.Repositories.Implementations.Conta
             _context = context;
         }
 
-        public override async Task<ActionResponse<Poliza>> GetAsync(int id)
-        {
-            var poliza = await _context.Polizas
-                                .FirstOrDefaultAsync(x => x.Id == id);
-            if (poliza == null)
-            {
-                return new ActionResponse<Poliza>
-                {
-                    WasSuccess = false,
-                    Message = "Documento no existe"
-                };
-            }
+        //Se usara el Generico
+        //public override async Task<ActionResponse<Poliza>> GetAsync(int id)
+        //{
+        //    var poliza = await _context.Polizas
+        //                        .FirstOrDefaultAsync(x => x.Id == id);
+        //    if (poliza == null)
+        //    {
+        //        return new ActionResponse<Poliza>
+        //        {
+        //            WasSuccess = false,
+        //            Message = "Documento no existe"
+        //        };
+        //    }
 
-            return new ActionResponse<Poliza>
-            {
-                WasSuccess = true,
-                Result = poliza
-            };
-        }
+        //    return new ActionResponse<Poliza>
+        //    {
+        //        WasSuccess = true,
+        //        Result = poliza
+        //    };
+        //}
 
         public async Task<ActionResponse<Poliza>> GetAsync(int empresaId, string documento, int tipoId)
         {

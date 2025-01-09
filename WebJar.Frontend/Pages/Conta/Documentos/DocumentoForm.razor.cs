@@ -20,7 +20,7 @@ namespace WebJar.Frontend.Pages.Conta.Documentos
         [Inject] private IRepository Repository { get; set; } = null!;
         public bool FormPostedSuccessfully { get; set; } = false;
 
-        protected async Task OnInitializedAsync()
+        protected override async Task OnInitializedAsync()
         {
             editContext = new(Poliza);
             var url = "api/tipoconta";

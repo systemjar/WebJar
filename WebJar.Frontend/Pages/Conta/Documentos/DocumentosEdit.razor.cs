@@ -142,13 +142,13 @@ namespace WebJar.Frontend.Pages.Conta.Documentos
             }
         }
 
-        private async Task Return()
+        private void Return()
         {
             //documentoForm!.FormPostedSuccessfully = true;
             NavigationManager.NavigateTo($"/documentos/{EmpresaId}");
         }
 
-        private async Task AgregarDetalle1()
+        private void AgregarDetalle1()
         {
             LosDetalles.Codigo = ElCodigo.ToString();
             LosDetalles.Debe = (decimal)AlDebe;
@@ -171,7 +171,7 @@ namespace WebJar.Frontend.Pages.Conta.Documentos
             StateHasChanged();
         }
 
-        private async Task EliminarDetalle(int Id)
+        private void EliminarDetalle(int Id)
         {
             var detalle = Poliza.Detalles.FirstOrDefault(d => d.Id == Id);
             if (detalle != null)
@@ -180,7 +180,7 @@ namespace WebJar.Frontend.Pages.Conta.Documentos
             }
         }
 
-        private async Task Cancelar()
+        private void Cancelar()
         {
             Return();
         }

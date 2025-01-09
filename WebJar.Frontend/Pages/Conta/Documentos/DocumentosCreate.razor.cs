@@ -10,26 +10,37 @@ namespace WebJar.Frontend.Pages.Conta.Documentos
 {
     public partial class DocumentosCreate
     {
+        //Id de la empresa a la que pertnece
         [Parameter] public int EmpresaId { get; set; }
 
-        public PolizaDTO poliza { get; set; } = new PolizaDTO();
+        //DTOs para el ingreso de datos
+        public PolizaDTO Poliza { get; set; } = new PolizaDTO();
 
-        public DetalleDTO losDetalles { get; set; } = new DetalleDTO();
+        public DetalleDTO LosDetalles { get; set; } = new DetalleDTO();
 
         private DocumentoForm? documentoForm;
-        public List<TipoConta>? tiposConta { get; set; }
 
-        public string elCodigo { get; set; } = string.Empty;
-        public decimal? alDebe { get; set; } = decimal.Zero;
-        public decimal? alHaber { get; set; } = decimal.Zero;
+        //Lista con los tipos de movimientos
+        public List<TipoConta>? TiposConta { get; set; }
 
-        public Cuenta laCuenta { get; set; }
-        public int laCuentaId { get; set; }
-        public string? laCuentaNombre { get; set; }
+        //Variables para el ingreso del detalle
+        public string ElCodigo { get; set; } = string.Empty;
 
-        public int elTipoId { get; set; }
+        public decimal? AlDebe { get; set; } = decimal.Zero;
+        public decimal? AlHaber { get; set; } = decimal.Zero;
 
+        //Variables para guardar la informacion de la cuenta
+        public Cuenta? LaCuenta { get; set; }
+
+        public int LaCuentaId { get; set; } = int.MaxValue;
+        public string? LaCuentaNombre { get; set; } = string.Empty;
+
+        //Variable para ver el Id del tipo de documento
+        public int ElTipoId { get; set; }
+
+        //Lista para el manejo de los datos del detalle del documento
         private List<DetalleDTO>? detalleDTOs { get; set; }
+
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
@@ -37,50 +48,52 @@ namespace WebJar.Frontend.Pages.Conta.Documentos
 
         protected override async Task OnInitializedAsync()
         {
-            //var url = $"api/tipoconta/full";
-            //var losTipos = await Repository.GetAsync<List<TipoConta>>(url);
+            //Trae en combo con los tipos de documentos para seleccionar desde el formulario
             var responseHttp = await Repository.GetAsync<List<TipoConta>>("/api/tipoconta/combo");
-            tiposConta = responseHttp.Response;
-            poliza.Fecha = DateTime.UtcNow;
+            TiposConta = responseHttp.Response;
+            Poliza.Fecha = DateTime.UtcNow;
         }
 
-        private async Task TipoChanged(ChangeEventArgs e)
+        private void TipoChanged(ChangeEventArgs e)
         {
+            //Cuando selecciona algun tipo de documento lo asinga al PolizaDTO
             var selectedTipoId = Convert.ToInt32(e.Value!);
-            poliza.TipoId = selectedTipoId;
-            var selectedTipo = tiposConta?.FirstOrDefault(t => t.Id == selectedTipoId);
-            elTipoId = selectedTipoId;
+            Poliza.TipoId = selectedTipoId;
+            var selectedTipo = TiposConta?.FirstOrDefault(t => t.Id == selectedTipoId);
+            ElTipoId = selectedTipoId;
             //VerificarDocumentoAsync();
         }
 
-        private async Task VerificarDocumentoAsync()
-        {
-            if (string.IsNullOrWhiteSpace(poliza.Documento) || poliza.TipoId == 0)
-                return;
+        //Ya no se usa este metodo porque lo valida a la hora de querer hacer el POST
+        //private async Task VerificarDocumentoAsync()
+        //{
+        //    if (string.IsNullOrWhiteSpace(Poliza.Documento) || Poliza.TipoId == 0)
+        //        return;
 
-            var url = $"api/poliza/existe?empresaId={EmpresaId}&documento={poliza.Documento}&tipoId={poliza.TipoId}";
+        //    var url = $"api/poliza/existe?empresaId={EmpresaId}&documento={Poliza.Documento}&tipoId={Poliza.TipoId}";
 
-            var responseHttp = await Repository.GetAsync<Poliza>(url);
+        //    var responseHttp = await Repository.GetAsync<Poliza>(url);
 
-            if (responseHttp.Error)
-            {
-                if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
-                {
-                    await SweetAlertService.FireAsync("Advertencia", "Este documento con este tipo ya existe.", SweetAlertIcon.Warning);
-                    return;
-                }
-            }
-            else
-            {
-                var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
-                return;
-            }
-        }
+        //    if (responseHttp.Error)
+        //    {
+        //        if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
+        //        {
+        //            await SweetAlertService.FireAsync("Advertencia", "Este documento con este tipo ya existe.", SweetAlertIcon.Warning);
+        //            return;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        var message = await responseHttp.GetErrorMessageAsync();
+        //        await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+        //        return;
+        //    }
+        //}
 
         private async Task BuscarCuenta()
         {
-            var url = $"api/cuenta/codigo?empresaId={EmpresaId}&codigoCuenta={elCodigo}";
+            //Busca el codigo de cuenta para validar que existe
+            var url = $"api/cuenta/codigo?empresaId={EmpresaId}&codigoCuenta={ElCodigo}";
 
             var responseHttp = await Repository.GetAsync<Cuenta>(url);
             if (responseHttp.Error)
@@ -94,33 +107,36 @@ namespace WebJar.Frontend.Pages.Conta.Documentos
                 await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
                 return;
             }
-            laCuenta = responseHttp.Response;
-            laCuentaNombre = responseHttp.Response.Nombre;
-            laCuentaId = responseHttp.Response.Id;
+            LaCuenta = responseHttp.Response;
+            LaCuentaNombre = responseHttp.Response.Nombre;
+            LaCuentaId = responseHttp.Response.Id;
             StateHasChanged();
         }
 
         private async Task CreateAsync()
         {
+            //Crea los nuevos registros tanto de la Poliza como del Detalle
             var polizaNueva = new Poliza
             {
-                Documento = poliza.Documento,
-                TipoId = poliza.TipoId,
-                Fecha = poliza.Fecha,
-                ElMes = poliza.Fecha.ToString("MM/yyyy"),
-                Aquien = poliza.Aquien,
-                Porque = poliza.Porque,
-                Comentario = poliza.Comentario,
+                //Rellena los campos de la nueva entidad Poliza
+                Documento = Poliza.Documento,
+                TipoId = Poliza.TipoId,
+                Fecha = Poliza.Fecha,
+                ElMes = Poliza.Fecha.ToString("MM/yyyy"),
+                Aquien = Poliza.Aquien,
+                Porque = Poliza.Porque,
+                Comentario = Poliza.Comentario,
                 EmpresaId = EmpresaId,
                 Origen = "Conta",
                 FechaOperado = DateTime.UtcNow,
 
-                Detalles = poliza.Detalles.Select(d => new Detalle
+                //TODO: revisar que haya detalle
+                Detalles = Poliza.Detalles.Select(d => new Detalle
                 {
+                    //Rellena los datos de la entidad Detalle
                     EmpresaId = EmpresaId,
-                    PolizaId = poliza.Id,
-                    TipoId = poliza.TipoId,
-                    // Es posible que necesites ajustar esto según tu lógica
+                    PolizaId = Poliza.Id,
+                    TipoId = Poliza.TipoId,
                     CuentaId = d.CuentaId,
                     Codigo = d.Codigo,
                     Debe = d.Debe,
@@ -148,45 +164,46 @@ namespace WebJar.Frontend.Pages.Conta.Documentos
             }
         }
 
-        private async Task Return()
+        private void Return()
         {
             //documentoForm!.FormPostedSuccessfully = true;
             NavigationManager.NavigateTo($"/documentos/{EmpresaId}");
         }
 
-        private async Task AgregarDetalle()
+        private void AgregarDetalle()
         {
-            losDetalles.Codigo = elCodigo.ToString();
-            losDetalles.Debe = (decimal)alDebe;
-            losDetalles.Haber = (decimal)alHaber;
-            losDetalles.CuentaId = laCuentaId;
-            losDetalles.Cuenta = laCuenta;
-            if (poliza.Detalles == null)
+            //Agrega los datos el DetalleDTO
+            LosDetalles.Codigo = ElCodigo.ToString();
+            LosDetalles.Debe = (decimal)AlDebe;
+            LosDetalles.Haber = (decimal)AlHaber;
+            LosDetalles.CuentaId = LaCuentaId;
+            LosDetalles.Cuenta = LaCuenta;
+            if (Poliza.Detalles == null)
             {
-                poliza.Detalles = new List<DetalleDTO>();
+                Poliza.Detalles = new List<DetalleDTO>();
             }
 
             // Agrega el nuevo detalle a la colección
-            poliza.Detalles.Add(losDetalles);
+            Poliza.Detalles.Add(LosDetalles);
             // Reinicia los detalles
-            losDetalles = new DetalleDTO();
-            laCuentaNombre = string.Empty;
-            elCodigo = string.Empty;
-            alDebe = 0;
-            alHaber = 0;
+            LosDetalles = new DetalleDTO();
+            LaCuentaNombre = string.Empty;
+            ElCodigo = string.Empty;
+            AlDebe = 0;
+            AlHaber = 0;
             StateHasChanged();
         }
 
-        private async Task EliminarDetalle(int Id)
+        private void EliminarDetalle(int Id)
         {
-            var detalle = poliza.Detalles.FirstOrDefault(d => d.Id == Id);
+            var detalle = Poliza.Detalles.FirstOrDefault(d => d.Id == Id);
             if (detalle != null)
             {
-                poliza.Detalles.Remove(detalle);
+                Poliza.Detalles.Remove(detalle);
             }
         }
 
-        private async Task Cancelar()
+        private void Cancelar()
         {
             Return();
         }

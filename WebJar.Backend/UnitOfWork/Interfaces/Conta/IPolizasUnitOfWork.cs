@@ -8,7 +8,7 @@ namespace WebJar.Backend.UnitOfWork.Interfaces.Conta
     {
         Task<ActionResponse<Poliza>> DeleteAsync(int id);
 
-        Task<ActionResponse<Poliza>> GetAsync(int id);
+        //Task<ActionResponse<Poliza>> GetAsync(int id);
 
         Task<ActionResponse<IEnumerable<Poliza>>> GetAsync();
 

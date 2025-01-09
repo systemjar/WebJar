@@ -7,7 +7,7 @@
 
 <h3>Ingreso de Póliza</h3>
 
-<EditForm Model="@poliza" OnValidSubmit="CreateAsync">
+<EditForm Model="@Poliza" OnValidSubmit="CreateAsync">
     <DataAnnotationsValidator />
     <ValidationSummary />
     <div class="row">
@@ -15,8 +15,8 @@
             <div class="mb-1 row">
                 <label for="documento" class="col-sm-3 col-form-label">Documento:</label>
                 <div class="col-sm-6">
-                    <InputText id="documento" class="form-control" @bind-Value="poliza.Documento" />
-                    <ValidationMessage For="@(() => poliza.Documento)" />
+                    <InputText id="documento" class="form-control" @bind-Value="Poliza.Documento" />
+                    <ValidationMessage For="@(() => Poliza.Documento)" />
                 </div>
             </div>
         </div>
@@ -26,9 +26,9 @@
                 <div class="col-sm-8">
                     <select class="form-select" @onchange="TipoChanged">
                         <option value="0">-- Seleccione un tipo --</option>
-                        @if (tiposConta is not null)
+                        @if (TiposConta is not null)
                         {
-                            @foreach (var eltipo in tiposConta)
+                            @foreach (var eltipo in TiposConta)
                             {
                                 <option value="@eltipo.Id">@eltipo.Nombre</option>
                             }
@@ -41,8 +41,8 @@
             <div class="mb-1 row">
                 <label for="fecha" class="col-sm-4 col-form-label">Fecha:</label>
                 <div class="col-sm-8">
-                    <InputDate id="fecha" class="form-control" @bind-Value="poliza.Fecha" DateFormat="dd/MM/yyyy" />
-                    <ValidationMessage For="@(() => poliza.Fecha)" />
+                    <InputDate id="fecha" class="form-control" @bind-Value="Poliza.Fecha" DateFormat="dd/MM/yyyy" />
+                    <ValidationMessage For="@(() => Poliza.Fecha)" />
                 </div>
             </div>
         </div>
@@ -53,22 +53,22 @@
         <div class="mb-3 row">
             <label for="aquien" class="col-sm-2 col-form-label">A favor de:</label>
             <div class="col-sm-8">
-                <InputText id="aquien" class="form-control" @bind-Value="poliza.Aquien" />
-                <ValidationMessage For="@(() => poliza.Aquien)" />
+                <InputText id="aquien" class="form-control" @bind-Value="Poliza.Aquien" />
+                <ValidationMessage For="@(() => Poliza.Aquien)" />
             </div>
         </div>
         <div class="mb-3 row">
             <label for="porque" class="col-sm-2 col-form-label">Motivo:</label>
             <div class="col-sm-8">
-                <InputText id="porque" class="form-control" @bind-Value="poliza.Porque" />
-                <ValidationMessage For="@(() => poliza.Porque)" />
+                <InputText id="porque" class="form-control" @bind-Value="Poliza.Porque" />
+                <ValidationMessage For="@(() => Poliza.Porque)" />
             </div>
         </div>
         <div class="mb-3 row">
             <label for="Comentario" class="col-sm-2 col-form-label">Comentario:</label>
             <div class="col-sm-8">
-                <InputTextArea id="comentario" class="form-control" @bind-Value="poliza.Comentario" rows="3"/>
-                <ValidationMessage For="@(() => poliza.Comentario)" />
+                <InputTextArea id="comentario" class="form-control" @bind-Value="Poliza.Comentario" rows="3"/>
+                <ValidationMessage For="@(() => Poliza.Comentario)" />
             </div>
         </div>
     </div>
@@ -78,19 +78,19 @@
     <div class="row mb-3"> 
         <div class="col-md-2"> 
             <label for="codigoCuenta" class="form-label">Código Cuenta</label> 
-            <InputText id="codigoCuenta" @bind-Value="elCodigo" class="form-control" @onblur="BuscarCuenta" />
+            <InputText id="codigoCuenta" @bind-Value="ElCodigo" class="form-control" @onblur="BuscarCuenta" />
         </div> 
         <div class="col-md-2">
             <label for="nombreCuenta" class="form-label">Nombre Cuenta</label>
-            <InputText id="nombreCuenta" @bind-Value="laCuentaNombre" class="form-control" readonly />
+            <InputText id="nombreCuenta" @bind-Value="LaCuentaNombre" class="form-control" readonly />
         </div>
         <div class="col-md-2"> 
             <label for="debe" class="form-label">Debe</label> 
-            <InputNumber id="debe" @bind-Value="alDebe" class="form-control" /> 
+            <InputNumber id="debe" @bind-Value="AlDebe" class="form-control" /> 
         </div> 
         <div class="col-md-2"> 
             <label for="haber" class="form-label">Haber</label> 
-            <InputNumber id="haber" @bind-Value="alHaber" class="form-control" /> 
+            <InputNumber id="haber" @bind-Value="AlHaber" class="form-control" /> 
         </div> 
         <div class="col-md-2 align-self-end"> 
             <button type="button" class="btn btn-primary" @onclick="AgregarDetalle">Agregar Detalle</button> 
@@ -107,9 +107,9 @@
             </tr> 
         </thead> 
         <tbody>
-            @if (poliza.Detalles is not null)
+            @if (Poliza.Detalles is not null)
             {
-                @foreach (var item in poliza.Detalles)
+                @foreach (var item in Poliza.Detalles)
                 {
                     <tr>
                         <td>@item.Codigo</td>
@@ -125,8 +125,8 @@
         </tbody> 
     </table> 
     <div>
-        <span class="@(poliza.SumaDebe != poliza.SumaHaber ? "texto-rojo" : "texto-negro")">
-            Suma póliza: @poliza.SumaDebe @poliza.SumaHaber
+        <span class="@(Poliza.SumaDebe != Poliza.SumaHaber ? "texto-rojo" : "texto-negro")">
+            Suma póliza: @Poliza.SumaDebe @Poliza.SumaHaber
         </span>
     </div>
     
