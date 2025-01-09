@@ -33,7 +33,10 @@ else
                                 <th>Fecha</th>
                                 <th>Debe</th>
                                 <th>Haber</th>
-                                <th>Hecha por</th>
+                                <th>A favor de</th>
+                                <th>Concepto</th>
+                                <th>Comentario</th>
+                                <th>Hecho por</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -41,11 +44,12 @@ else
                             @foreach (var poliza in LPolizas)
                             {
                                 <tr>
-                                    <td>
-                                        @poliza.Documento
-                                    </td>
+                                   <td> <a href="/documentos/edit/@EmpresaId?editar=false" class="@(poliza.SumaDebe != poliza.SumaHaber ? "text-danger" : "text-dark")"> @poliza.Documento </a> </td>
                                     <td>
                                         @poliza.Tipo?.Nombre
+                                    </td>
+                                    <td>
+                                        @poliza.Fecha.ToString("dd/MM/yyyy")
                                     </td>
                                     <td>
                                         @($"{poliza.SumaDebe:C2}")
@@ -54,12 +58,21 @@ else
                                         @($"{poliza.SumaHaber:C2}")
                                     </td>
                                     <td>
+                                        @poliza.Aquien
+                                    </td>
+                                    <td>
+                                        @poliza.Porque
+                                    </td>
+                                    <td>
+                                        @poliza.Comentario
+                                    </td>
+                                    <td>
                                         @poliza.Hechopor
                                     </td>
                                     <td>
-                                        <a href="/cart/orderDetails/@poliza.Id" class="btn btn-info btn-sm">
+                                        <a href="/documentos/edit/@EmpresaId?editar=true" class="btn btn-info btn-sm">
                                             <i class="bi bi-info-circle" />
-                                            Detalles
+                                            Editar
                                         </a>
 @*                                         <a @onclick=@(() => ShowModalAsync(poliza.Id, true)) class="btn btn-sm btn-warning"><i class="bi bi-pencil" /> Editar</a>*@
                                         <button class="btn btn-sm btn-danger" @onclick=@(() => DeleteAsync(poliza))>Eliminar</button> 
