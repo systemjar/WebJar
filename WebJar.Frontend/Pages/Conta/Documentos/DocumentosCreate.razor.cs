@@ -13,6 +13,8 @@ namespace WebJar.Frontend.Pages.Conta.Documentos
         //Id de la empresa a la que pertnece
         [Parameter] public int EmpresaId { get; set; }
 
+        private ElementReference debeInput;
+
         //DTOs para el ingreso de datos
         public PolizaDTO Poliza { get; set; } = new PolizaDTO();
 
@@ -102,6 +104,7 @@ namespace WebJar.Frontend.Pages.Conta.Documentos
             LaCuentaNombre = responseHttp.Response.Nombre;
             LaCuentaId = responseHttp.Response.Id;
             StateHasChanged();
+            await debeInput.FocusAsync();
         }
 
         private async Task CreateAsync()

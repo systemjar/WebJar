@@ -103,7 +103,7 @@
         </div>
         <div class="col-md-2"> 
             <label for="debe" class="form-label">Debe</label> 
-            <InputNumber id="debe" @bind-Value="AlDebe" class="form-control" />
+            <input @ref=debeInput @bind="AlDebe" class="form-control" />
         </div> 
         <div class="col-md-2"> 
             <label for="haber" class="form-label">Haber</label> 
