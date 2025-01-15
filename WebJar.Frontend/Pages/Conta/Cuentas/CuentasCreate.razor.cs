@@ -3,6 +3,7 @@ using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.IdentityModel.Tokens;
 using WebJar.Frontend.Repositories;
 using WebJar.Shared.Entities;
 using WebJar.Shared.Entities.Conta;
@@ -19,7 +20,11 @@ namespace WebJar.Frontend.Pages.Conta.Cuentas
 
         private CuentaForm? cuentaForm;
 
+        //Guardamos el codigo de la cuenta mayor para asignarlo a la nueva cuenta
+        //Guardamos el Id de la cuenta mayor para que a la hora de confirmar grabar le asigne a la cuenta mayor que ya no es de detalle
         private string codigoMayor = string.Empty;
+
+        private int codigoMayorId = 0;
 
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
@@ -39,26 +44,55 @@ namespace WebJar.Frontend.Pages.Conta.Cuentas
                 return;
             }
 
-            var responseHttp = await Repository.PostAsync("/api/cuenta", cuenta);
-            if (responseHttp.Error)
+            //Vamos a buscar la cuenta ,ayor y poner que no es de detalle, si lo logra creamos la nueva cuenta con detalle = true
+            try
             {
-                var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message);
-                return;
+                var responseHttpCM = await Repository.GetAsync<Cuenta>($"/api/cuenta/{codigoMayorId}");
+                if (responseHttpCM.Error)
+                {
+                    var message = await responseHttpCM.GetErrorMessageAsync();
+                    await SweetAlertService.FireAsync("Error", message);
+                    return;
+                }
+
+                var modificaMayor = new Cuenta();
+                modificaMayor = responseHttpCM.Response;
+                modificaMayor.EsCuentaDetalle = false;
+
+                var responseHttp = await Repository.PutAsync("/api/cuenta", modificaMayor);
+                if (responseHttp.Error)
+                {
+                    var mensajeError = await responseHttp.GetErrorMessageAsync();
+                    await SweetAlertService.FireAsync("Error", mensajeError, SweetAlertIcon.Error);
+                    return;
+                }
+
+                cuenta.EsCuentaDetalle = true;
+                var responseHttpCD = await Repository.PostAsync("/api/cuenta", cuenta);
+                if (responseHttpCD.Error)
+                {
+                    var message = await responseHttp.GetErrorMessageAsync();
+                    await SweetAlertService.FireAsync("Error", message);
+                    return;
+                }
+
+                await BlazoredModal.CloseAsync(ModalResult.Ok());
+
+                Return();
+
+                var toast = SweetAlertService.Mixin(new SweetAlertOptions
+                {
+                    Toast = true,
+                    Position = SweetAlertPosition.BottomEnd,
+                    ShowConfirmButton = true,
+                    Timer = 3000
+                });
+                await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Registro creado con éxito.");
             }
-
-            await BlazoredModal.CloseAsync(ModalResult.Ok());
-
-            Return();
-
-            var toast = SweetAlertService.Mixin(new SweetAlertOptions
+            catch (Exception ex)
             {
-                Toast = true,
-                Position = SweetAlertPosition.BottomEnd,
-                ShowConfirmButton = true,
-                Timer = 3000
-            });
-            await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Registro creado con éxito.");
+                var message = ex.ToString();
+            }
         }
 
         private void Return()
@@ -84,6 +118,7 @@ namespace WebJar.Frontend.Pages.Conta.Cuentas
             if (codigo.Length == niveles[0])
             {
                 cuenta.CodigoMayor = codigo;
+                codigoMayorId = cuenta.Id;
                 return true;
             }
 
@@ -98,6 +133,8 @@ namespace WebJar.Frontend.Pages.Conta.Cuentas
                     if (cuentaAnterior != null)
                     {
                         cuenta.CodigoMayor = codigoAnterior;
+                        codigoMayorId = cuentaAnterior.Id;
+
                         return true;
                     }
                     else

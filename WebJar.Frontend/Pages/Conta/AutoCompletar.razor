@@ -1,0 +1,44 @@
+﻿@page "/autocomplete-example"
+@using System.Collections.Generic
+
+<h3>Ejemplo de Autocompletado</h3>
+
+<div>
+    <input type="text" @bind="inputValue" @oninput="OnInputChanged" placeholder="Escribe para buscar..." class="form-control" />
+    <ul class="list-group" style="max-height: 200px; overflow-y: auto;">
+        @foreach (var suggestion in filteredSuggestions)
+        {
+            <li class="list-group-item" @onclick="() => SelectSuggestion(suggestion)">@suggestion</li>
+        }
+    </ul>
+</div>
+
+@code {
+    private string inputValue = string.Empty;
+    private List<string> suggestions = new List<string>
+    {
+        "Manzana", "Banana", "Pera", "Mango", "Melón", "Sandía", "Naranja", "Uva", "Piña", "Durazno"
+    };
+    private List<string> filteredSuggestions = new List<string>();
+
+    private void OnInputChanged(ChangeEventArgs e)
+    {
+        inputValue = e.Value.ToString();
+        if (string.IsNullOrEmpty(inputValue))
+        {
+            filteredSuggestions.Clear();
+        }
+        else
+        {
+            filteredSuggestions = suggestions
+                .Where(s => s.Contains(inputValue, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+        }
+    }
+
+    private void SelectSuggestion(string suggestion)
+    {
+        inputValue = suggestion;
+        filteredSuggestions.Clear();
+    }
+}

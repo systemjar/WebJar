@@ -32,9 +32,9 @@ namespace WebJar.Backend.Controllers.Conta
         }
 
         [HttpGet("buscar")]
-        public async Task<IActionResult> GetAsync(int empresaId, int cuentaId)
+        public async Task<IActionResult> GetAsync([FromQuery] int empresaId, [FromQuery] bool autoCompletar)
         {
-            var response = await _cuentasUnitOfWork.GetAsync(empresaId, cuentaId);
+            var response = await _cuentasUnitOfWork.GetAsync(empresaId, autoCompletar);
             if (response.WasSuccess)
             {
                 return Ok(response.Result);

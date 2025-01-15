@@ -1,15 +1,13 @@
-﻿@page "/documentos/create/{EmpresaId:int}"
+﻿@* @page "/documentos/create/{EmpresaId:int}"
 
-@* <DocumentoForm @ref="documentoForm" Poliza="poliza" OnValidSubmit="CreateAsync" ReturnAction="Return" />
- *@
+ <DocumentoForm @ref="documentoForm" Poliza="poliza" OnValidSubmit="CreateAsync" ReturnAction="Return" />
+
 
 @using WebJar.Shared.Entities.Conta
 
-<h3>Ingreso de Póliza</h3>
-
 <style>
 
-    div.autocpmpletar {
+    div.autocomplete {
         width: 200px;
     }
 
@@ -24,7 +22,9 @@
 
 </style>
 
-<EditForm Model="@Poliza" OnValidSubmit="CreateAsync" autocomplete="off">
+<h3>Ingreso de Póliza</h3>
+
+<EditForm Model="@Poliza" OnValidSubmit="CreateAsync">
     <DataAnnotationsValidator />
     <ValidationSummary />
     <div class="row">
@@ -64,7 +64,7 @@
             </div>
         </div>
     </div>
-    
+
 
     <div class="col-md-12">
         <div class="mb-3 row">
@@ -84,49 +84,50 @@
         <div class="mb-3 row">
             <label for="Comentario" class="col-sm-2 col-form-label">Comentario:</label>
             <div class="col-sm-8">
-                <InputTextArea id="comentario" class="form-control" @bind-Value="Poliza.Comentario" rows="3"/>
+                <InputTextArea id="comentario" class="form-control" @bind-Value="Poliza.Comentario" rows="3" />
                 <ValidationMessage For="@(() => Poliza.Comentario)" />
             </div>
         </div>
     </div>
-    
-    
-    <h4>Detalles</h4> 
-    <div class="row mb-3"> 
-        <div class="col-md-2"> 
-            <label for="codigoCuenta" class="form-label">Código Cuenta</label> 
-            <input id="codigoCuenta" @bind="ElCodigo" class="form-control" @bind:event="oninput" @onblur="BuscarCuenta" />
-        </div> 
+
+
+    <h4>Detalles</h4>
+    <div class="row mb-3">
+
+        <div class="col-md-2">
+            <label for="codigoCuenta" class="form-label">Código Cuenta</label>
+            <input id="codigoCuenta" @bind="ElCodigo" class="form-control" @bind:event="oninput" />
+        </div>
         <div class="col-md-2">
             <label for="nombreCuenta" class="form-label">Nombre Cuenta</label>
             <InputText id="nombreCuenta" @bind-Value="LaCuentaNombre" class="form-control" readonly />
         </div>
-        <div class="col-md-2"> 
-            <label for="debe" class="form-label">Debe</label> 
+        <div class="col-md-2">
+            <label for="debe" class="form-label">Debe</label>
             <InputNumber id="debe" @bind-Value="AlDebe" class="form-control" />
-        </div> 
-        <div class="col-md-2"> 
-            <label for="haber" class="form-label">Haber</label> 
-            <InputNumber id="haber" @bind-Value="AlHaber" class="form-control" /> 
-        </div> 
-        <div class="col-md-2 align-self-end"> 
-            <button type="button" class="btn btn-primary" @onclick="AgregarDetalle">Agregar Detalle</button> 
-        </div> 
+        </div>
+        <div class="col-md-2">
+            <label for="haber" class="form-label">Haber</label>
+            <InputNumber id="haber" @bind-Value="AlHaber" class="form-control" />
+        </div>
+        <div class="col-md-2 align-self-end">
+            <button type="button" class="btn btn-primary" @onclick="AgregarDetalle">Agregar Detalle</button>
+        </div>
     </div>
 
-    <div class="autocompletar">
+    <div class="autocomplete">
         @if (ElCodigo != string.Empty)
         {
-            @if (LasCuentas is not null)
-            { 
-                @foreach (var cuenta in LasCuentas)
+            @if (CuentasFiltradas is not null)
+            { @foreach (var cuenta in LasCuentas)
                 {
                     if (cuenta.Codigo.Contains(ElCodigo) || cuenta.Nombre.ToUpper().Contains(ElCodigo.ToUpper()))
                     {
                         <section @onclick="() =>
                                 {
-                                    BuscarCuenta();
-                                    
+                                    ElCodigo = cuenta.Codigo;
+                                    LaCuentaNombre = cuenta.Nombre;
+                                    LaCuentaId = cuenta.Id;
                                 }">
                             @cuenta.Nombre
                         </section>
@@ -134,21 +135,21 @@
                 }
             }
         }
+
     </div>
 
-
-    <table class="table"> 
-        <thead> 
-            <tr> 
-                <th>Código</th> 
-                <th>Nombre</th> 
-                <th>Debe</th> 
-                <th>Haber</th> 
-                <th>Acciones</th> 
-            </tr> 
-        </thead> 
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Debe</th>
+                <th>Haber</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
         <tbody>
-            @if (Poliza != null && Poliza.Detalles != null)
+            @if (Poliza.Detalles != null && Poliza.Detalles != null)
             {
                 @foreach (var item in Poliza.Detalles)
                 {
@@ -162,17 +163,18 @@
                         </td>
                     </tr>
                 }
-            }          
-        </tbody> 
-    </table> 
+            }
+        </tbody>
+    </table>
     <div>
         <span class="@(Poliza.SumaDebe != Poliza.SumaHaber ? "texto-rojo" : "texto-negro")">
             Suma póliza: @Poliza.SumaDebe @Poliza.SumaHaber
         </span>
     </div>
-    
-    <button type="submit" class="btn btn-success">Grabar</button> 
+
+    <button type="submit" class="btn btn-success">Grabar</button>
     <button type="button" class="btn btn-secondary" @onclick="Cancelar">Salir sin Grabar</button>
 </EditForm>
 
 
+ *@

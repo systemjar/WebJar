@@ -32,6 +32,11 @@ namespace WebJar.Frontend.Pages.Conta.Documentos
         //Variables para guardar la informacion de la cuenta
         public Cuenta? LaCuenta { get; set; }
 
+        public List<Cuenta> LasCuentas { get; set; } = new List<Cuenta>();
+
+        // Propiedad para almacenar las cuentas filtradas para el autocompletar
+        public List<Cuenta> CuentasFiltradas { get; set; } = new List<Cuenta>();
+
         public int LaCuentaId { get; set; } = int.MaxValue;
         public string? LaCuentaNombre { get; set; } = string.Empty;
 
@@ -52,6 +57,18 @@ namespace WebJar.Frontend.Pages.Conta.Documentos
             var responseHttp = await Repository.GetAsync<List<TipoConta>>("/api/tipoconta/combo");
             TiposConta = responseHttp.Response;
             Poliza.Fecha = DateTime.UtcNow;
+
+            //Trae una lista de cuentas de detalle para el autocompletar desde el formulario
+            var url = $"api/cuenta/buscar?empresaId={EmpresaId}&autoCompletar=true";
+
+            var responseHttpC = await Repository.GetAsync<List<Cuenta>>(url);
+            if (responseHttp.Error)
+            {
+                var message = await responseHttp.GetErrorMessageAsync();
+                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                return;
+            }
+            LasCuentas = responseHttpC.Response;
         }
 
         private void TipoChanged(ChangeEventArgs e)
@@ -63,32 +80,6 @@ namespace WebJar.Frontend.Pages.Conta.Documentos
             ElTipoId = selectedTipoId;
             //VerificarDocumentoAsync();
         }
-
-        //Ya no se usa este metodo porque lo valida a la hora de querer hacer el POST
-        //private async Task VerificarDocumentoAsync()
-        //{
-        //    if (string.IsNullOrWhiteSpace(Poliza.Documento) || Poliza.TipoId == 0)
-        //        return;
-
-        //    var url = $"api/poliza/existe?empresaId={EmpresaId}&documento={Poliza.Documento}&tipoId={Poliza.TipoId}";
-
-        //    var responseHttp = await Repository.GetAsync<Poliza>(url);
-
-        //    if (responseHttp.Error)
-        //    {
-        //        if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
-        //        {
-        //            await SweetAlertService.FireAsync("Advertencia", "Este documento con este tipo ya existe.", SweetAlertIcon.Warning);
-        //            return;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        var message = await responseHttp.GetErrorMessageAsync();
-        //        await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
-        //        return;
-        //    }
-        //}
 
         private async Task BuscarCuenta()
         {

@@ -78,6 +78,21 @@ namespace WebJar.Backend.Repositories.Implementations.Conta
             };
         }
 
+        public async Task<ActionResponse<IEnumerable<Cuenta>>> GetAsync(int empresaId, bool autoCompletar)
+        {
+            var cuentas = _context.Cuentas
+                          .Where(x => x.Empresa!.Id == empresaId && x.EsCuentaDetalle == autoCompletar)
+                          .AsQueryable();
+
+            return new ActionResponse<IEnumerable<Cuenta>>()
+            {
+                WasSuccess = true,
+                Result = await cuentas
+                               .OrderBy(x => x.Codigo)
+                               .ToListAsync()
+            };
+        }
+
         public override async Task<ActionResponse<IEnumerable<Cuenta>>> GetAsync()
         {
             var cuentas = await _context.Cuentas

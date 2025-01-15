@@ -65,6 +65,8 @@ namespace WebJar.Shared.Entities.Conta
         [MaxLength(11, ErrorMessage = "El campo {0} no puede tener mas de {1} carácteres")]
         public string CodigoMayor { get; set; } = string.Empty;
 
+        public bool EsCuentaDetalle { get; set; } = false;
+
         [Display(Name = "Codigo Presupuesto")]
         [MaxLength(11, ErrorMessage = "El campo {0} no puede tener mas de {1} carácteres")]
         public string CodigoPres { get; set; } = string.Empty;
