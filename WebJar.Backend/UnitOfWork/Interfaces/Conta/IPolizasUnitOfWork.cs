@@ -8,7 +8,7 @@ namespace WebJar.Backend.UnitOfWork.Interfaces.Conta
     {
         Task<ActionResponse<Poliza>> DeleteAsync(int id);
 
-        //Task<ActionResponse<Poliza>> GetAsync(int id);
+        Task<ActionResponse<Poliza>> GetAsync(int id);
 
         Task<ActionResponse<IEnumerable<Poliza>>> GetAsync();
 
@@ -18,7 +18,7 @@ namespace WebJar.Backend.UnitOfWork.Interfaces.Conta
 
         Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination);
 
-        //Task<ActionResponse<Poliza>> UpdateFullAsync(int id);
+        Task<ActionResponse<Poliza>> UpdateFullAsync(Poliza poliza);
 
         ////No se implementa porque esta en el generico pero necesitamos hacerlo publico
         //Task<ActionResponse<Poliza>> AddAsync(Poliza poliza);

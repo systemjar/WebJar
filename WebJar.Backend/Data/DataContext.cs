@@ -35,32 +35,50 @@ namespace WebJar.Backend.Data
             modelBuilder.Entity<TipoConta>()
                 .HasIndex(x => x.Nombre).IsUnique();
 
+            //modelBuilder.Entity<Poliza>()
+            //    .HasIndex(x => new { x.EmpresaId, x.Documento, x.TipoId, x.ElMes }).IsUnique();
+
+            //Usuario - Empresa
+            //Un Usuario puede tener muchas Empresas a la vez que una Empresa puede tener muchos Usuarios
+            //Utiliza la tabla-union UsuarioEmpresa
+            modelBuilder.Entity<Usuario>()
+                .HasMany(u => u.Empresas)
+                .WithMany(e => e.Usuarios)
+                .UsingEntity<Dictionary<string, object>>(
+                    "UsuarioEmpresa",
+                    j => j.HasOne<Empresa>().WithMany().HasForeignKey("EmpresaId"),
+                    j => j.HasOne<Usuario>().WithMany().HasForeignKey("UsuarioId"));
+
+            //Cuenta - Empresa
+            //Una Cuenta puede tener solo una Empresa pero una Empresa puede tener muchas Cuenta
+            modelBuilder.Entity<Cuenta>()
+                .HasOne(c => c.Empresa)
+                .WithMany(e => e.Cuentas)
+                .HasForeignKey(c => c.EmpresaId);
+
+            //Poliza - Detalle
             modelBuilder.Entity<Poliza>()
-                .HasIndex(x => new { x.EmpresaId, x.Documento, x.TipoId, x.ElMes }).IsUnique();
+                .HasMany(p => p.Detalles)
+                .WithOne(d => d.Poliza)
+                .HasForeignKey(d => d.PolizaId);
 
             //Poliza - Empresa
-            //modelBuilder.Entity<Poliza>()
-            //.HasOne(p => p.Empresa) // Una Poliza tiene una Empresa
-            //.WithMany(e => e.Polizas) // Una Empresa tiene muchas Polizas
-            //.HasForeignKey(p => p.EmpresaId); // Llave foránea es EmpresaId en Poliza
+            modelBuilder.Entity<Poliza>()
+                .HasOne(p => p.Empresa) // Una Poliza tiene una Empresa
+                .WithMany(e => e.Polizas) // Una Empresa tiene muchas Polizas
+                .HasForeignKey(p => p.EmpresaId); // Llave foránea es EmpresaId en Poliza
 
-            ////Poliza - Detalle
-            //modelBuilder.Entity<Poliza>()
-            //.HasMany(p => p.Detalles) // Una Poliza tiene muchos Detalles
-            //.WithOne(d => d.Poliza) // Un Detalle tiene una Poliza
-            //.HasForeignKey(d => d.PolizaId); // Llave foránea es PolizaId en Detalle
+            //TipoConta - Poliza
+            modelBuilder.Entity<Poliza>()
+                .HasOne(p => p.Tipo)
+                .WithMany(t => t.Polizas)
+                .HasForeignKey(p => p.TipoId);
 
-            ////Detalle - Empresa
-            //modelBuilder.Entity<Detalle>()
-            //.HasOne(d => d.Empresa) // Un Detalle tiene una Empresa
-            //.WithMany(e => e.Detalles) // Una Empresa tiene muchos Detalles
-            //.HasForeignKey(d => d.EmpresaId); // Llave foránea es EmpresaId en Detalle
-
-            ////Detalle - TipoConta
-            //modelBuilder.Entity<Detalle>()
-            //.HasOne(d => d.Tipo)
-            //.WithMany(t => t.Detalles)
-            //.HasForeignKey(d => d.TipoId);
+            //Detalle - Cuenta
+            modelBuilder.Entity<Detalle>()
+                .HasOne(d => d.Cuenta)
+                .WithMany(c => c.Detalles)
+                .HasForeignKey(d => d.CuentaId);
 
             //modelBuilder.Entity<Detalle>().HasIndex(x => new { x.EmpresaId, x.Documento, x.TipoId }).IsUnique();
 

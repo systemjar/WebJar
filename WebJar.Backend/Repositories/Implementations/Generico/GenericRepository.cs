@@ -3,6 +3,7 @@ using WebJar.Backend.Data;
 using WebJar.Backend.Helpers;
 using WebJar.Backend.Repositories.Interfaces.Generico;
 using WebJar.Shared.DTOs;
+using WebJar.Shared.Entities.Conta;
 using WebJar.Shared.Responses;
 
 namespace WebJar.Backend.Repositories.Implementations.Generico
@@ -166,6 +167,14 @@ namespace WebJar.Backend.Repositories.Implementations.Generico
                 {
                     WasSuccess = false,
                     Message = ex.Message
+                };
+            }
+            catch (ArgumentNullException ex)
+            {
+                return new ActionResponse<T>
+                {
+                    WasSuccess = false,
+                    Message = $"Un valor necesario está nulo: {ex.ParamName}"
                 };
             }
             catch (Exception ex)

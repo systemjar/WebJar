@@ -158,7 +158,6 @@ static void SeedData(WebApplication app)
 app.UseCors(x => x
     .AllowCredentials() //Cualquier credencial
     .AllowAnyHeader()   //Para permitir el envio de cualquier header
-
     .AllowAnyMethod()   //Cualquiera puede consumir cualquier metodo
     .SetIsOriginAllowed(origin => true)); //Si no se pone esta linea no va a funcionar
 
@@ -170,6 +169,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowSpecificOrigin");
 
 app.UseAuthorization();
 

@@ -45,7 +45,7 @@ else
                             @foreach (var poliza in LPolizas)
                             {
                                 <tr>
-                                   <td> <a href="/documentos/edit/@EmpresaId?editar=false" class="@(poliza.SumaDebe != poliza.SumaHaber ? "text-danger" : "text-dark")"> @poliza.Documento </a> </td>
+                                   <td> <a href="/documentos/edit/@poliza.Id/@false" class="@(poliza.SumaDebe != poliza.SumaHaber ? "text-danger" : "text-dark")"> @poliza.Documento </a> </td>
                                     <td>
                                         @poliza.Tipo?.Nombre
                                     </td>
@@ -71,7 +71,7 @@ else
                                         @poliza.Hechopor
                                     </td>
                                     <td>
-                                        <a href="/documentos/edit/@EmpresaId?editar=true" class="btn btn-info btn-sm">
+                                        <a href="/documentos/edit/@poliza.Id/@true" class="btn btn-info btn-sm">
                                             <i class="bi bi-info-circle" />
                                             Editar
                                         </a>

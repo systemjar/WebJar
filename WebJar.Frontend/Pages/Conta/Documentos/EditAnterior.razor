@@ -1,11 +1,11 @@
-﻿@page "/documentos/edit/{PolizaId:int}/{editar:bool}"
+﻿@page "/documentos/editar"
 
 
 @using WebJar.Shared.Entities.Conta
 
 <h3>Editar documento</h3>
 
-@if (LaPoliza is null)
+@if (Poliza is null)
 {
     <Loading />
 }
@@ -28,7 +28,7 @@ else
 
     </style>
 
-    <EditForm Model="@LaPoliza" OnValidSubmit="EditAsync" autocomplete="off">
+    <EditForm Model="@Poliza" OnValidSubmit="EditAsync" autocomplete="off">
         <DataAnnotationsValidator />
         <ValidationSummary />
         <div class="row">
@@ -36,7 +36,7 @@ else
                 <div class="mb-1 row">
                     <label for="documento" class="col-sm-3 col-form-label">Documento:</label>
                     <div class="col-sm-6">
-                        <p id="documento" class="form-control">@LaPoliza.Documento</p>
+                        <p id="documento" class="form-control">@Poliza.Documento</p>
                     </div>
                 </div>
             </div>
@@ -44,7 +44,7 @@ else
                 <div class="mb-1 row">
                     <label for="tipo" class="col-sm-2 col-form-label">Tipo:</label>
                     <div class="col-sm-8">
-                        <p id="tipo" class="form-control">@LaPoliza.Tipo.Nombre</p>
+                        <p id="tipo" class="form-control">@Poliza.Tipo.Nombre</p>
 
                     </div>
                 </div>
@@ -53,7 +53,7 @@ else
                 <div class="mb-1 row">
                     <label for="fecha" class="col-sm-4 col-form-label">Fecha:</label>
                     <div class="col-sm-6">
-                        <p id="fecha" class="form-control">@LaPoliza.Fecha.ToString("dd/MM/yyy")</p>
+                        <p id="fecha" class="form-control">@Poliza.Fecha.ToString("dd/MM/yyy")</p>
                     </div>
                 </div>
             </div>
@@ -63,22 +63,22 @@ else
             <div class="mb-3 row">
                 <label for="aquien" class="col-sm-2 col-form-label">A favor de:</label>
                 <div class="col-sm-8">
-                    <InputText id="aquien" class="form-control" @bind-Value="LaPoliza.Aquien" />
-                    <ValidationMessage For="@(() => LaPoliza.Aquien)" />
+                    <InputText id="aquien" class="form-control" @bind-Value="Poliza.Aquien"/>
+                    <ValidationMessage For="@(() => Poliza.Aquien)" />
                 </div>
             </div>
             <div class="mb-3 row">
                 <label for="porque" class="col-sm-2 col-form-label">Motivo:</label>
                 <div class="col-sm-8">
-                    <InputText id="porque" class="form-control" @bind-Value="LaPoliza.Porque" />
-                    <ValidationMessage For="@(() => LaPoliza.Porque)" />
+                    <InputText id="porque" class="form-control" @bind-Value="Poliza.Porque" />
+                    <ValidationMessage For="@(() => Poliza.Porque)" />
                 </div>
             </div>
             <div class="mb-3 row">
                 <label for="Comentario" class="col-sm-2 col-form-label">Comentario:</label>
                 <div class="col-sm-8">
-                    <InputTextArea id="comentario" class="form-control" @bind-Value="LaPoliza.Comentario" rows="3" />
-                    <ValidationMessage For="@(() => LaPoliza.Comentario)" />
+                    <InputTextArea id="comentario" class="form-control" @bind-Value="Poliza.Comentario" rows="3" />
+                    <ValidationMessage For="@(() => Poliza.Comentario)" />
                 </div>
             </div>
         </div>
@@ -121,7 +121,7 @@ else
                                     BuscarCuenta();
 
                                 }">
-                                @cuenta.Codigo+ - +@cuenta.Nombre
+                                @cuenta.Nombre
                             </section>
                         }
                     }
@@ -141,11 +141,11 @@ else
                     </tr>
                 </thead>
                 <tbody>
-                    @if (LaPoliza != null)
+                    @if (Poliza != null)
                     {
-                        if (LaPoliza.Detalles != null)
+                        if (Poliza.Detalles != null)
                         {
-                            @foreach (var item in LaPoliza.Detalles)
+                            @foreach (var item in Poliza.Detalles)
                             {
                                 <tr>
                                     <td>@item.Codigo</td>
@@ -166,8 +166,8 @@ else
             </table>
         </div>
         <div>
-            <span class="@(LaPoliza.SumaDebe != LaPoliza.SumaHaber ? "texto-rojo" : "texto-negro")">
-                Suma póliza: @LaPoliza.SumaDebe @LaPoliza.SumaHaber
+            <span class="@(Poliza.SumaDebe != Poliza.SumaHaber ? "texto-rojo" : "texto-negro")">
+                Suma póliza: @Poliza.SumaDebe @Poliza.SumaHaber
             </span>
         </div>
 

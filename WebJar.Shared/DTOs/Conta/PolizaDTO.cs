@@ -1,17 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using WebJar.Shared.Entities;
+using WebJar.Shared.Entities.Conta;
 
 namespace WebJar.Shared.DTOs.Conta
 {
     public class PolizaDTO
     {
-        public PolizaDTO()
-        {
-            Detalles = new List<DetalleDTO>();
-        }
-
         public int Id { get; set; }
         public int EmpresaId { get; set; }
+        public Empresa? Empresa { get; set; }
 
         [Display(Name = "Número de documento")]
         [MaxLength(15, ErrorMessage = "El campo {0} no puede tener mas de {1} carácteres")]
@@ -19,6 +17,8 @@ namespace WebJar.Shared.DTOs.Conta
         public string Documento { get; set; }
 
         public int TipoId { get; set; }
+
+        public TipoConta? Tipo { get; set; } = null;
 
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd hh:mm tt}")]
         [Display(Name = "Fecha")]
@@ -50,6 +50,6 @@ namespace WebJar.Shared.DTOs.Conta
 
         public string? Hechopor { get; set; }
 
-        public List<DetalleDTO>? Detalles { get; set; }
+        public ICollection<DetalleDTO>? Detalles { get; set; } = new List<DetalleDTO>();
     }
 }

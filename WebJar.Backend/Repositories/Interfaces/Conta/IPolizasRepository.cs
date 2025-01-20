@@ -9,7 +9,7 @@ namespace WebJar.Backend.Repositories.Interfaces.Conta
     {
         Task<ActionResponse<Poliza>> DeleteAsync(int id);
 
-        //Task<ActionResponse<Poliza>> GetAsync(int id);
+        Task<ActionResponse<Poliza>> GetAsync(int id);
 
         Task<ActionResponse<IEnumerable<Poliza>>> GetAsync();
 
@@ -19,6 +19,6 @@ namespace WebJar.Backend.Repositories.Interfaces.Conta
 
         Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination);
 
-        Task<ActionResponse<Poliza>> UpdateFullAsync(PolizaDTO polizaDTO);
+        Task<ActionResponse<Poliza>> UpdateFullAsync(Poliza poliza);
     }
 }

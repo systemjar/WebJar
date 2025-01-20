@@ -35,6 +35,6 @@ namespace WebJar.Shared.Entities
         [Display(Name = "Usuario")]
         public string FullName => $"{FirstName} {LastName}";
 
-        public ICollection<Empresa>? Empresas { get; set; }
+        public ICollection<Empresa>? Empresas { get; set; } = new List<Empresa>();
     }
 }

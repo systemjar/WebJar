@@ -12,8 +12,8 @@ using WebJar.Backend.Data;
 namespace WebJar.Backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250112222845_SeEstablecioEsCUentaDetalle")]
-    partial class SeEstablecioEsCUentaDetalle
+    [Migration("20250120045325_NuevaRelacionCDetallePoliza")]
+    partial class NuevaRelacionCDetallePoliza
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,21 +24,6 @@ namespace WebJar.Backend.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("EmpresaUsuario", b =>
-                {
-                    b.Property<int>("EmpresasId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UsuariosId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("EmpresasId", "UsuariosId");
-
-                    b.HasIndex("UsuariosId");
-
-                    b.ToTable("EmpresaUsuario");
-                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -173,6 +158,21 @@ namespace WebJar.Backend.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("UsuarioEmpresa", b =>
+                {
+                    b.Property<int>("EmpresaId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UsuarioId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("EmpresaId", "UsuarioId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("UsuarioEmpresa");
+                });
+
             modelBuilder.Entity("WebJar.Shared.Entities.Conta.Cuenta", b =>
                 {
                     b.Property<int>("Id")
@@ -272,9 +272,6 @@ namespace WebJar.Backend.Migrations
                     b.Property<decimal>("Debe")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("EmpresaId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Factura")
                         .IsRequired()
                         .HasColumnType("nvarchar(20)");
@@ -299,8 +296,6 @@ namespace WebJar.Backend.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CuentaId");
-
-                    b.HasIndex("EmpresaId");
 
                     b.HasIndex("PolizaId");
 
@@ -333,7 +328,7 @@ namespace WebJar.Backend.Migrations
 
                     b.Property<string>("ElMes")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("EmpresaId")
                         .HasColumnType("int");
@@ -361,10 +356,9 @@ namespace WebJar.Backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TipoId");
+                    b.HasIndex("EmpresaId");
 
-                    b.HasIndex("EmpresaId", "Documento", "TipoId", "ElMes")
-                        .IsUnique();
+                    b.HasIndex("TipoId");
 
                     b.ToTable("Polizas");
                 });
@@ -620,21 +614,6 @@ namespace WebJar.Backend.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("EmpresaUsuario", b =>
-                {
-                    b.HasOne("WebJar.Shared.Entities.Empresa", null)
-                        .WithMany()
-                        .HasForeignKey("EmpresasId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("WebJar.Shared.Entities.Usuario", null)
-                        .WithMany()
-                        .HasForeignKey("UsuariosId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -686,6 +665,21 @@ namespace WebJar.Backend.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("UsuarioEmpresa", b =>
+                {
+                    b.HasOne("WebJar.Shared.Entities.Empresa", null)
+                        .WithMany()
+                        .HasForeignKey("EmpresaId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("WebJar.Shared.Entities.Usuario", null)
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("WebJar.Shared.Entities.Conta.Cuenta", b =>
                 {
                     b.HasOne("WebJar.Shared.Entities.Empresa", "Empresa")
@@ -705,12 +699,6 @@ namespace WebJar.Backend.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WebJar.Shared.Entities.Empresa", "Empresa")
-                        .WithMany("Detalles")
-                        .HasForeignKey("EmpresaId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("WebJar.Shared.Entities.Conta.Poliza", "Poliza")
                         .WithMany("Detalles")
                         .HasForeignKey("PolizaId")
@@ -718,14 +706,12 @@ namespace WebJar.Backend.Migrations
                         .IsRequired();
 
                     b.HasOne("WebJar.Shared.Entities.Conta.TipoConta", "Tipo")
-                        .WithMany("Detalles")
+                        .WithMany()
                         .HasForeignKey("TipoId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Cuenta");
-
-                    b.Navigation("Empresa");
 
                     b.Navigation("Poliza");
 
@@ -763,16 +749,12 @@ namespace WebJar.Backend.Migrations
 
             modelBuilder.Entity("WebJar.Shared.Entities.Conta.TipoConta", b =>
                 {
-                    b.Navigation("Detalles");
-
                     b.Navigation("Polizas");
                 });
 
             modelBuilder.Entity("WebJar.Shared.Entities.Empresa", b =>
                 {
                     b.Navigation("Cuentas");
-
-                    b.Navigation("Detalles");
 
                     b.Navigation("Polizas");
                 });

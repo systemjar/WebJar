@@ -8,15 +8,21 @@ namespace WebJar.Shared.DTOs.Conta
     {
         public int Id { get; set; }
 
-        public int EmpresaId { get; set; }
+        //public int EmpresaId { get; set; }
 
-        public int DocumentoId { get; set; }
+        //public int DocumentoId { get; set; }
 
-        public string? Codigo { get; set; }
+        public int PolizaId { get; set; }
+        public Poliza? Poliza { get; set; }
+
+        public int TipoId { get; set; }
+        public TipoConta? Tipo { get; set; }
 
         [Display(Name = "Codigo contable")]
         [MaxLength(11, ErrorMessage = "El campo {0} no puede tener mas de {1} carácteres")]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
+        public string? Codigo { get; set; }
+
         public int CuentaId { get; set; }
 
         public Cuenta? Cuenta { get; set; }

@@ -101,6 +101,11 @@ namespace WebJar.Frontend.Pages.Conta.Documentos
                 return;
             }
             LaCuenta = responseHttp.Response;
+            if (LaCuenta.EsCuentaDetalle == false)
+            {
+                await SweetAlertService.FireAsync("Error", "No se le puede hacer movimientos a una cuenta mayor", SweetAlertIcon.Error);
+                return;
+            }
             LaCuentaNombre = responseHttp.Response.Nombre;
             LaCuentaId = responseHttp.Response.Id;
             StateHasChanged();
@@ -128,7 +133,7 @@ namespace WebJar.Frontend.Pages.Conta.Documentos
                 Detalles = Poliza.Detalles.Select(d => new Detalle
                 {
                     //Rellena los datos de la entidad Detalle
-                    EmpresaId = EmpresaId,
+                    //EmpresaId = EmpresaId,
                     PolizaId = Poliza.Id,
                     TipoId = Poliza.TipoId,
                     CuentaId = d.CuentaId,

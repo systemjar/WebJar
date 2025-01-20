@@ -21,16 +21,16 @@ namespace WebJar.Backend.Controllers.Conta
         }
 
         //Se va a usar el generico
-        //[HttpGet("{Id}")]
-        //public override async Task<IActionResult> GetAsync(int Id)
-        //{
-        //    var response = await _polizasUnitOfWork.GetAsync(Id);
-        //    if (response.WasSuccess)
-        //    {
-        //        return Ok(response.Result);
-        //    }
-        //    return NotFound();
-        //}
+        [HttpGet("{Id}")]
+        public override async Task<IActionResult> GetAsync(int Id)
+        {
+            var response = await _polizasUnitOfWork.GetAsync(Id);
+            if (response.WasSuccess)
+            {
+                return Ok(response.Result);
+            }
+            return NotFound();
+        }
 
         [HttpGet("full")]
         public override async Task<IActionResult> GetAsync()
@@ -80,6 +80,19 @@ namespace WebJar.Backend.Controllers.Conta
         public override async Task<IActionResult> DeleteAsync(int id)
         {
             var action = await _polizasUnitOfWork.DeleteAsync(id);
+
+            if (!action.WasSuccess)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+        }
+
+        [HttpPut("full")]
+        public override async Task<IActionResult> PutAsync(Poliza poliza)
+        {
+            var action = await _polizasUnitOfWork.UpdateFullAsync(poliza);
 
             if (!action.WasSuccess)
             {

@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace WebJar.Backend.Migrations
 {
     /// <inheritdoc />
-    public partial class Inicial : Migration
+    public partial class EmpezarDeCeroPorLasRelacionesEntreEntidades : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -228,6 +229,7 @@ namespace WebJar.Backend.Migrations
                     AbonosMes = table.Column<decimal>(type: "decimal(13,2)", nullable: false),
                     SaldoCierre = table.Column<decimal>(type: "decimal(13,2)", nullable: false),
                     CodigoMayor = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
+                    EsCuentaDetalle = table.Column<bool>(type: "bit", nullable: false),
                     CodigoPres = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
                     IngresoCash = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EgresoCash = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -245,24 +247,24 @@ namespace WebJar.Backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EmpresaUsuario",
+                name: "UsuarioEmpresa",
                 columns: table => new
                 {
-                    EmpresasId = table.Column<int>(type: "int", nullable: false),
-                    UsuariosId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    EmpresaId = table.Column<int>(type: "int", nullable: false),
+                    UsuarioId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EmpresaUsuario", x => new { x.EmpresasId, x.UsuariosId });
+                    table.PrimaryKey("PK_UsuarioEmpresa", x => new { x.EmpresaId, x.UsuarioId });
                     table.ForeignKey(
-                        name: "FK_EmpresaUsuario_AspNetUsers_UsuariosId",
-                        column: x => x.UsuariosId,
+                        name: "FK_UsuarioEmpresa_AspNetUsers_UsuarioId",
+                        column: x => x.UsuarioId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_EmpresaUsuario_Empresas_EmpresasId",
-                        column: x => x.EmpresasId,
+                        name: "FK_UsuarioEmpresa_Empresas_EmpresaId",
+                        column: x => x.EmpresaId,
                         principalTable: "Empresas",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -282,6 +284,7 @@ namespace WebJar.Backend.Migrations
                     Porque = table.Column<string>(type: "nvarchar(65)", maxLength: 65, nullable: false),
                     Origen = table.Column<string>(type: "nvarchar(65)", nullable: false),
                     Comentario = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ElMes = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FechaOperado = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Hechopor = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -308,8 +311,7 @@ namespace WebJar.Backend.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    EmpresaId = table.Column<int>(type: "int", nullable: false),
-                    DocumentoId = table.Column<int>(type: "int", nullable: false),
+                    PolizaId = table.Column<int>(type: "int", nullable: false),
                     TipoId = table.Column<int>(type: "int", nullable: false),
                     Codigo = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
                     CuentaId = table.Column<int>(type: "int", nullable: false),
@@ -318,8 +320,7 @@ namespace WebJar.Backend.Migrations
                     Contras = table.Column<string>(type: "nvarchar(20)", nullable: false),
                     Factura = table.Column<string>(type: "nvarchar(20)", nullable: false),
                     Serie = table.Column<string>(type: "nvarchar(20)", nullable: false),
-                    Origen = table.Column<string>(type: "nvarchar(20)", nullable: false),
-                    PolizaId = table.Column<int>(type: "int", nullable: true)
+                    Origen = table.Column<string>(type: "nvarchar(20)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -328,12 +329,6 @@ namespace WebJar.Backend.Migrations
                         name: "FK_Detalles_Cuentas_CuentaId",
                         column: x => x.CuentaId,
                         principalTable: "Cuentas",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Detalles_Empresas_EmpresaId",
-                        column: x => x.EmpresaId,
-                        principalTable: "Empresas",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -401,11 +396,6 @@ namespace WebJar.Backend.Migrations
                 column: "CuentaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Detalles_EmpresaId",
-                table: "Detalles",
-                column: "EmpresaId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Detalles_PolizaId",
                 table: "Detalles",
                 column: "PolizaId");
@@ -422,15 +412,9 @@ namespace WebJar.Backend.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_EmpresaUsuario_UsuariosId",
-                table: "EmpresaUsuario",
-                column: "UsuariosId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Polizas_EmpresaId_Documento_TipoId",
+                name: "IX_Polizas_EmpresaId",
                 table: "Polizas",
-                columns: new[] { "EmpresaId", "Documento", "TipoId" },
-                unique: true);
+                column: "EmpresaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Polizas_TipoId",
@@ -442,6 +426,11 @@ namespace WebJar.Backend.Migrations
                 table: "TiposConta",
                 column: "Nombre",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UsuarioEmpresa_UsuarioId",
+                table: "UsuarioEmpresa",
+                column: "UsuarioId");
         }
 
         /// <inheritdoc />
@@ -466,7 +455,7 @@ namespace WebJar.Backend.Migrations
                 name: "Detalles");
 
             migrationBuilder.DropTable(
-                name: "EmpresaUsuario");
+                name: "UsuarioEmpresa");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

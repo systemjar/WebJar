@@ -19,26 +19,38 @@ namespace WebJar.Backend.Repositories.Implementations.Conta
             _context = context;
         }
 
-        //Se usara el Generico
-        //public override async Task<ActionResponse<Poliza>> GetAsync(int id)
-        //{
-        //    var poliza = await _context.Polizas
-        //                        .FirstOrDefaultAsync(x => x.Id == id);
-        //    if (poliza == null)
-        //    {
-        //        return new ActionResponse<Poliza>
-        //        {
-        //            WasSuccess = false,
-        //            Message = "Documento no existe"
-        //        };
-        //    }
+        public override async Task<ActionResponse<Poliza>> GetAsync(int id)
+        {
+            var poliza = await _context.Polizas
+                                .Include(p => p.Empresa)
+                                .Include(p => p.Tipo)
+                                .Include(p => p.Detalles)
+                                    .ThenInclude(d => d.Cuenta)
+                                .FirstOrDefaultAsync(x => x.Id == id);
 
-        //    return new ActionResponse<Poliza>
-        //    {
-        //        WasSuccess = true,
-        //        Result = poliza
-        //    };
-        //}
+            //.Include(p => p.Empresa)
+            //.Include(p => p.Detalles)
+            //    .ThenInclude(d => d.Cuenta)
+            //.Include(p => p.Detalles)
+            //    .ThenInclude(d => d.Tipo)
+
+            //var poliza = await _context.Polizas
+            //                    .FirstOrDefaultAsync(x => x.Id == id);
+            if (poliza == null)
+            {
+                return new ActionResponse<Poliza>
+                {
+                    WasSuccess = false,
+                    Message = "Documento no existe"
+                };
+            }
+
+            return new ActionResponse<Poliza>
+            {
+                WasSuccess = true,
+                Result = poliza
+            };
+        }
 
         public async Task<ActionResponse<Poliza>> GetAsync(int empresaId, string documento, int tipoId)
         {
@@ -130,18 +142,47 @@ namespace WebJar.Backend.Repositories.Implementations.Conta
             };
         }
 
-        public async Task<ActionResponse<Poliza>> UpdateFullAsync(PolizaDTO polizaDTO)
+        public async Task<ActionResponse<Poliza>> UpdateFullAsync(Poliza Poliza)
         {
-            var poliza = await _context.Polizas
-            //.Include(s => s.Detalles)
-            .FirstOrDefaultAsync(s => s.Id == polizaDTO.Id);
+            _context.Entry(Poliza).State = EntityState.Modified;
 
-            _context.Update(poliza);
-            await _context.SaveChangesAsync();
+            foreach (var detalle in Poliza.Detalles)
+            {
+                if (detalle.Id != 0)
+                {
+                    _context.Entry(detalle).State = EntityState.Modified;
+                }
+                else
+                {
+                    _context.Entry(detalle).State = EntityState.Added;
+                }
+            }
+
+            var listadoDetallesIds = Poliza.Detalles.Select(x => x.Id).ToList();
+            var detallesABorrar = await _context.Detalles
+                                        .Where(x => !listadoDetallesIds.Contains(x.Id) && x.PolizaId == Poliza.Id)
+                                        .ToListAsync();
+
+            _context.Detalles.RemoveRange(detallesABorrar);
+
+            //_context.Update(Poliza);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                // Manejo de errores específicos de la base de datos
+                Console.WriteLine("Error al actualizar la base de datos: " + ex.Message);
+            }
+            catch (Exception ex)
+            { // Manejo de otros tipos de errores
+                Console.WriteLine("Error general: " + ex.Message);
+            }
             return new ActionResponse<Poliza>
             {
                 WasSuccess = true,
-                Result = poliza
+                Result = Poliza
             };
         }
 

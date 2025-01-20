@@ -12,8 +12,8 @@ namespace WebJar.Shared.Entities.Conta
         [Required(ErrorMessage = "El campo {0} es obligatorio")]  //El campo es obligatorio
         public string Nombre { get; set; } = null!; //null! indica que no puede ser null
 
-        public ICollection<Poliza> Polizas { get; set; }
+        public ICollection<Poliza> Polizas { get; set; } = new List<Poliza>();
 
-        public ICollection<Detalle> Detalles { get; set; } = new List<Detalle>();
+        //public ICollection<Detalle> Detalles { get; set; } = new List<Detalle>();
     }
 }
