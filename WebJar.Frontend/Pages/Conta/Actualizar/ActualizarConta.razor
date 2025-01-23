@@ -1,0 +1,23 @@
+﻿@page ﻿"/actualizarConta/{EmpresaId:int}"
+
+@using System.Globalization
+@using WebJar.Shared.Servicios
+@inject EmpresaService EmpresaService
+
+<h3>Actualizacion Contabilidad</h3>
+
+<label for="mes">Mes:</label> 
+<select id="mes" @bind="mesSeleccionado"> 
+    @foreach (var mes in meses) 
+    { 
+        <option value="@mes">@mes</option> 
+    } 
+</select> 
+
+    <label for="año">Año:</label> 
+    <input type="number" id="año" @bind="añoSeleccionado" min="1900" max="2100" /> 
+
+    <button @onclick="ActualizarNumeroMes">Consultar</button> 
+
+    @mesSeleccionado
+    <p>Mes y Año en formato: @mesActualizar</p>

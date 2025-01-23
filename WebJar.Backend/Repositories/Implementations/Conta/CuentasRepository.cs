@@ -4,8 +4,10 @@ using WebJar.Backend.Helpers;
 using WebJar.Backend.Repositories.Implementations.Generico;
 using WebJar.Backend.Repositories.Interfaces.Conta;
 using WebJar.Shared.DTOs;
+using WebJar.Shared.DTOs.Conta;
 using WebJar.Shared.Entities.Conta;
 using WebJar.Shared.Responses;
+using WebJar.Shared.Validaciones.Conta;
 
 namespace WebJar.Backend.Repositories.Implementations.Conta
 {
@@ -78,13 +80,18 @@ namespace WebJar.Backend.Repositories.Implementations.Conta
             };
         }
 
-        public async Task<ActionResponse<IEnumerable<Cuenta>>> GetAsync(int empresaId, bool autoCompletar)
+        public async Task<ActionResponse<IEnumerable<CuentaListaDTO>>> GetAsync(int empresaId, bool autoCompletar)
         {
             var cuentas = _context.Cuentas
                           .Where(x => x.Empresa!.Id == empresaId && x.EsCuentaDetalle == autoCompletar)
+                          .Select(x => new CuentaListaDTO
+                          {
+                              Codigo = x.Codigo,
+                              Nombre = x.Nombre
+                          })
                           .AsQueryable();
 
-            return new ActionResponse<IEnumerable<Cuenta>>()
+            return new ActionResponse<IEnumerable<CuentaListaDTO>>()
             {
                 WasSuccess = true,
                 Result = await cuentas

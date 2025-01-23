@@ -35,8 +35,8 @@ namespace WebJar.Backend.Data
             modelBuilder.Entity<TipoConta>()
                 .HasIndex(x => x.Nombre).IsUnique();
 
-            //modelBuilder.Entity<Poliza>()
-            //    .HasIndex(x => new { x.EmpresaId, x.Documento, x.TipoId, x.ElMes }).IsUnique();
+            modelBuilder.Entity<Poliza>()
+                .HasIndex(x => new { x.EmpresaId, x.Documento, x.TipoId, x.ElMes }).IsUnique();
 
             //Usuario - Empresa
             //Un Usuario puede tener muchas Empresas a la vez que una Empresa puede tener muchos Usuarios

@@ -88,7 +88,7 @@ else
         <div class="row mb-3">
             <div class="col-md-2">
                 <label for="codigoCuenta" class="form-label">Código Cuenta</label>
-                <input id="codigoCuenta" @bind="ElCodigo" class="form-control" @bind:event="oninput" @onblur="BuscarCuenta" />
+                <input @ref=ElCodigoInput @bind="ElCodigo" class="form-control" @bind:event="oninput" @onblur="BuscarCuenta" />
             </div>
             <div class="col-md-2">
                 <label for="nombreCuenta" class="form-label">Nombre Cuenta</label>
@@ -121,7 +121,7 @@ else
                                     BuscarCuenta();
 
                                 }">
-                                @cuenta.Codigo+ - +@cuenta.Nombre
+                                @cuenta.Codigo - @cuenta.Nombre
                             </section>
                         }
                     }

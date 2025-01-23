@@ -13,7 +13,12 @@ namespace WebJar.Frontend.Pages.Conta.Documentos
         //Id de la empresa a la que pertnece
         [Parameter] public int EmpresaId { get; set; }
 
-        private ElementReference debeInput;
+        [Inject] private IRepository Repository { get; set; } = null!;
+        [Inject] private EmpresaService EmpresaService { get; set; } = null!;
+        [Inject] private NavigationManager NavigationManager { get; set; } = null!;
+        [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
+
+        private ElementReference debeInput, ElCodigoInput;
 
         //DTOs para el ingreso de datos
         public PolizaDTO Poliza { get; set; } = new PolizaDTO();
@@ -34,7 +39,7 @@ namespace WebJar.Frontend.Pages.Conta.Documentos
         //Variables para guardar la informacion de la cuenta
         public Cuenta? LaCuenta { get; set; }
 
-        public List<Cuenta> LasCuentas { get; set; } = new List<Cuenta>();
+        public List<CuentaListaDTO> LasCuentas { get; set; } = new List<CuentaListaDTO>();
 
         // Propiedad para almacenar las cuentas filtradas para el autocompletar
         public List<Cuenta> CuentasFiltradas { get; set; } = new List<Cuenta>();
@@ -48,11 +53,6 @@ namespace WebJar.Frontend.Pages.Conta.Documentos
         //Lista para el manejo de los datos del detalle del documento
         private List<DetalleDTO>? detalleDTOs { get; set; }
 
-        [Inject] private IRepository Repository { get; set; } = null!;
-        [Inject] private NavigationManager NavigationManager { get; set; } = null!;
-        [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
-        [Inject] private EmpresaService? EmpresaService { get; set; }
-
         protected override async Task OnInitializedAsync()
         {
             //Trae en combo con los tipos de documentos para seleccionar desde el formulario
@@ -63,7 +63,7 @@ namespace WebJar.Frontend.Pages.Conta.Documentos
             //Trae una lista de cuentas de detalle para el autocompletar desde el formulario
             var url = $"api/cuenta/buscar?empresaId={EmpresaId}&autoCompletar=true";
 
-            var responseHttpC = await Repository.GetAsync<List<Cuenta>>(url);
+            var responseHttpC = await Repository.GetAsync<List<CuentaListaDTO>>(url);
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
@@ -83,10 +83,18 @@ namespace WebJar.Frontend.Pages.Conta.Documentos
             //VerificarDocumentoAsync();
         }
 
+        private void SeleccionarCuenta(CuentaListaDTO cuenta)
+        {
+            ElCodigo = cuenta.Codigo;
+            BuscarCuenta();
+        }
+
         private async Task BuscarCuenta()
         {
+            //ElCodigo = pCodigo;
+
             //Busca el codigo de cuenta para validar que existe
-            var url = $"api/cuenta/codigo?empresaId={EmpresaId}&codigoCuenta={ElCodigo}";
+            var url = $"api/cuenta/codigo?empresaId={EmpresaService.EmpresaSeleccionada.Id}&codigoCuenta={ElCodigo}";
 
             var responseHttp = await Repository.GetAsync<Cuenta>(url);
             if (responseHttp.Error)
@@ -169,7 +177,7 @@ namespace WebJar.Frontend.Pages.Conta.Documentos
             NavigationManager.NavigateTo($"/documentos/{EmpresaId}");
         }
 
-        private void AgregarDetalle()
+        private async void AgregarDetalle()
         {
             //Agrega los datos el DetalleDTO
             LosDetalles.Codigo = ElCodigo.ToString();
@@ -191,6 +199,7 @@ namespace WebJar.Frontend.Pages.Conta.Documentos
             AlDebe = 0;
             AlHaber = 0;
             StateHasChanged();
+            //await ElCodigoInput.FocusAsync();
         }
 
         private void EliminarDetalle(int Id)

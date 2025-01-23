@@ -23,7 +23,7 @@ builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri("http
 builder.Services.AddScoped<IRepository, Repository>();
 
 //Inyectar el Servicio
-builder.Services.AddSingleton<EmpresaService>(); // Registra el servicio como singleton
+builder.Services.AddScoped<EmpresaService>(); // Registra el servicio como singleton
 
 //Inyectamos el SweetAlert2
 builder.Services.AddSweetAlert2();
@@ -47,7 +47,7 @@ builder.Services.AddBlazoredModal();
 builder.Services.AddMudServices();
 
 //Localizacion
-var culture = new CultureInfo("es-GT");
+var culture = new CultureInfo("en-US");
 CultureInfo.DefaultThreadCurrentCulture = culture;
 CultureInfo.DefaultThreadCurrentUICulture = culture;
 

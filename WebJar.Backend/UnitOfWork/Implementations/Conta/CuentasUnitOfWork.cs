@@ -3,6 +3,7 @@ using WebJar.Backend.Repositories.Interfaces.Generico;
 using WebJar.Backend.UnitOfWork.Implementations.Gererico;
 using WebJar.Backend.UnitOfWork.Interfaces.Conta;
 using WebJar.Shared.DTOs;
+using WebJar.Shared.DTOs.Conta;
 using WebJar.Shared.Entities.Conta;
 using WebJar.Shared.Responses;
 
@@ -27,7 +28,7 @@ namespace WebJar.Backend.UnitOfWork.Implementations.Conta
 
         public override async Task<ActionResponse<IEnumerable<Cuenta>>> GetAsync(PaginationDTO pagination) => await _cuentasRepository.GetAsync(pagination);
 
-        public async Task<ActionResponse<IEnumerable<Cuenta>>> GetAsync(int empresaId, bool autoCompletar) => await _cuentasRepository.GetAsync(empresaId, autoCompletar);
+        public async Task<ActionResponse<IEnumerable<CuentaListaDTO>>> GetAsync(int empresaId, bool autoCompletar) => await _cuentasRepository.GetAsync(empresaId, autoCompletar);
 
         public override async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination) => await _cuentasRepository.GetTotalPagesAsync(pagination);
     }

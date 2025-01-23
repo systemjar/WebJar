@@ -116,20 +116,22 @@ namespace WebJar.Frontend.Pages.Conta.Documentos
 
         private async Task<bool> LoadEmpresaAsync()
         {
-            var responseHttp = await Repository.GetAsync<Empresa>($"/api/empresa/{EmpresaId}");
-            if (responseHttp.Error)
-            {
-                if (responseHttp.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
-                {
-                    NavigationManager.NavigateTo("/");
-                    return false;
-                }
+            //var responseHttp = await Repository.GetAsync<Empresa>($"/api/empresa/{EmpresaId}");
+            //if (responseHttp.Error)
+            //{
+            //    if (responseHttp.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
+            //    {
+            //        NavigationManager.NavigateTo("/");
+            //        return false;
+            //    }
 
-                var message = await responseHttp.GetErrorMessageAsync();
-                await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
-                return false;
-            }
-            empresa = responseHttp.Response;
+            //    var message = await responseHttp.GetErrorMessageAsync();
+            //    await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+            //    return false;
+            //}
+            //empresa = responseHttp.Response;
+
+            empresa = EmpresaService.EmpresaSeleccionada;
 
             return true;
         }
