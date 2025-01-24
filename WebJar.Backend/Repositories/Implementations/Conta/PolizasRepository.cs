@@ -4,7 +4,6 @@ using WebJar.Backend.Helpers;
 using WebJar.Backend.Repositories.Implementations.Generico;
 using WebJar.Backend.Repositories.Interfaces.Conta;
 using WebJar.Shared.DTOs;
-using WebJar.Shared.DTOs.Conta;
 using WebJar.Shared.Entities.Conta;
 using WebJar.Shared.Responses;
 

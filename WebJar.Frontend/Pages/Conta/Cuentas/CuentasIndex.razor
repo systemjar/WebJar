@@ -55,6 +55,10 @@ else
                                 <th>Codigo</th>
                                 <th>Nombre</th>
                                 <th>Debe/Haber</th>
+                                <th>Saldo</th>
+                                <th>Cargos</th>
+                                <th>Abonos</th>
+                                <th>Saldo Acumulado</th>
                                 <th style="width:210px"></th>
                             </tr>
                         </thead>
@@ -65,6 +69,10 @@ else
                                     <td>@cuenta.Codigo</td>
                                     <td>@cuenta.Nombre</td>
                                     <td>@cuenta.DebeHaber</td>
+                                    <td>@cuenta.Saldo</td>
+                                    <td>@cuenta.Cargos</td>
+                                    <td>@cuenta.Abonos</td>
+                                    <td>@cuenta.SaldoAcumulado</td>
                                     <td>
 @*                                         <a class="btn btn-warning btn-sm" href="/cuentas/edit/@cuenta.Id">Editar</a>*@
                                         <a class="btn btn-warning btn-sm" @onclick=@(() => ShowModalAsync(cuenta.Id, true))>

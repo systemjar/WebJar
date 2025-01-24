@@ -1,5 +1,7 @@
-﻿using System.Text;
+﻿using MudBlazor;
+using System.Text;
 using System.Text.Json;
+using WebJar.Shared.Responses;
 
 namespace WebJar.Frontend.Repositories
 {
@@ -106,6 +108,19 @@ namespace WebJar.Frontend.Repositories
 
             //Como hubo error regresamos el default, true porque hubo error y la respuesta del http
             return new HttpResponseWrapper<TActionResponse>(default, true, responsehttp);
+        }
+
+        //Post para Actualizar saldos
+        public async Task<bool> ActualizarSaldosContaAsync(string url)
+        {
+            //Mandamos la url y el modelo ya codificado
+            var responsehttp = await _httpClient.PostAsync(url, null);
+
+            //Como no regresa nada, mandamos null, si hubo error regresamos la negacion sel IsSuccessStatusCode y la respuesta del http
+            //return new HttpResponseWrapper<bool>(null, !responsehttp.IsSuccessStatusCode, responsehttp);
+
+            var respuesta = responsehttp.IsSuccessStatusCode;
+            return respuesta;
         }
 
         //Para la respuesta del PutAsync NoContent

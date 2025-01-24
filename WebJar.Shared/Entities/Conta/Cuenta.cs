@@ -35,7 +35,7 @@ namespace WebJar.Shared.Entities.Conta
         public decimal Abonos { get; set; } = 0;
 
         [Column(TypeName = "decimal(13,2)")]
-        public decimal SaldoAcumulado => DebeHaber == "D" ? Saldo + Cargos - Abonos : Saldo - Cargos + Abonos;
+        public decimal SaldoAcumulado => DebeHaber?.ToUpper() == "D" ? Saldo + Cargos - Abonos : Saldo - Cargos + Abonos;
 
         [Column(TypeName = "decimal(13,2)")]
         public decimal SaldoMes { get; set; } = 0;

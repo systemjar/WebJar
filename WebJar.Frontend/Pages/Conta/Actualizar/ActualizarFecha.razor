@@ -1,0 +1,18 @@
+﻿@page "/actualizar-fecha"
+
+<h3>Actualizar Fecha</h3>
+
+<div>
+    <label for="month">Mes:</label>
+    <input type="number" id="month" @bind="Month" min="1" max="12" />
+
+    <label for="year">Año:</label>
+    <input type="number" id="year" @bind="Year" min="1900" max="2100" />
+
+    <button @onclick="ObtenerUltimoDia">Obtener Fecha</button>
+</div>
+
+<div>
+    <p>Fecha formada: @FormattedDate</p>
+</div>
+

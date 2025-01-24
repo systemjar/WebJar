@@ -76,7 +76,7 @@ namespace WebJar.Frontend.Layout
             if (EmpresaService.EmpresaSeleccionada != null && EmpresaService.EmpresaSeleccionada.Id != 0)
             {
                 await Task.Delay(100);
-                NavigationManager.NavigateTo($"/actualizarConta/{EmpresaService.EmpresaSeleccionada.Id}");
+                NavigationManager.NavigateTo($"/actualizarConta");
             }
             else
             {

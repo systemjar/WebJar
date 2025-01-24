@@ -87,6 +87,7 @@ builder.Services.AddScoped<ICuentasRepository, CuentasRepository>();
 builder.Services.AddScoped<IPolizasRepository, PolizasRepository>();
 builder.Services.AddScoped<ITiposContaRepository, TiposContaRepository>();
 builder.Services.AddScoped<IUsuariosRepository, UsuariosRepository>();
+builder.Services.AddScoped<IActualizarContaRepository, ActualizarContaRepository>();
 
 //Inyectamos las UnitOfWork
 builder.Services.AddScoped(typeof(IGenericUnitOfWork<>), typeof(GenericUnitOfWork<>));
@@ -95,6 +96,7 @@ builder.Services.AddScoped<ICuentasUnitOfWork, CuentasUnitOfWork>();
 builder.Services.AddScoped<IPolizasUnitOfWork, PolizasUnitOfWork>();
 builder.Services.AddScoped<ITiposContaUnitOfWork, TiposContaUnitOfWork>();
 builder.Services.AddScoped<IUsuariosUnitOfWork, UsuariosUnitOfWork>();
+builder.Services.AddScoped<IActualizarContaUnitOfWork, ActualizarContaUnitOfWork>();
 
 //Estas lineas es para decirle al sistema como comportarse con los usuarios
 builder.Services.AddIdentity<Usuario, IdentityRole>(x =>

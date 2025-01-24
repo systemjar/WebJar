@@ -20,6 +20,9 @@
         //Se sobreescribe el PostAsync parque hay Post que no regresan nada y otros que si
         Task<HttpResponseWrapper<object>> PostAsync<T>(string url, T model);
 
+        //Post para actualizar
+        Task<bool> ActualizarSaldosContaAsync(string url);
+
         Task<HttpResponseWrapper<TActionResponse>> PostAsync<T, TActionResponse>(string url, T model);
 
         //Se sobreescribe el PutAsync parque hay Put que no regresan nada y otros que si

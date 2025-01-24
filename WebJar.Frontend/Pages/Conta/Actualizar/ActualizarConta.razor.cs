@@ -1,50 +1,48 @@
+using Blazored.Modal.Services;
+using Blazored.Modal;
+using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
-using System.Globalization;
+
+using WebJar.Shared.Servicios;
+using WebJar.Frontend.Repositories;
+using WebJar.Shared.Entities.Conta;
 
 namespace WebJar.Frontend.Pages.Conta.Actualizar
 {
     public partial class ActualizarConta
     {
         [Parameter] public int EmpresaId { get; set; }
+        [Inject] private EmpresaService EmpresaService { get; set; }
+        [Inject] private IRepository Repository { get; set; } = null!;
+        [Inject] private NavigationManager NavigationManager { get; set; } = null!;
+        [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
 
-        private string mesSeleccionado { get; set; } = "enero";
-        private int añoSeleccionado { get; set; } = DateTime.Now.Year;
-        private string mesDosDigitos { get; set; } = "01";
-        private string mesActualizar { get; set; }
+        private int Month { get; set; } = 1;
+        private int Year { get; set; } = 2025;
+        [CascadingParameter] private BlazoredModalInstance BlazoredModal { get; set; } = default!;
 
-        private Dictionary<string, string> diccionarioMeses = new Dictionary<string, string>()
+        private async Task ActualizarSaldos()
         {
-            { "enero", "01" },
-            { "febrero", "02"},
-            { "marzo", "03" },
-            { "abril", "04" },
-            { "mayo", "05" },
-            { "junio", "06 "},
-            { "julio", "07" },
-            { "agosto", "08" },
-            { "septiembre", "09" },
-            { "octubre", "10" },
-            { "noviembre", "11" },
-            { "diciembre", "12" },
-        };
+            var url = $"api/actualiza/actualizar?empresaId={EmpresaService.EmpresaSeleccionada.Id}&elMes={Month}&elYear={Year}";
 
-        private List<string> meses = DateTimeFormatInfo.CurrentInfo.MonthNames
-            .Where(m => !string.IsNullOrWhiteSpace(m))
-            .ToList();
-
-        protected override void OnInitialized()
-        {
-            ActualizarNumeroMes();
-        }
-
-        private void ActualizarNumeroMes()
-        {
-            if (!string.IsNullOrEmpty(mesSeleccionado))
+            var responseHttpCM = await Repository.ActualizarSaldosContaAsync(url);
+            if (!responseHttpCM)
             {
-                //numeroMesSeleccionado = diccionarioMeses[mesSeleccionado.ToLower()];
-                mesDosDigitos = diccionarioMeses[mesSeleccionado.ToLower()];
-                mesActualizar = $"{mesDosDigitos}/{añoSeleccionado}";
+                //var message = await responseHttpCM.GetErrorMessageAsync();
+                await SweetAlertService.FireAsync("Error", "Error en la actualizacion de saldos");
+                return;
             }
+
+            var toast = SweetAlertService.Mixin(new SweetAlertOptions
+            {
+                Toast = true,
+                Position = SweetAlertPosition.BottomEnd,
+                ShowConfirmButton = true,
+                Timer = 3000
+            });
+            await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Actualizacion realizada con éxito.");
+
+            NavigationManager.NavigateTo("/");
         }
     }
 }
