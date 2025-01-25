@@ -1,4 +1,5 @@
 ﻿@page ﻿"/actualizarConta"
+@using WebJar.Shared.Servicios;
 
 <h3>Actualizar Fecha</h3>
 
@@ -9,7 +10,14 @@
     <label for="year">Año:</label>
     <input type="number" id="year" @bind="Year" min="2000" max="2100" />
 
-    <button @onclick="ActualizarSaldos">Actualizar</button>
+    <button class="btn btn-primary" disabled="@IsLoading"  @onclick="ActualizarSaldos">Actualizar</button>
+
+    @if(IsLoading)
+    {
+            <Loading />
+
+    }
+    
 </div>
 
 

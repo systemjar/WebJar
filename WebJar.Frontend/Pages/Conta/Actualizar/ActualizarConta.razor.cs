@@ -17,15 +17,22 @@ namespace WebJar.Frontend.Pages.Conta.Actualizar
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
 
+        private bool IsLoading = false;
+
         private int Month { get; set; } = 1;
         private int Year { get; set; } = 2025;
         [CascadingParameter] private BlazoredModalInstance BlazoredModal { get; set; } = default!;
 
         private async Task ActualizarSaldos()
         {
+            IsLoading = true;
+
             var url = $"api/actualiza/actualizar?empresaId={EmpresaService.EmpresaSeleccionada.Id}&elMes={Month}&elYear={Year}";
 
             var responseHttpCM = await Repository.ActualizarSaldosContaAsync(url);
+
+            IsLoading = false;
+
             if (!responseHttpCM)
             {
                 //var message = await responseHttpCM.GetErrorMessageAsync();
