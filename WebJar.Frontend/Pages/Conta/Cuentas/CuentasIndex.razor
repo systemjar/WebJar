@@ -30,7 +30,7 @@
 else
 {
     <h3>@empresa.Nombre</h3>
-    
+
     @* <GenericList MyList="empresa.Cuentas!.OrderBy(x => x.Codigo)
                                         .ToList()"> *@
 
@@ -49,43 +49,53 @@ else
             <Filter PlaceHolder="Buscar cuenta..." Callback=@FilterCallBack />
             <GenericList MyList="LCuentas!">
                 <Body>
-                    <table class="table table-striped tabla-condensada">
-                        <thead>
-                            <tr>
-                                <th>Codigo</th>
-                                <th>Nombre</th>
-                                <th>Debe/Haber</th>
-                                <th>Saldo</th>
-                                <th>Cargos</th>
-                                <th>Abonos</th>
-                                <th>Saldo Acumulado</th>
-                                <th style="width:210px"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var cuenta in LCuentas!)
-                            {
-                                <tr>
-                                    <td>@cuenta.Codigo</td>
-                                    <td>@cuenta.Nombre</td>
-                                    <td>@cuenta.DebeHaber</td>
-                                    <td>@cuenta.Saldo</td>
-                                    <td>@cuenta.Cargos</td>
-                                    <td>@cuenta.Abonos</td>
-                                    <td>@cuenta.SaldoAcumulado</td>
-                                    <td>
-@*                                         <a class="btn btn-warning btn-sm" href="/cuentas/edit/@cuenta.Id">Editar</a>*@
-                                        <a class="btn btn-warning btn-sm" @onclick=@(() => ShowModalAsync(cuenta.Id, true))>
-                                            <i class="bi bi-pencil" />Editar
-                                        </a>
-                                        <button class="btn btn-danger btn-sm" @onclick=@(() => DeleteAsync(cuenta))>Eliminar</button>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
+                    <div style="overflow-x: auto;">
 
-                    </table>
-                    
+                        <table class="table table-striped tabla-condensada">
+                            <thead>
+                                <tr>
+                                    <th>Codigo</th>
+                                    <th>Nombre</th>
+                                    <th>Debe/Haber</th>
+                                    <th>Saldo</th>
+                                    <th>Cargos</th>
+                                    <th>Abonos</th>
+                                    <th>Saldo Acumulado</th>
+                                    <th>SalMes</th>
+                                    <th>CarMes</th>
+                                    <th>AboMes</th>
+                                    <th>Saldo FinMes</th>
+                                    <th style="width:210px"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var cuenta in LCuentas!)
+                                {
+                                    <tr>
+                                        <td>@cuenta.Codigo</td>
+                                        <td>@cuenta.Nombre</td>
+                                        <td>@cuenta.DebeHaber</td>
+                                        <td>@cuenta.Saldo</td>
+                                        <td>@cuenta.Cargos</td>
+                                        <td>@cuenta.Abonos</td>
+                                        <td>@cuenta.SaldoAcumulado</td>
+                                        <td>@cuenta.SaldoMes</td>
+                                        <td>@cuenta.CargosMes</td>
+                                        <td>@cuenta.AbonosMes</td>
+                                        <td>@cuenta.SaldoFinMes</td>
+                                        <td>
+                                            @*                                         <a class="btn btn-warning btn-sm" href="/cuentas/edit/@cuenta.Id">Editar</a>*@
+                                            <a class="btn btn-warning btn-sm" @onclick=@(() => ShowModalAsync(cuenta.Id, true))>
+                                                <i class="bi bi-pencil" />Editar
+                                            </a>
+                                            <button class="btn btn-danger btn-sm" @onclick=@(() => DeleteAsync(cuenta))>Eliminar</button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+
+                        </table>
+                    </div>
                 </Body>
             </GenericList>
         </div>

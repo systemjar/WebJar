@@ -71,6 +71,9 @@ namespace WebJar.Frontend.Pages.Conta.Documentos
             }
 
             LaPoliza = responseHttp.Response;
+            LaPoliza.Detalles = LaPoliza.Detalles
+                .OrderBy(d => d.Codigo)
+                .ToList();
 
             ListadeCuentas();
         }

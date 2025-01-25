@@ -56,6 +56,7 @@ namespace WebJar.Backend.Repositories.Implementations.Conta
             var poliza = await _context.Polizas
                                 .Include(x => x.Tipo)
                                 .Include(x => x.Detalles)
+                                .OrderBy(x => x.Fecha)
                                 .FirstOrDefaultAsync(x => x.EmpresaId == empresaId && x.Documento == documento && x.TipoId == tipoId);
             if (poliza != null)
             {

@@ -38,7 +38,9 @@ namespace WebJar.Shared.Entities.Conta
         [Display(Name = "Comentarios")]
         public string Comentario { get; set; }
 
+        [MaxLength(07)]
         public string ElMes { get; set; }
+
         //public string ElMes => Fecha.ToString("MM/yyyy");
         //{
         //    get
